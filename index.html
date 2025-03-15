@@ -17,8 +17,8 @@
         <a href="#" class="nav-name">YangYang</a>
         <div class="nav-links">
             <a href="#about"><i class="fas fa-user"></i> About</a>
-            <a href="#posts"><i class="fas fa-newspaper"></i> Posts</a>
-            <a href="#talks"><i class="fas fa-chalkboard-teacher"></i> Talks</a>
+            <a href="#posts"><i class="fas fa-newspaper"></i> Papers</a>
+            <a href="#talks"><i class="fas fa-chalkboard-teacher"></i> Demos</a>
             <a href="#experiences"><i class="fas fa-briefcase"></i> Experiences</a>
         </div>
         <button class="search-btn" aria-label="搜索">
@@ -71,10 +71,10 @@
             <div class="research-interests">
                 <h3>Research Focus</h3>
                 <ul>
-                    <li><i class="fas fa-microscope"></i> Computer Vision</li>
-                    <li><i class="fas fa-brain"></i> Deep Learning</li>
                     <li><i class="fas fa-leaf"></i> Semantic Segmentation</li>
-                    <li><i class="fas fa-code-branch"></i> Open Source</li>
+                    <li><i class="fas fa-microscope"></i> Computer Vision</li>
+                    <li><i class="fas fa-brain"></i> Image Processing</li>
+                    <li><i class="fas fa-code-branch"></i> Deep Learning</li>
                 </ul>
             </div>
         </div>
@@ -103,11 +103,11 @@
         <div class="interests">
             <h2>Interests</h2>
             <ul class="interests-list">
-                <li>Computer Vision</li>
-                <li>Artificial Intelligence</li>
+                <li>Music</li>
+                <li>Book</li>
                 <li>Software Developement</li>
                 <li>Open source</li>
-                <li>Machine Learning</li>
+                <li>Git</li>
             </ul>
         </div>
     </section>
@@ -231,6 +231,10 @@
             <p>© <span id="current-year"></span> Shilaan Alzahawi. Licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</p>
         </div>
     </footer>
+
+    <button class="back-to-top" aria-label="回到顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -482,6 +486,26 @@
                 if (e.target === searchOverlay) {
                     closeSearch();
                 }
+            });
+
+            // 回到顶部按钮逻辑
+            const backToTopButton = document.querySelector('.back-to-top');
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            // 点击回到顶部
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
