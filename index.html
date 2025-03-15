@@ -7,7 +7,10 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
     <nav>
@@ -24,6 +27,9 @@
         <button class="search-btn" aria-label="搜索">
             <i class="fas fa-search"></i>
         </button>
+        <button class="theme-toggle" aria-label="切换主题">
+            <i class="fas fa-moon"></i>
+        </button>
     </nav>
 
     <div class="search-overlay">
@@ -36,34 +42,34 @@
         </div>
     </div>
 
+
+
     <section class="profile-section">
         <img src="img/YangYang.jpg" alt="Profile" class="profile-image">
         <div class="profile-info">
             <h1>YangYang</h1>
             <p class="profile-subtitle">MS student</p>
-            <a href="#" class="profile-institution" target="_blank" rel="noopener noreferrer">South-Central Minzu University</a>
+            <a href="https://www.scuec.edu.cn/" class="profile-institution" target="_blank" rel="noopener noreferrer">South-Central Minzu University</a>
             
             <div class="social-links">
                 <a href="mailto:yangyang@mail.scuec.edu.cn" title="Email" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
                 <!-- <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a> -->
-                <a href="#" title="Google Scholar" target="_blank" rel="noopener noreferrer"><i class="fab fa-google"></i></a>
+                <a href="#" title="Google Scholar" target="_blank" rel="noopener noreferrer"><i class="ai ai-google-scholar"></i></a>
                 <!-- <a href="#" title="Research Gate"><i class="fab fa-researchgate"></i></a> -->
-                <a href="https://orcid.org/0009-0009-6670-7889" title="ORCID" target="_blank" rel="noopener noreferrer"><i class="fab fa-orcid"></i></a>
+                <a href="https://orcid.org/0009-0009-6670-7889" title="ORCID" target="_blank" rel="noopener noreferrer"><i class="ai ai-orcid"></i></a>
                 <a href="https://github.com/Louaq" title="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
             </div>
         </div>
         <div class="profile-bio">
             <h2>About Me</h2>
             <p>Hi! I'm a 1st year MS student at <a href="https://www.scuec.edu.cn/" target="_blank" rel="noopener noreferrer">South-Central Minzu
-                University</a> <a href="https://www.scuec.edu.cn/" target="_blank" rel="noopener noreferrer"><img
-                    style="display:inline;margin-top:-0.4em;margin-left:0.3em"
-                    src="https://i.111666.best/image/RM1NjmQwqX0dZoFjb8rsWf.jpg"></a>, studying <b>Computer Vision (CV) </b> and <b>Image Processing</b>
+                University</a> <a href="https://www.scuec.edu.cn/" target="_blank" rel="noopener noreferrer"></a>, studying <b>Computer Vision (CV) </b> and <b>Image Processing</b>
             under the supervision of <a href="https://www.scuec.edu.cn/jky/info/1165/4995.htm" target="_blank" rel="noopener noreferrer">Dr. Jianlin Zhu</a>.
-            I also hold a Bachelor in <b>Network Engineering</b> obtained at <b>South-Central Minzu
-                University</b> in 2024.
+            I also hold a Bachelor in <b>Network Engineering</b> obtained at South-Central Minzu
+                University in 2024.
             </p>
             
-            <p>My research interests include <b>artificial intelligence</b> and <b>computer vision</b>.
+            <p>My research interests include <b>Artificial Intelligence</b> and <b>Computer Vision</b>.
                 The goal for my MS is to contribute to research in the above areas, then to find a
                 research position in academia or industry in the same field.
             </p>
@@ -83,31 +89,31 @@
 
     <section class="education-interests" id="about">
         <div class="education">
-            <h2>Education</h2>
+            <h2 style="color: #035aa6;">Education</h2>
             <div class="education-item">
                 <span class="education-icon">🎓</span>
                 <div class="education-details">
                     <h3>Master in South-Central Minzu University, 2024-2027</h3>
-                    <p>Artificial Intelligence</p>
+                    <p style="color: #035aa6;">Computer Technology</p>
                 </div>
             </div>
             <div class="education-item">
                 <span class="education-icon">🎓</span>
                 <div class="education-details">
                     <h3>Bachelor in South-Central Minzu University, 2020-2024</h3>
-                    <p>Network Engineering</p>
+                    <p style="color: #035aa6;">Network Engineering</p>
                 </div>
             </div>
         </div>
 
-        <div class="interests">
-            <h2>Interests</h2>
+        <div class="interests" >
+            <h2 style="color: #035aa6;">Interests</h2>
             <ul class="interests-list">
-                <li>Music</li>
-                <li>Book</li>
-                <li>Software Developement</li>
-                <li>Open source</li>
-                <li>Git</li>
+                <h3><li>Software Developement</li></h3>
+                <h3><li>Open source</li></h3>
+                <h3><li>Git</li></h3>
+                <h3><li>Music</li></h3>
+                <h3><li>Book</li></h3>
             </ul>
         </div>
     </section>
@@ -115,7 +121,7 @@
     <div class="full-width-bg posts-bg" id="posts">
         <div class="content-container">
             <div class="sidebar">
-                <h2 class="sidebar-title">Papers</h2>
+                <h2 class="sidebar-title" style="font-size: 47.25px;">Papers</h2>
             </div>
             
             <div class="main-content">
@@ -170,7 +176,7 @@
     <div class="full-width-bg talks-bg" id="talks">
         <div class="content-container">
             <div class="sidebar">
-                <h2 class="sidebar-title">Demos</h2>
+                <h2 class="sidebar-title" style="font-size: 47.25px;">Demos</h2>
             </div>
             
             <div class="main-content">
@@ -199,7 +205,7 @@
     <div class="full-width-bg experiences-bg" id="experiences">
         <div class="content-container">
             <div class="sidebar">
-                <h2 class="sidebar-title">Experiences</h2>
+                <h2 class="sidebar-title" style="font-size: 47.25px;">Experiences</h2>
             </div>
             
             <div class="main-content">
@@ -235,279 +241,6 @@
     <button class="back-to-top" aria-label="回到顶部">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // 移动端菜单
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const icon = menuToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-
-        // 点击导航链接时关闭菜单
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            });
-        });
-
-        // 点击页面其他地方关闭菜单
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle')) {
-                navLinks.classList.remove('active');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            }
-        });
-
-        // 搜索功能
-        const searchBtn = document.querySelector('.search-btn');
-        const searchOverlay = document.querySelector('.search-overlay');
-        const searchClose = document.querySelector('.search-close');
-        const searchInput = document.querySelector('.search-input');
-        const searchResults = document.querySelector('.search-results');
-
-        // 存储所有可搜索的内容
-        let searchableContent = [];
-
-        // 初始化搜索内容
-        function initSearchContent() {
-            // 获取个人简介内容
-            const profileBio = document.querySelector('.profile-bio');
-            if (profileBio) {
-                searchableContent.push({
-                    type: '简介',
-                    title: '关于我',
-                    description: profileBio.querySelector('p').textContent,
-                    element: profileBio,
-                    link: '#'
-                });
-            }
-
-            // 获取研究兴趣
-            const researchInterests = document.querySelector('.research-interests');
-            if (researchInterests) {
-                const interests = Array.from(researchInterests.querySelectorAll('li'))
-                    .map(li => li.textContent.trim());
-                searchableContent.push({
-                    type: '研究方向',
-                    title: '研究兴趣',
-                    description: interests.join('、'),
-                    element: researchInterests,
-                    link: '#'
-                });
-            }
-
-            // 获取教育经历
-            document.querySelectorAll('.education-item').forEach(edu => {
-                const title = edu.querySelector('h3').textContent;
-                const description = edu.querySelector('p').textContent;
-                searchableContent.push({
-                    type: '教育经历',
-                    title,
-                    description,
-                    element: edu,
-                    link: '#about'
-                });
-            });
-
-            // 获取文章内容
-            document.querySelectorAll('.post-card').forEach(post => {
-                const title = post.querySelector('h3 a').textContent;
-                const description = Array.from(post.querySelectorAll('p'))
-                    .map(p => p.textContent)
-                    .join(' ');
-                const link = post.querySelector('h3 a').href;
-                searchableContent.push({
-                    type: '文章',
-                    title,
-                    description,
-                    element: post,
-                    link: link || '#posts'
-                });
-            });
-
-            // 获取演讲内容
-            document.querySelectorAll('.talk-card').forEach(talk => {
-                const title = talk.querySelector('h3').textContent;
-                const description = talk.querySelector('p').textContent;
-                searchableContent.push({
-                    type: '演讲',
-                    title,
-                    description,
-                    element: talk,
-                    link: '#talks'
-                });
-            });
-
-            // 获取经历内容
-            document.querySelectorAll('.experience-item').forEach(exp => {
-                const title = exp.querySelector('h3').textContent;
-                const description = exp.querySelector('.experience-description')?.textContent || '';
-                const date = exp.querySelector('.experience-date')?.textContent || '';
-                searchableContent.push({
-                    type: '经历',
-                    title,
-                    description: `${date} ${description}`.trim(),
-                    element: exp,
-                    link: '#experiences'
-                });
-            });
-        }
-
-        // 执行搜索
-        function performSearch(query) {
-            query = query.toLowerCase().trim();
-            
-            if (!query) {
-                searchResults.innerHTML = '<div class="no-results">请输入搜索关键词</div>';
-                return;
-            }
-
-            const results = searchableContent.filter(item => {
-                const searchText = `${item.title} ${item.description}`.toLowerCase();
-                return searchText.includes(query);
-            });
-
-            if (results.length === 0) {
-                searchResults.innerHTML = '<div class="no-results">未找到相关内容</div>';
-                return;
-            }
-
-            const resultsHtml = results.map(result => {
-                const highlightedTitle = highlightText(result.title, query);
-                const highlightedDesc = highlightText(result.description, query);
-                
-                return `
-                    <a href="${result.link}" class="search-result-item" data-type="${result.type}">
-                        <span class="result-type">${result.type}</span>
-                        <h3>${highlightedTitle}</h3>
-                        <p>${highlightedDesc}</p>
-                    </a>
-                `;
-            }).join('');
-
-            searchResults.innerHTML = resultsHtml;
-
-            // 为搜索结果添加点击事件
-            document.querySelectorAll('.search-result-item').forEach((item, index) => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const result = results[index];
-                    
-                    closeSearch();
-                    
-                    if (result.element) {
-                        // 移除所有现有的高亮效果
-                        document.querySelectorAll('.highlight-target').forEach(el => {
-                            el.classList.remove('highlight-target');
-                        });
-
-                        // 添加高亮效果
-                        result.element.classList.add('highlight-target');
-                        
-                        // 滚动到目标位置
-                        result.element.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-
-                        // 3秒后移除高亮效果
-                        setTimeout(() => {
-                            result.element.classList.remove('highlight-target');
-                        }, 3000);
-                    } else if (result.link.startsWith('#')) {
-                        const targetElement = document.querySelector(result.link);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    } else {
-                        window.location.href = result.link;
-                    }
-                });
-            });
-        }
-
-        // 高亮搜索关键词
-        function highlightText(text, query) {
-            const regex = new RegExp(`(${query})`, 'gi');
-            return text.replace(regex, '<mark>$1</mark>');
-        }
-
-        // 打开搜索
-        function openSearch() {
-            searchOverlay.classList.add('active');
-            searchInput.focus();
-            document.body.style.overflow = 'hidden';
-        }
-
-        // 关闭搜索
-        function closeSearch() {
-            searchOverlay.classList.remove('active');
-            searchInput.value = '';
-            searchResults.innerHTML = '';
-            document.body.style.overflow = '';
-        }
-
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            initSearchContent();
-
-            // 搜索按钮点击事件
-            searchBtn.addEventListener('click', openSearch);
-
-            // 关闭按钮点击事件
-            searchClose.addEventListener('click', closeSearch);
-
-            // 搜索输入事件
-            searchInput.addEventListener('input', (e) => {
-                performSearch(e.target.value);
-            });
-
-            // ESC键关闭搜索
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
-                    closeSearch();
-                }
-            });
-
-            // 点击遮罩层关闭搜索
-            searchOverlay.addEventListener('click', (e) => {
-                if (e.target === searchOverlay) {
-                    closeSearch();
-                }
-            });
-
-            // 回到顶部按钮逻辑
-            const backToTopButton = document.querySelector('.back-to-top');
-            
-            // 监听滚动事件
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTopButton.classList.add('visible');
-                } else {
-                    backToTopButton.classList.remove('visible');
-                }
-            });
-            
-            // 点击回到顶部
-            backToTopButton.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>

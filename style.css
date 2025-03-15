@@ -2,7 +2,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "SF Pro Display", -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 标题字体全局样式 */
+h1, h2, h3 {
+    font-family: 'Lora', sans-serif;
+}
+
+h3 {
+    font-size: 25.2px;
 }
 
 html {
@@ -18,6 +26,7 @@ body {
     color: #333;
     background-color: #fff;
     overflow-x: hidden;
+
 }
 
 /* 导航样式 */
@@ -131,6 +140,361 @@ nav.scrolled {
 }
 
 .search-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #1a73e8;
+}
+
+/* 主题切换按钮样式 */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #1a73e8;
+}
+
+/* 深色模式下的主题切换按钮样式 */
+@media (prefers-color-scheme: dark) {
+    .theme-toggle {
+        color: #fff;
+    }
+    
+    .theme-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #64b5f6;
+    }
+}
+
+/* 强制深色模式 */
+[data-theme="dark"] {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+[data-theme="dark"] body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] nav {
+    background: rgba(18, 18, 18, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .nav-name,
+[data-theme="dark"] .nav-links a {
+    color: #fff;
+}
+
+[data-theme="dark"] .nav-links a i {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .nav-links a:hover {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .nav-links a:hover i {
+    color: #90caf9;
+}
+
+[data-theme="dark"] .nav-links a:after {
+    background-color: #64b5f6;
+}
+
+[data-theme="dark"] .theme-toggle,
+[data-theme="dark"] .search-btn {
+    color: #fff;
+}
+
+[data-theme="dark"] .theme-toggle:hover,
+[data-theme="dark"] .search-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .profile-info h1 {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .profile-subtitle {
+    color: #aaa;
+}
+
+[data-theme="dark"] .profile-institution {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .profile-bio h2 {
+    color: #fff;
+}
+
+[data-theme="dark"] .profile-bio p {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .profile-bio a {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .profile-bio a:hover {
+    color: #90caf9;
+}
+
+[data-theme="dark"] .profile-bio b {
+    color: #fff;
+}
+
+[data-theme="dark"] .research-interests h3 {
+    color: #fff;
+}
+
+[data-theme="dark"] .research-interests h3::after {
+    background: #64b5f6;
+}
+
+[data-theme="dark"] .research-interests li {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .research-interests li:hover {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .research-interests i {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .education h2,
+[data-theme="dark"] .interests h2 {
+    color: #64b5f6 !important;
+}
+
+[data-theme="dark"] .education-details h3 {
+    color: #fff;
+}
+
+[data-theme="dark"] .education-details p {
+    color: #64b5f6 !important;
+}
+
+[data-theme="dark"] .education-icon {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .interests-list li {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .post-card,
+[data-theme="dark"] .talk-card {
+    background: #2d2d2d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .post-card:hover,
+[data-theme="dark"] .talk-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .post-card h3 a {
+    color: #fff;
+}
+
+[data-theme="dark"] .post-card h3 a:hover {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .post-card p,
+[data-theme="dark"] .talk-card p {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .post-meta {
+    color: #aaa;
+}
+
+[data-theme="dark"] .talk-action-btn {
+    background: rgba(100, 181, 246, 0.1);
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .talk-action-btn:hover {
+    background: rgba(100, 181, 246, 0.2);
+}
+
+[data-theme="dark"] .tag {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .tag:hover {
+    background: #4d4d4d;
+}
+
+[data-theme="dark"] .sidebar-title {
+    color: #fff;
+}
+
+[data-theme="dark"] .experience-content {
+    background: #2d2d2d;
+}
+
+[data-theme="dark"] .experience-content h3 {
+    color: #fff;
+}
+
+[data-theme="dark"] .experience-content b {
+    color: #fff;
+}
+
+[data-theme="dark"] .experience-location {
+    color: #aaa;
+}
+
+[data-theme="dark"] .experience-location i {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .experience-description {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .experience-date .year {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .experience-date .month {
+    color: #aaa;
+}
+
+[data-theme="dark"] .experience-content::before {
+    background: #64b5f6;
+    border-color: #2d2d2d;
+    box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
+}
+
+[data-theme="dark"] .timeline::before {
+    background: #3d3d3d;
+}
+
+[data-theme="dark"] .search-input {
+    background: #2d2d2d;
+    color: #fff;
+}
+
+[data-theme="dark"] .search-close {
+    color: #fff;
+}
+
+[data-theme="dark"] .search-result-item {
+    background: rgba(45, 45, 45, 0.95);
+    color: #fff;
+}
+
+[data-theme="dark"] .search-result-item h3 {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .search-result-item p {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .result-type {
+    background: #64b5f6;
+}
+
+[data-theme="dark"] .no-results {
+    color: #fff;
+}
+
+[data-theme="dark"] .full-width-bg.posts-bg {
+    background: #242424;
+}
+
+[data-theme="dark"] .full-width-bg.talks-bg {
+    background: #1e1e1e;
+}
+
+[data-theme="dark"] .full-width-bg.experiences-bg {
+    background: #242424;
+}
+
+[data-theme="dark"] .site-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .site-footer p {
+    color: #aaa;
+}
+
+[data-theme="dark"] .site-footer a {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .site-footer a:hover {
+    color: #90caf9;
+}
+
+[data-theme="dark"] .back-to-top {
+    background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
+    box-shadow: 0 4px 12px rgba(100, 181, 246, 0.25);
+}
+
+[data-theme="dark"] .back-to-top:hover {
+    background: linear-gradient(135deg, #64b5f6 20%, #1976d2 120%);
+    box-shadow: 0 6px 18px rgba(100, 181, 246, 0.35);
+}
+
+[data-theme="dark"] mark {
+    background-color: rgba(100, 181, 246, 0.2);
+    color: #fff;
+}
+
+[data-theme="dark"] .menu-toggle {
+    color: #fff;
+}
+
+[data-theme="dark"] .nav-links {
+    background: rgba(18, 18, 18, 0.98);
+}
+
+[data-theme="dark"] .search-overlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* 强制浅色模式 */
+[data-theme="light"] {
+    background-color: #fff;
+    color: #333;
+}
+
+[data-theme="light"] nav {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .nav-name,
+[data-theme="light"] .nav-links a {
+    color: #333;
+}
+
+[data-theme="light"] .theme-toggle,
+[data-theme="light"] .search-btn {
+    color: #333;
+}
+
+[data-theme="light"] .theme-toggle:hover,
+[data-theme="light"] .search-btn:hover {
     background: rgba(0, 0, 0, 0.05);
     color: #1a73e8;
 }
@@ -294,6 +658,13 @@ nav.scrolled {
     height: 200px;
     border-radius: 50%;
     object-fit: cover;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .profile-info {
@@ -520,9 +891,59 @@ nav.scrolled {
     color: #1a73e8;
     font-size: 1.8em;
     transition: transform 0.2s ease;
+    position: relative;
 }
 .social-links a:hover {
     transform: scale(1.1);
+}
+
+/* 工具提示样式 */
+.social-links a::before {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.social-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.8);
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover::before,
+.social-links a:hover::after {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .social-links a::before {
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #000;
+    }
+    .social-links a::after {
+        border-top-color: rgba(255, 255, 255, 0.9);
+    }
 }
 
 .cv-button {
@@ -1465,5 +1886,12 @@ nav.scrolled {
 
     .back-to-top i {
         font-size: 1.1rem;
+    }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .profile-image:hover {
+        box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
     }
 }
