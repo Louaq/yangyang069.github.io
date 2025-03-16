@@ -1139,14 +1139,21 @@ nav.scrolled {
 .post-image-container {
     position: relative;
     flex-shrink: 0;
+    margin-left: 20px;
 }
 
 .post-image {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 12px;
     align-self: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .post-image-badge {
@@ -1221,11 +1228,23 @@ nav.scrolled {
 }
 
 .talk-image {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 12px;
     align-self: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 20px;
+}
+
+.talk-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 深色模式支持 */
+[data-theme="dark"] .talk-image:hover {
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
 }
 
 .talk-actions {
