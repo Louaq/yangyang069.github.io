@@ -315,6 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
             behavior: 'smooth'
         });
     });
+
+    // 添加兼容Safari的剪贴板功能
+    const citationButtons = document.querySelectorAll('.citation-btn');
+    
+    citationButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const bibtex = this.getAttribute('data-bibtex');
+            copyToClipboard(bibtex);
+        });
+    });
 });
 
 // 复制引用文献功能
@@ -328,6 +338,14 @@ async function copyBibTeX(citationId) {
         const tooltip = document.createElement('div');
         tooltip.className = 'copy-tooltip';
         tooltip.textContent = '参考文献已复制到剪贴板';
+        tooltip.style.position = 'fixed';
+        tooltip.style.top = '20px';
+        tooltip.style.right = '20px';
+        tooltip.style.padding = '10px 20px';
+        tooltip.style.backgroundColor = '#4CAF50';
+        tooltip.style.color = 'white';
+        tooltip.style.borderRadius = '4px';
+        tooltip.style.zIndex = '1000';
         document.body.appendChild(tooltip);
 
         // 2秒后移除提示
@@ -338,7 +356,14 @@ async function copyBibTeX(citationId) {
         // 显示错误提示
         const tooltip = document.createElement('div');
         tooltip.className = 'copy-tooltip';
+        tooltip.style.position = 'fixed';
+        tooltip.style.top = '20px';
+        tooltip.style.right = '20px';
+        tooltip.style.padding = '10px 20px';
         tooltip.style.backgroundColor = '#dc3545';  // 错误时使用红色背景
+        tooltip.style.color = 'white';
+        tooltip.style.borderRadius = '4px';
+        tooltip.style.zIndex = '1000';
         tooltip.textContent = '复制失败，请重试';
         document.body.appendChild(tooltip);
 
@@ -348,4 +373,67 @@ async function copyBibTeX(citationId) {
         
         console.error('复制失败:', err);
     }
+}
+
+function copyToClipboard(text) {
+    // 创建一个临时文本区域
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    
+    // 检查是否是iOS设备（包括Safari）
+    const isIOS = navigator.userAgent.match(/ipad|iphone/i);
+    
+    if (isIOS) {
+        // iOS设备特殊处理
+        const range = document.createRange();
+        range.selectNodeContents(textarea);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        textarea.setSelectionRange(0, text.length);
+    } else {
+        // 其他设备
+        textarea.select();
+    }
+    
+    let successful = false;
+    try {
+        // 尝试执行复制命令
+        successful = document.execCommand('copy');
+    } catch (err) {
+        console.error('无法复制文本: ', err);
+    }
+    
+    // 移除临时文本区域
+    document.body.removeChild(textarea);
+    
+    // 显示复制成功/失败的提示
+    showCopyFeedback(successful);
+}
+
+function showCopyFeedback(successful) {
+    // 创建提示元素
+    const feedback = document.createElement('div');
+    feedback.className = 'copy-feedback';
+    feedback.textContent = successful ? '已复制到剪贴板！' : '复制失败，请手动复制';
+    feedback.style.position = 'fixed';
+    feedback.style.top = '20px'; // 改为顶部
+    feedback.style.right = '20px'; // 改为右侧
+    feedback.style.transform = 'none'; // 移除左侧的转换
+    feedback.style.padding = '10px 20px';
+    feedback.style.backgroundColor = successful ? '#4CAF50' : '#F44336';
+    feedback.style.color = 'white';
+    feedback.style.borderRadius = '4px';
+    feedback.style.zIndex = '1000';
+    
+    document.body.appendChild(feedback);
+    
+    // 2秒后移除提示
+    setTimeout(() => {
+        document.body.removeChild(feedback);
+    }, 2000);
 }
