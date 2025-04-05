@@ -1,4 +1,3 @@
-
 // 主题切换功能
 const themeToggle = document.querySelector('.theme-toggle');
 const themeIcon = themeToggle.querySelector('i');
@@ -317,3 +316,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// 复制引用文献功能
+async function copyBibTeX(citationId) {
+    try {
+        const response = await fetch(`citation/${citationId}`);
+        const text = await response.text();
+        await navigator.clipboard.writeText(text);
+        
+        // 显示提示信息
+        const tooltip = document.createElement('div');
+        tooltip.className = 'copy-tooltip';
+        tooltip.textContent = '参考文献已复制到剪贴板';
+        document.body.appendChild(tooltip);
+
+        // 2秒后移除提示
+        setTimeout(() => {
+            tooltip.remove();
+        }, 2000);
+    } catch (err) {
+        // 显示错误提示
+        const tooltip = document.createElement('div');
+        tooltip.className = 'copy-tooltip';
+        tooltip.style.backgroundColor = '#dc3545';  // 错误时使用红色背景
+        tooltip.textContent = '复制失败，请重试';
+        document.body.appendChild(tooltip);
+
+        setTimeout(() => {
+            tooltip.remove();
+        }, 2000);
+        
+        console.error('复制失败:', err);
+    }
+}
