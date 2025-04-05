@@ -2071,9 +2071,8 @@ nav.scrolled {
 /* 复制提示样式 */
 .copy-tooltip {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 20px;
+    right: 20px;
     background-color: var(--primary-color);
     color: white;
     padding: 12px 24px;
@@ -2081,7 +2080,7 @@ nav.scrolled {
     font-size: 0.95em;
     font-weight: 500;
     z-index: 1000;
-    animation: fadeInOut 2s ease-in-out;
+    animation: slideInOut 2s ease-in-out;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: flex;
     align-items: center;
@@ -2093,11 +2092,11 @@ nav.scrolled {
     font-weight: bold;
 }
 
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, -30%); }
-    20% { opacity: 1; transform: translate(-50%, -50%); }
-    80% { opacity: 1; transform: translate(-50%, -50%); }
-    100% { opacity: 0; transform: translate(-50%, -70%); }
+@keyframes slideInOut {
+    0% { opacity: 0; transform: translateY(-100%); }
+    20% { opacity: 1; transform: translateY(0); }
+    80% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-100%); }
 }
 
 /* 深色模式支持 */
