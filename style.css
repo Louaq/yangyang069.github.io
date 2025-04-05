@@ -3,12 +3,14 @@
     --primary-color: #1a73e8;
     --primary-dark: #0d47a1;
     --primary-light: #64b5f6;
+    --primary-rgb: 26, 115, 232;  /* #1a73e8 的 RGB 值 */
 }
 
 [data-theme="dark"] {
     --primary-color: #64b5f6;
     --primary-dark: #1976d2;
     --primary-light: #90caf9;
+    --primary-rgb: 100, 181, 246;  /* #64b5f6 的 RGB 值 */
 }
 
 * {
@@ -1266,18 +1268,86 @@ nav.scrolled {
     margin-top: 15px;
 }
 
+/* 按钮基础样式 */
 .talk-action-btn {
-    padding: 5px 12px;
-    border-radius: 15px;
-    font-size: 0.85em;
-    color: #1a73e8;
-    background: #e8f0fe;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
     text-decoration: none;
-    transition: background-color 0.2s ease;
+    color: var(--primary-color);
+    background: rgba(var(--primary-rgb), 0.1);
+    border: 1px solid transparent;
+    margin: 0 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .talk-action-btn:hover {
-    background: #d2e3fc;
+    background: rgba(var(--primary-rgb), 0.15);
+    border-color: rgba(var(--primary-rgb), 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.talk-action-btn:active {
+    transform: scale(0.96) translateY(0);
+    background: rgba(var(--primary-rgb), 0.2);
+    box-shadow: none;
+}
+
+/* 点击波纹效果 */
+.talk-action-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(var(--primary-rgb), 0.3);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.talk-action-btn:active::after {
+    animation: ripple 0.4s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .talk-action-btn {
+    color: var(--primary-light);
+    background: rgba(var(--primary-rgb), 0.15);
+}
+
+[data-theme="dark"] .talk-action-btn:hover {
+    background: rgba(var(--primary-rgb), 0.25);
+    border-color: rgba(var(--primary-rgb), 0.3);
+}
+
+[data-theme="dark"] .talk-action-btn:active {
+    background: rgba(var(--primary-rgb), 0.3);
 }
 
 /* 动画 */
@@ -1659,7 +1729,7 @@ nav.scrolled {
     text-align: center;
     position: relative;
     overflow: hidden;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 0px solid rgba(0, 0, 0, 0.1);
     background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -1671,7 +1741,7 @@ nav.scrolled {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
+    height: 0;
     background: linear-gradient(to right, 
         transparent, 
         rgba(26, 115, 232, 0.2), 
@@ -1727,7 +1797,7 @@ nav.scrolled {
 
 /* 深色模式支持 */
 [data-theme="dark"] .site-footer {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3));
+    background: #1a1a1a;
     border-top-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -2001,9 +2071,9 @@ nav.scrolled {
 /* 复制提示样式 */
 .copy-tooltip {
     position: fixed;
-    bottom: 20px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     background-color: var(--primary-color);
     color: white;
     padding: 12px 24px;
@@ -2024,10 +2094,10 @@ nav.scrolled {
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, 20px); }
-    20% { opacity: 1; transform: translate(-50%, 0); }
-    80% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
+    0% { opacity: 0; transform: translate(-50%, -30%); }
+    20% { opacity: 1; transform: translate(-50%, -50%); }
+    80% { opacity: 1; transform: translate(-50%, -50%); }
+    100% { opacity: 0; transform: translate(-50%, -70%); }
 }
 
 /* 深色模式支持 */
