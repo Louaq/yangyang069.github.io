@@ -437,33 +437,3 @@ function showCopyFeedback(successful) {
         document.body.removeChild(feedback);
     }, 2000);
 }
-
-// RSS功能
-const rssBtn = document.querySelector('.rss-btn');
-const rssOverlay = document.querySelector('.rss-overlay');
-const rssClose = document.querySelector('.rss-close');
-
-// 打开RSS订阅弹窗
-rssBtn.addEventListener('click', () => {
-    rssOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-});
-
-// 关闭RSS订阅弹窗
-rssClose.addEventListener('click', () => {
-    rssOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-});
-
-// 点击overlay背景关闭弹窗
-rssOverlay.addEventListener('click', (e) => {
-    if (e.target === rssOverlay) {
-        rssOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
-
-// 阻止弹窗内容点击事件冒泡
-document.querySelector('.rss-container').addEventListener('click', (e) => {
-    e.stopPropagation();
-});

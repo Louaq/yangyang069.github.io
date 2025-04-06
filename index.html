@@ -27,9 +27,9 @@
         <button class="search-btn" aria-label="搜索">
             <i class="fas fa-search"></i>
         </button>
-        <button class="rss-btn" aria-label="RSS订阅">
+        <a href="feed.xml" class="rss-btn" target="_blank" rel="noopener noreferrer" aria-label="RSS订阅">
             <i class="fas fa-rss"></i>
-        </button>
+        </a>
         <button class="theme-toggle" aria-label="切换主题">
             <i class="fas fa-moon"></i>
         </button>
@@ -42,30 +42,6 @@
                 <i class="fas fa-times"></i>
             </button>
             <div class="search-results"></div>
-        </div>
-    </div>
-
-    <div class="rss-overlay">
-        <div class="rss-container">
-            <div class="rss-header">
-                <h2>RSS订阅</h2>
-                <button class="rss-close" aria-label="关闭RSS">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="rss-content">
-                <p>订阅我的最新文章和动态</p>
-                <div class="rss-links">
-                    <a href="feed.xml" class="rss-link" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-rss"></i>
-                        RSS Feed
-                    </a>
-                    <a href="https://feedly.com/i/subscription/feed/https://yangyang.com/feed.xml" class="rss-link" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-plus-circle"></i>
-                        添加到 Feedly
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 
