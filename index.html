@@ -27,6 +27,9 @@
         <button class="search-btn" aria-label="搜索">
             <i class="fas fa-search"></i>
         </button>
+        <button class="rss-btn" aria-label="RSS订阅">
+            <i class="fas fa-rss"></i>
+        </button>
         <button class="theme-toggle" aria-label="切换主题">
             <i class="fas fa-moon"></i>
         </button>
@@ -42,7 +45,29 @@
         </div>
     </div>
 
-
+    <div class="rss-overlay">
+        <div class="rss-container">
+            <div class="rss-header">
+                <h2>RSS订阅</h2>
+                <button class="rss-close" aria-label="关闭RSS">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="rss-content">
+                <p>订阅我的最新文章和动态</p>
+                <div class="rss-links">
+                    <a href="feed.xml" class="rss-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-rss"></i>
+                        RSS Feed
+                    </a>
+                    <a href="https://feedly.com/i/subscription/feed/https://yangyang.com/feed.xml" class="rss-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-plus-circle"></i>
+                        添加到 Feedly
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="profile-section" id="about">
         <img src="img/YangYang.jpg" alt="Profile" class="profile-image">
@@ -123,7 +148,7 @@
             <div class="sidebar">
                 <h2 class="sidebar-title" style="font-size: 47.25px;">Papers</h2>
             </div>
-            
+    
             <div class="main-content">
                 <div class="post-card">
                     <div style="display: flex; justify-content: space-between;">
@@ -133,26 +158,32 @@
                             <p>Computer Graphics International Conference 2024 (🎉 <b>Accepted</b>)</p>
                             <div class="talk-actions">
                                 <!-- <a href="#" class="talk-action-btn"><i class="fas fa-desktop"></i> Slides</a>
-                                <a href="#" class="talk-action-btn"><i class="fas fa-video"></i> Video</a> -->
-                                <a href="https://github.com/Louaq/CGI2024" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-code"></i> Code</a>
-                                <a href="pdf/978-3-031-82024-3_8.pdf" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> PDF</a>
-                                <a href="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-scroll"></i> Paper</a>
-                                <a href="https://huggingface.co/datasets/loupk/pest_diseases/tree/main" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-database"></i> Dataset</a>
+                                    <a href="#" class="talk-action-btn"><i class="fas fa-video"></i> Video</a> -->
+                                <a href="https://github.com/Louaq/CGI2024" class="talk-action-btn" target="_blank"
+                                    rel="noopener noreferrer"><i class="fas fa-code"></i> Code</a>
+                                <a href="pdf/978-3-031-82024-3_8.pdf" class="talk-action-btn" target="_blank"
+                                    rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8"
+                                    class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
+                                        class="fas fa-scroll"></i> Paper</a>
+                                <a href="https://huggingface.co/datasets/loupk/pest_diseases/tree/main"
+                                    class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
+                                        class="fas fa-database"></i> Dataset</a>
                                 <a href="javascript:void(0)" class="talk-action-btn citation-btn" data-bibtex="@InProceedings{10.1007/978-3-031-82024-3_8,
-author={Yang, Yang
-and Zhu, Jianlin
-and Yang, Bo
-and Zhang, Xiao
-and Huang, Jin},
-editor={Kim, Jinman
-and Magnor, Marcus},
-title={An Improved YOLOv8-Based Rice Pest and Disease Detection},
-booktitle={Computer Graphics International 2024},
-year={2024},
-publisher={Springer Nature Switzerland},
-address={Cham},
-pages={111--122},
-isbn={978-3-031-82024-3}}"><i class="fas fa-quote-right"></i> Cite</a>
+    author={Yang, Yang
+    and Zhu, Jianlin
+    and Yang, Bo
+    and Zhang, Xiao
+    and Huang, Jin},
+    editor={Kim, Jinman
+    and Magnor, Marcus},
+    title={An Improved YOLOv8-Based Rice Pest and Disease Detection},
+    booktitle={Computer Graphics International 2024},
+    year={2024},
+    publisher={Springer Nature Switzerland},
+    address={Cham},
+    pages={111--122},
+    isbn={978-3-031-82024-3}}"><i class="fas fa-quote-right"></i> Cite</a>
                             </div>
                         </div>
                         <div class="post-image-container">
@@ -161,20 +192,25 @@ isbn={978-3-031-82024-3}}"><i class="fas fa-quote-right"></i> Cite</a>
                         </div>
                     </div>
                 </div>
-
+    
                 <div class="post-card">
                     <div style="display: flex; justify-content: space-between;">
                         <div class="post-content">
                             <h3><a href="#">HSFPN-Det: An Effective Model for Detecting Rice Pests and Diseases</a></h3>
                             <p><b>Yang Yang</b>, Jianlin Zhu</p>
                             <p>The Visual Computer (<b>Waiting for submission!</b>)</p>
-
+    
                             <div class="tags">
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-code"></i> Code</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> PDF</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-scroll"></i> Paper</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-database"></i> Dataset</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-quote-right"></i> Cite</a>
+                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
+                                        class="fas fa-code"></i> Code</a>
+                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
+                                        class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
+                                        class="fas fa-scroll"></i> Paper</a>
+                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
+                                        class="fas fa-database"></i> Dataset</a>
+                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
+                                        class="fas fa-quote-right"></i> Cite</a>
                             </div>
                         </div>
                         <div class="post-image-container">
