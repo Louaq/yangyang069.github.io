@@ -103,19 +103,25 @@ nav {
 }
 
 .nav-links a i {
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: #1a73e8;
     transition: all 0.3s ease;
+    margin-right: 8px;
+    width: 20px;
+    text-align: center;
+    position: relative;
+    top: 1px;
 }
 
 .nav-links a:hover {
     color: #1a73e8;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 .nav-links a:hover i {
     color: #0d47a1;
-    transform: scale(1.1);
+    transform: scale(1.15);
+    text-shadow: 0 2px 4px rgba(26, 115, 232, 0.2);
 }
 
 .nav-links a:after {
@@ -154,11 +160,14 @@ nav.scrolled {
     padding: 8px;
     border-radius: 50%;
     transition: all 0.3s ease;
+    box-shadow: 0 0 0 rgba(26, 115, 232, 0);
 }
 
 .search-btn:hover {
     background: rgba(0, 0, 0, 0.05);
     color: #1a73e8;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(26, 115, 232, 0.15);
 }
 
 /* 主题切换按钮样式 */
@@ -172,11 +181,14 @@ nav.scrolled {
     border-radius: 50%;
     transition: all 0.3s ease;
     margin-left: 10px;
+    box-shadow: 0 0 0 rgba(26, 115, 232, 0);
 }
 
 .theme-toggle:hover {
     background: rgba(0, 0, 0, 0.05);
     color: #1a73e8;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(26, 115, 232, 0.15);
 }
 
 /* 深色模式下的主题切换按钮样式 */
@@ -223,6 +235,7 @@ nav.scrolled {
 
 [data-theme="dark"] .nav-links a:hover i {
     color: #90caf9;
+    text-shadow: 0 2px 4px rgba(100, 181, 246, 0.3);
 }
 
 [data-theme="dark"] .nav-links a:after {
@@ -230,14 +243,19 @@ nav.scrolled {
 }
 
 [data-theme="dark"] .theme-toggle,
-[data-theme="dark"] .search-btn {
+[data-theme="dark"] .search-btn,
+[data-theme="dark"] .rss-btn {
     color: #fff;
+    box-shadow: 0 0 0 rgba(100, 181, 246, 0);
 }
 
 [data-theme="dark"] .theme-toggle:hover,
-[data-theme="dark"] .search-btn:hover {
+[data-theme="dark"] .search-btn:hover,
+[data-theme="dark"] .rss-btn:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #64b5f6;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(100, 181, 246, 0.2);
 }
 
 [data-theme="dark"] .profile-info h1 {
@@ -2099,13 +2117,17 @@ nav.scrolled {
     cursor: pointer;
     padding: 8px;
     font-size: 1.2rem;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
     margin-left: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(26, 115, 232, 0);
 }
 
 .rss-btn:hover {
-    color: #f26522;
+    color: #1a73e8;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 50%;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(26, 115, 232, 0.15);
 }
