@@ -184,7 +184,7 @@ nav.scrolled {
     .theme-toggle {
         color: #fff;
     }
-    
+
     .theme-toggle:hover {
         background: rgba(255, 255, 255, 0.1);
         color: #64b5f6;
@@ -623,7 +623,7 @@ nav.scrolled {
     .search-btn {
         color: #fff;
     }
-    
+
     .search-btn:hover {
         background: rgba(255, 255, 255, 0.1);
     }
@@ -919,7 +919,7 @@ nav.scrolled {
 
 /* 工具提示样式 */
 .social-links a::before {
-    content: attr(title);
+    content: attr(data-tooltip);
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -935,21 +935,7 @@ nav.scrolled {
     transition: all 0.3s ease;
 }
 
-.social-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(4px);
-    border: 6px solid transparent;
-    border-top-color: rgba(0, 0, 0, 0.8);
-    visibility: hidden;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.social-links a:hover::before,
-.social-links a:hover::after {
+.social-links a:hover::before {
     visibility: visible;
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -960,9 +946,6 @@ nav.scrolled {
     .social-links a::before {
         background-color: rgba(255, 255, 255, 0.9);
         color: #000;
-    }
-    .social-links a::after {
-        border-top-color: rgba(255, 255, 255, 0.9);
     }
 }
 
@@ -1001,7 +984,7 @@ nav.scrolled {
     text-align: center;
 }
 
-.education h2, 
+.education h2,
 .interests h2 {
     margin-bottom: 20px;
     color: #333;
@@ -1458,7 +1441,7 @@ nav.scrolled {
         margin: 30px 0;
         padding: 0 10px;
     }
-    
+
     .education-interests {
         grid-template-columns: 1fr;
         padding: 0 10px;
@@ -1742,9 +1725,9 @@ nav.scrolled {
     left: 0;
     right: 0;
     height: 0;
-    background: linear-gradient(to right, 
-        transparent, 
-        rgba(26, 115, 232, 0.2), 
+    background: linear-gradient(to right,
+        transparent,
+        rgba(26, 115, 232, 0.2),
         transparent
     );
 }
@@ -1802,9 +1785,9 @@ nav.scrolled {
 }
 
 [data-theme="dark"] .site-footer::before {
-    background: linear-gradient(to right, 
-        transparent, 
-        rgba(100, 181, 246, 0.2), 
+    background: linear-gradient(to right,
+        transparent,
+        rgba(100, 181, 246, 0.2),
         transparent
     );
 }
@@ -1830,7 +1813,7 @@ nav.scrolled {
     .site-footer {
         padding: 30px 0;
     }
-    
+
     .site-footer p {
         font-size: 0.9em;
     }
@@ -1963,7 +1946,7 @@ nav.scrolled {
     .highlight-target::before {
         background: rgba(100, 181, 246, 0.1);
     }
-    
+
     @keyframes highlight-pulse {
         0% {
             transform: scale(1);
@@ -2040,7 +2023,7 @@ nav.scrolled {
         background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
         box-shadow: 0 4px 12px rgba(100, 181, 246, 0.25);
     }
-    
+
     .back-to-top:hover {
         background: linear-gradient(135deg, #64b5f6 20%, #1976d2 120%);
         box-shadow: 0 6px 18px rgba(100, 181, 246, 0.35);
