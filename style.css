@@ -2069,6 +2069,30 @@ nav.scrolled {
     }
 }
 
+/* Clustrmaps 容器样式 */
+.clustrmaps-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+/* 深色模式支持 */
+[data-theme="dark"] .clustrmaps-container {
+    filter: invert(0.8) hue-rotate(180deg);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .clustrmaps-container {
+        margin: 30px auto;
+        padding: 0 10px;
+    }
+}
+
 /* 复制提示样式 */
 .copy-tooltip {
     position: fixed;
