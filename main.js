@@ -52,29 +52,53 @@ const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 
 menuToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
+    const isActive = navLinks.classList.contains('active');
     const icon = menuToggle.querySelector('i');
-    icon.classList.toggle('fa-bars');
-    icon.classList.toggle('fa-times');
+
+    if (isActive) {
+        // Closing the menu
+        icon.style.transform = 'rotate(0deg)';
+        setTimeout(() => {
+            navLinks.classList.remove('active');
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times');
+        }, 50);
+    } else {
+        // Opening the menu
+        icon.style.transform = 'rotate(90deg)';
+        navLinks.classList.add('active');
+        setTimeout(() => {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        }, 200);
+    }
 });
 
 // 点击导航链接时关闭菜单
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
         const icon = menuToggle.querySelector('i');
-        icon.classList.add('fa-bars');
-        icon.classList.remove('fa-times');
+        icon.style.transform = 'rotate(0deg)';
+
+        setTimeout(() => {
+            navLinks.classList.remove('active');
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times');
+        }, 50);
     });
 });
 
 // 点击页面其他地方关闭菜单
 document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle')) {
-        navLinks.classList.remove('active');
+    if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle') && navLinks.classList.contains('active')) {
         const icon = menuToggle.querySelector('i');
-        icon.classList.add('fa-bars');
-        icon.classList.remove('fa-times');
+        icon.style.transform = 'rotate(0deg)';
+
+        setTimeout(() => {
+            navLinks.classList.remove('active');
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times');
+        }, 50);
     }
 });
 
@@ -318,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 添加兼容Safari的剪贴板功能
     const citationButtons = document.querySelectorAll('.citation-btn');
-    
+
     citationButtons.forEach(button => {
         button.addEventListener('click', function() {
             const bibtex = this.getAttribute('data-bibtex');
@@ -333,7 +357,7 @@ async function copyBibTeX(citationId) {
         const response = await fetch(`citation/${citationId}`);
         const text = await response.text();
         await navigator.clipboard.writeText(text);
-        
+
         // 显示提示信息
         const tooltip = document.createElement('div');
         tooltip.className = 'copy-tooltip';
@@ -370,7 +394,7 @@ async function copyBibTeX(citationId) {
         setTimeout(() => {
             tooltip.remove();
         }, 2000);
-        
+
         console.error('复制失败:', err);
     }
 }
@@ -383,10 +407,10 @@ function copyToClipboard(text) {
     textarea.style.position = 'absolute';
     textarea.style.left = '-9999px';
     document.body.appendChild(textarea);
-    
+
     // 检查是否是iOS设备（包括Safari）
     const isIOS = navigator.userAgent.match(/ipad|iphone/i);
-    
+
     if (isIOS) {
         // iOS设备特殊处理
         const range = document.createRange();
@@ -399,7 +423,7 @@ function copyToClipboard(text) {
         // 其他设备
         textarea.select();
     }
-    
+
     let successful = false;
     try {
         // 尝试执行复制命令
@@ -407,10 +431,10 @@ function copyToClipboard(text) {
     } catch (err) {
         console.error('无法复制文本: ', err);
     }
-    
+
     // 移除临时文本区域
     document.body.removeChild(textarea);
-    
+
     // 显示复制成功/失败的提示
     showCopyFeedback(successful);
 }
@@ -429,9 +453,9 @@ function showCopyFeedback(successful) {
     feedback.style.color = 'white';
     feedback.style.borderRadius = '4px';
     feedback.style.zIndex = '1000';
-    
+
     document.body.appendChild(feedback);
-    
+
     // 2秒后移除提示
     setTimeout(() => {
         document.body.removeChild(feedback);
