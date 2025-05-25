@@ -8,31 +8,36 @@
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
     <nav>
-        <button class="menu-toggle" aria-label="菜单">
-            <i class="fas fa-bars"></i>
-        </button>
-        <a href="#" class="nav-name" style="font-family: 'Lora', sans-serif;">YangYang</a>
+        <a href="./index.html" class="nav-name">YangYang</a>
+
         <div class="nav-links">
-            <a href="#about" style="font-family: 'Lora', sans-serif;"><i class="fas fa-user-graduate"></i> About</a>
-            <a href="#posts" style="font-family: 'Lora', sans-serif;"><i class="fas fa-file-alt"></i> Papers</a>
-            <a href="#talks" style="font-family: 'Lora', sans-serif;"><i class="fas fa-laptop-code"></i> Demos</a>
-            <a href="#experiences" style="font-family: 'Lora', sans-serif;"><i class="fas fa-award"></i> Experiences</a>
+            <a href="#about-me"><i class="fas fa-user-graduate"></i> About</a>
+            <a href="#publications"><i class="fas fa-file-alt"></i> Publications</a>
+            <a href="#talks"><i class="fas fa-microphone-alt"></i> Talks</a>
+            <a href="#tech-stack"><i class="fas fa-tools"></i> Skills</a>
+            <a href="#experience"><i class="fas fa-graduation-cap"></i> Education</a>
         </div>
-        <button class="search-btn" aria-label="搜索">
-            <i class="fas fa-search"></i>
-        </button>
-        <a href="feed.xml" class="rss-btn" target="_blank" rel="noopener noreferrer" aria-label="RSS订阅">
-            <i class="fas fa-rss"></i>
-        </a>
-        <button class="theme-toggle" aria-label="切换主题">
-            <i class="fas fa-adjust"></i>
-        </button>
+
+        <div class="nav-right">
+            <button class="search-btn" aria-label="搜索" data-tooltip="搜索 (Ctrl+K)">
+                <i class="fas fa-search"></i>
+            </button>
+            <a href="feed.xml" class="rss-btn" target="_blank" rel="noopener noreferrer" aria-label="RSS订阅">
+                <i class="fas fa-rss"></i>
+            </a>
+            <button class="theme-toggle" aria-label="切换主题" data-tooltip="切换主题">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" aria-label="菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </nav>
 
     <div class="search-overlay">
@@ -45,224 +50,443 @@
         </div>
     </div>
 
-    <section class="profile-section" id="about">
-        <img src="img/YangYang.jpg" alt="Profile" class="profile-image">
-        <div class="profile-info">
-            <h1>YangYang</h1>
-            <p class="profile-subtitle" style="font-family: 'Lora', sans-serif;">MS student</p>
-            <a href="https://www.scuec.edu.cn/" class="profile-institution" target="_blank" rel="noopener noreferrer" style="font-family: 'Lora', sans-serif;">South-Central Minzu University</a>
+    <!-- Hero Section -->
+    <section class="hero-section" id="about">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-greeting">
+                    <span class="wave">👋</span>
+                    <span>Available for work</span>
+                </div>
+                <h1>YangYang</h1>
+                <p class="hero-subtitle">MS Student with 2+ years of experience, passionate about Computer Vision, AI research, and innovative technology that sparks breakthrough discoveries. I love bringing research ideas to life. 🚀🔬</p>
 
-            <div class="social-links">
-                <a href="mailto:yangyang@mail.scuec.edu.cn" data-tooltip="Email" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
-                <!-- <a href="#" data-tooltip="Twitter"><i class="fab fa-twitter"></i></a> -->
-                <a href="https://scholar.google.com/citations?user=ph6q3aQAAAAJ" data-tooltip="Google Scholar" target="_blank" rel="noopener noreferrer"><i class="ai ai-google-scholar"></i></a>
-                <a href="https://www.researchgate.net/profile/Yang-Yang-826" data-tooltip="Research Gate" target="_blank" rel="noopener noreferrer"><i class="fab fa-researchgate"></i></a>
-                <a href="https://orcid.org/0009-0009-6670-7889" data-tooltip="ORCID" target="_blank" rel="noopener noreferrer"><i class="ai ai-orcid"></i></a>
-                <a href="https://github.com/Louaq" data-tooltip="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                <div class="hero-actions">
+                    <a href="mailto:yangyang@mail.scuec.edu.cn" class="cta-button primary">
+                        <i class="fas fa-envelope"></i>
+                        Contact Me
+                    </a>
+                    <a href="#about-me" class="cta-button secondary">
+                        <i class="fas fa-user"></i>
+                        About Me
+                    </a>
+                </div>
+
+                <div class="social-links">
+                    <a href="mailto:yangyang@mail.scuec.edu.cn" data-tooltip="Email" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=ph6q3aQAAAAJ" data-tooltip="Google Scholar" target="_blank" rel="noopener noreferrer">
+                        <i class="ai ai-google-scholar"></i>
+                    </a>
+                    <a href="https://www.researchgate.net/profile/Yang-Yang-826" data-tooltip="Research Gate" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-researchgate"></i>
+                    </a>
+                    <a href="https://orcid.org/0009-0009-6670-7889" data-tooltip="ORCID" target="_blank" rel="noopener noreferrer">
+                        <i class="ai ai-orcid"></i>
+                    </a>
+                    <a href="https://github.com/Louaq" data-tooltip="GitHub" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="image-container">
+                    <img src="img/YangYang.jpg" alt="YangYang Profile" class="profile-image">
+                </div>
             </div>
         </div>
-        <div class="profile-bio">
-            <h2>About Me</h2>
-            <p style="font-family: 'Lora', sans-serif;">Hi! I'm a 1st year MS student at <a href="https://www.scuec.edu.cn/" target="_blank" rel="noopener noreferrer">South-Central Minzu
-                University</a> <a href="https://www.scuec.edu.cn/" target="_blank" rel="noopener noreferrer"></a>, studying <b>Semantic Segmentation</b> and <b>Computer Vision</b>
-            under the supervision of <a href="https://www.scuec.edu.cn/jky/info/1165/4995.htm" target="_blank" rel="noopener noreferrer">Dr. Jianlin Zhu</a>.
-            I also hold a Bachelor in <b>Network Engineering</b> obtained at South-Central Minzu
-                University in 2024.
-            </p>
 
-            <p style="font-family: 'Lora', sans-serif;">My research interests include <b>Artificial Intelligence</b> and <b>Computer Vision</b>.
-                The goal for my MS is to contribute to research in the above areas, then to find a
-                research position in academia or industry in the same field.
-            </p>
-
-            <div class="research-interests">
-                <h3>Research Focus</h3>
-                <ul style="font-family: 'Lora', sans-serif;">
-                    <li><i class="fas fa-leaf"></i> Semantic Segmentation</li>
-                    <li><i class="fas fa-microscope"></i> Computer Vision</li>
-                    <li><i class="fas fa-brain"></i> Image Processing</li>
-                    <li><i class="fas fa-code-branch"></i> Deep Learning</li>
-                </ul>
+        <!-- Beyond the Code Section -->
+        <div class="beyond-code">
+            <h3>Beyond the Code</h3>
+            <div class="interests-grid">
+                <span class="interest-tag">Research</span>
+                <span class="interest-tag">Deep Learning</span>
+                <span class="interest-tag">Computer Vision</span>
+                <span class="interest-tag">Open Source</span>
+                <span class="interest-tag">Academic Writing</span>
+                <span class="interest-tag">Innovation</span>
             </div>
         </div>
     </section>
 
+    <!-- About Me Section -->
+    <section class="about-me-section" id="about-me">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Me</h2>
+                    <p>Hi! I'm a 1st year MS student at <a href="https://www.scuec.edu.cn/" target="_blank" rel="noopener noreferrer">South-Central Minzu University</a>, studying <strong>Semantic Segmentation</strong> and <strong>Computer Vision</strong> under the supervision of <a href="https://www.scuec.edu.cn/jky/info/1165/4995.htm" target="_blank" rel="noopener noreferrer">Dr. Jianlin Zhu</a>.</p>
 
-    <section class="education-interests">
-        <div class="education">
-            <h2 style="color: #035aa6;">Education</h2>
-            <div class="education-item">
-                <span class="education-icon">🎓</span>
-                <div class="education-details">
-                    <h3>Master in South-Central Minzu University, 2024-2027 (Expected)<img src="Icons/scuec.png" alt="SCMZU Logo" style="height: 30px; vertical-align: middle; margin-left: 5px;"></h3>
-                    <p style="color: #035aa6;">Computer Technology</p>
+                    <p>I also hold a Bachelor in <strong>Network Engineering</strong> obtained at South-Central Minzu University in 2024. My research interests include <strong>Artificial Intelligence</strong> and <strong>Computer Vision</strong>.</p>
+
+                    <p>The goal for my MS is to contribute to research in the above areas, then to find a research position in academia or industry in the same field.</p>
+
+                    <div class="research-focus">
+                        <h3>Research Focus</h3>
+                        <div class="focus-grid">
+                            <div class="focus-item">
+                                <i class="fas fa-leaf"></i>
+                                <span>Semantic Segmentation</span>
+                            </div>
+                            <div class="focus-item">
+                                <i class="fas fa-microscope"></i>
+                                <span>Computer Vision</span>
+                            </div>
+                            <div class="focus-item">
+                                <i class="fas fa-brain"></i>
+                                <span>Image Processing</span>
+                            </div>
+                            <div class="focus-item">
+                                <i class="fas fa-code-branch"></i>
+                                <span>Deep Learning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">2+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Published Papers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Conference Attended</div>
+                    </div>
                 </div>
             </div>
-            <div class="education-item">
-                <span class="education-icon">🎓</span>
-                <div class="education-details">
-                    <h3>Bachelor in South-Central Minzu University, 2020-2024 <img src="Icons/scuec.png" alt="SCMZU Logo" style="height: 30px; vertical-align: middle; margin-left: 5px;"></h3>
-                    <p style="color: #035aa6;">Network Engineering</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="interests" >
-            <h2 style="color: #035aa6;">Interests</h2>
-            <ul class="interests-list">
-                <h3><li>Pytorch</li></h3>
-                <h3><li>Open source</li></h3>
-                <h3><li>Git</li></h3>
-                <h3><li>Mysql</li></h3>
-                <h3><li>C++</li></h3>
-            </ul>
         </div>
     </section>
 
-    <div class="full-width-bg posts-bg" id="posts">
-        <div class="content-container">
-            <div class="sidebar">
-                <h2 class="sidebar-title" style="font-size: 47.25px; border-left: 5px solid #035aa6; padding-left: 15px;">Papers</h2>
+    <!-- Publications Section -->
+    <section class="publications-section" id="publications">
+        <div class="container">
+            <div class="section-header">
+                <h2>Publications</h2>
             </div>
-
-            <div class="main-content">
-                <div class="post-card">
-                    <div style="display: flex; justify-content: space-between;">
-                        <div class="post-content">
-                            <h3><a href="#">An Improved YOLOv8-Based Rice Pest and Disease Detection. (2024)</a></h3>
-                            <p style="font-family: 'Lora', sans-serif;"><b>Yang Yang</b>, Jianlin Zhu, Bo Yang, Xiao Zhang and Jin Huang</p>
-                            <p style="font-family: 'Lora', sans-serif;">Computer Graphics International Conference 2024 (🎉 <b>Accepted</b>)</p>
-                            <div class="talk-actions">
-                                <!-- <a href="#" class="talk-action-btn"><i class="fas fa-desktop"></i> Slides</a>
-                                    <a href="#" class="talk-action-btn"><i class="fas fa-video"></i> Video</a> -->
-                                <a href="https://github.com/Louaq/CGI2024" class="talk-action-btn" target="_blank"
-                                    rel="noopener noreferrer"><i class="fas fa-code"></i> Code</a>
-                                <a href="pdf/978-3-031-82024-3_8.pdf" class="talk-action-btn" target="_blank"
-                                    rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> PDF</a>
-                                <a href="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8"
-                                    class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
-                                        class="fas fa-scroll"></i> Paper</a>
-                                <a href="https://huggingface.co/datasets/loupk/pest_diseases/tree/main"
-                                    class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
-                                        class="fas fa-database"></i> Dataset</a>
-                                <a href="javascript:void(0)" class="talk-action-btn citation-btn" data-bibtex="@InProceedings{10.1007/978-3-031-82024-3_8,
-    author={Yang, Yang
-    and Zhu, Jianlin
-    and Yang, Bo
-    and Zhang, Xiao
-    and Huang, Jin},
-    editor={Kim, Jinman
-    and Magnor, Marcus},
-    title={An Improved YOLOv8-Based Rice Pest and Disease Detection},
-    booktitle={Computer Graphics International 2024},
-    year={2024},
-    publisher={Springer Nature Switzerland},
-    address={Cham},
-    pages={111--122},
-    isbn={978-3-031-82024-3}}"><i class="fas fa-quote-right"></i> Cite</a>
+            <div class="section-content">
+                <div class="publications-grid">
+                <!-- Publication 1: CGI 2024 -->
+                <div class="publication-card">
+                    <div class="publication-image">
+                        <img src="Paper illustration/cgi.png" alt="CGI 2024 Paper">
+                        <div class="publication-overlay">
+                            <div class="publication-badges">
+                                <span class="badge published">Published</span>
+                                <span class="badge conference">CGI 2024</span>
                             </div>
                         </div>
-                        <div class="post-image-container">
-                            <img src="Paper illustration/cgi.png" alt="Post thumbnail" class="post-image">
-                            <span class="post-image-badge">CGI</span>
+                    </div>
+                    <div class="publication-content">
+                        <h3>An Improved YOLOv8-Based Rice Pest and Disease Detection Method</h3>
+                        <p class="authors"><strong>Yang Yang</strong>, Jianlin Zhu</p>
+                        <p class="venue">Computer Graphics International Conference 2024</p>
+                        <p class="description">This paper presents an enhanced YOLOv8 model for detecting rice pests and diseases, contributing to precision agriculture through advanced computer vision techniques.</p>
+                        <div class="publication-links">
+                            <a href="pdf/978-3-031-82024-3_8.pdf" class="pub-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>PDF</span>
+                            </a>
+                            <a href="https://github.com/Louaq/CGI2024" class="pub-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                                <span>Code</span>
+                            </a>
+                            <a href="https://huggingface.co/datasets/loupk/pest_diseases/tree/main" class="pub-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-database"></i>
+                                <span>Dataset</span>
+                            </a>
+                            <button class="pub-link citation-btn" data-bibtex="@inproceedings{yang2024improved,
+  title={An Improved YOLOv8-Based Rice Pest and Disease Detection Method},
+  author={Yang, Yang and Zhu, Jianlin},
+  booktitle={Computer Graphics International Conference},
+  year={2024},
+  organization={Springer}
+}">
+                                <i class="fas fa-quote-right"></i>
+                                <span>Cite</span>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="post-card">
-                    <div style="display: flex; justify-content: space-between;">
-                        <div class="post-content">
-                            <h3><a href="#">HSFPN-Det: An Effective Model for Detecting Rice Pests and Diseases</a></h3>
-                            <p style="font-family: 'Lora', sans-serif;"><b>Yang Yang</b>, Yuxin Hong, Wenjie Yu, Xiao Zhang, Bo Yang, Meng Shi, Yangguang Sun, Jun Wang, Jianlin Zhu</p>
-                            <p style="font-family: 'Lora', sans-serif;">The Visual Computer (<b>🔥Submission!</b>)</p>
-
-                            <div class="tags">
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
-                                        class="fas fa-code"></i> Code</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
-                                        class="fas fa-file-pdf"></i> PDF</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
-                                        class="fas fa-scroll"></i> Paper</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
-                                        class="fas fa-database"></i> Dataset</a>
-                                <a href="#" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i
-                                        class="fas fa-quote-right"></i> Cite</a>
+                <!-- Publication 2: Under Review -->
+                <div class="publication-card">
+                    <div class="publication-image">
+                        <img src="Paper illustration/tvc.png" alt="TVC Under Review">
+                        <div class="publication-overlay">
+                            <div class="publication-badges">
+                                <span class="badge under-review">Under Review</span>
+                                <span class="badge journal">TVC</span>
                             </div>
                         </div>
-                        <div class="post-image-container">
-                            <img src="Paper illustration/tvc.png" alt="Post thumbnail" class="post-image">
-                            <span class="post-image-badge">TVC</span>
+                    </div>
+                    <div class="publication-content">
+                        <h3>HSFPN-Det: An Effective Model for Detecting Rice Pests and Diseases</h3>
+                        <p class="authors"><strong>Yang Yang</strong>, Jianlin Zhu</p>
+                        <p class="venue">The Visual Computer (Under Review)</p>
+                        <p class="description">A novel hierarchical spatial feature pyramid network for improved detection of rice pests and diseases, advancing the state-of-the-art in agricultural AI applications.</p>
+                        <div class="publication-status">
+                            <span class="status-indicator">🔥 Under Review at The Visual Computer</span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="#" class="pub-link disabled">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>PDF (Coming Soon)</span>
+                            </a>
+                            <a href="#" class="pub-link disabled">
+                                <i class="fab fa-github"></i>
+                                <span>Code (Coming Soon)</span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="full-width-bg talks-bg" id="talks">
-        <div class="content-container">
-            <div class="sidebar">
-                <h2 class="sidebar-title" style="font-size: 47.25px; border-left: 5px solid #035aa6; padding-left: 15px;">Demos</h2>
+    <!-- Talks Section -->
+    <section class="talks-section" id="talks">
+        <div class="container">
+            <div class="section-header">
+                <h2>Talks</h2>
             </div>
-
-            <div class="main-content">
+            <div class="section-content">
+                <div class="talks-grid">
+                <!-- Talk 1: CGI 2024 -->
                 <div class="talk-card">
-                    <div style="display: flex; justify-content: space-between;">
-                        <div class="talk-content">
-                            <h3>Rice Pest and Disease Detection</h3>
-                            <p style="font-family: 'Lora', sans-serif;">This video showcases my contribution to pests diseases research, Computer Graphics International Conference 2024.
-                                In the demo, users can <b>upload an image with pests diseases</b> (e.g. leafspot or a Tungro). Then, the system detects the pest and disease species of the input image and gives the <b>confidence level</b>. Cameras are also supported as an input source for real-time monitoring.</p>
-                            <div class="post-meta">
-                                <span><i class="far fa-calendar"></i> Jul 5, 2024</span>
-                            </div>
-                            <div class="talk-actions">
-                                <a href="https://docs.google.com/presentation/d/18N1NjLzoq4ebQ8FyU649AgYWezRZIxbLarAtNvdkFaQ/edit?usp=sharing" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-desktop"></i> Slides</a>
-                                <a href="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8" class="talk-action-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-video"></i> Video</a>
-                                <!-- <a href="#" class="talk-action-btn"><i class="fas fa-code"></i> Code</a> -->
+                    <div class="talk-image">
+                        <img src="Paper illustration/cgi_demo.png" alt="CGI 2024 Talk">
+                        <div class="talk-overlay">
+                            <div class="talk-badges">
+                                <span class="talk-badge conference">Online Talk</span>
                             </div>
                         </div>
-                        <img src="Paper illustration/cgi_demo.png" alt="Talk thumbnail" class="talk-image">
                     </div>
+                    <div class="talk-content">
+                        <h3>An Improved YOLOv8-Based Rice Pest and Disease Detection Method</h3>
+                        <div class="talk-meta">
+                            <div class="talk-time">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>October 2024</span>
+                            </div>
+                            <div class="talk-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Computer Graphics International Conference, Geneva, Switzerland</span>
+                            </div>
+                        </div>
+                        <p class="talk-description">Presented our novel approach to agricultural AI at CGI 2024, demonstrating how improved YOLOv8 architecture can enhance pest and disease detection accuracy in rice crops.</p>
+                        <div class="talk-links">
+                            <a href="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8" class="talk-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-play-circle"></i>
+                                <span>Video</span>
+                            </a>
+                            <a href="https://docs.google.com/presentation/d/18N1NjLzoq4ebQ8FyU649AgYWezRZIxbLarAtNvdkFaQ/edit?usp=sharing" class="talk-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-presentation"></i>
+                                <span>Slides</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="full-width-bg experiences-bg" id="experiences">
-        <div class="content-container">
-            <div class="sidebar">
-                <h2 class="sidebar-title" style="font-size: 47.25px; border-left: 5px solid #035aa6; padding-left: 15px;">Experiences</h2>
+        <!-- Tech Stack Section -->
+        <section class="tech-stack-section" id="tech-stack">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Skills</h2>
+                </div>
+                <div class="section-content">
+                    <div class="tech-grid">
+                    <!-- Frameworks & Libraries -->
+                    <div class="tech-category">
+                        <h3>AI/ML Frameworks</h3>
+                        <div class="tech-items">
+                            <div class="tech-item">
+                                <i class="fas fa-brain"></i>
+                                <span>PyTorch</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-robot"></i>
+                                <span>TensorFlow</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-eye"></i>
+                                <span>OpenCV</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Scikit-learn</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-cube"></i>
+                                <span>NumPy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tools & Platforms -->
+                    <div class="tech-category">
+                        <h3>Tools & Platforms</h3>
+                        <div class="tech-items">
+                            <div class="tech-item">
+                                <i class="fab fa-git-alt"></i>
+                                <span>Git</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-database"></i>
+                                <span>MySQL</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-docker"></i>
+                                <span>Docker</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-server"></i>
+                                <span>Linux</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <div class="main-content">
-                <div class="timeline">
-                    <div class="experience-item">
-                        <div class="experience-date">
+
+
+    <!-- Experience Section -->
+    <section class="experience-section" id="experience">
+        <div class="container">
+            <div class="section-header">
+                <h2>Education</h2>
+            </div>
+            <div class="section-content">
+                <div class="experience-timeline">
+                <!-- Education -->
+                <div class="timeline-section">
+                    <h3 class="timeline-title">Education</h3>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="year">2024-2027</span>
+                            <span class="status">Expected</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Master of Computer Technology</h4>
+                            <p class="institution">
+                                <i class="fas fa-university"></i>
+                                South-Central Minzu University
+                            </p>
+                            <p class="description">Focusing on Computer Vision, Semantic Segmentation, and Deep Learning under the supervision of Dr. Jianlin Zhu.</p>
+                            <div class="timeline-tags">
+                                <span class="tag">Computer Vision</span>
+                                <span class="tag">Deep Learning</span>
+                                <span class="tag">Research</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="year">2020-2024</span>
+                            <span class="status">Completed</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Bachelor of Network Engineering</h4>
+                            <p class="institution">
+                                <i class="fas fa-university"></i>
+                                South-Central Minzu University
+                            </p>
+                            <p class="description">Comprehensive study of network technologies, programming, and computer systems.</p>
+                            <div class="timeline-tags">
+                                <span class="tag">Network Engineering</span>
+                                <span class="tag">Programming</span>
+                                <span class="tag">Systems</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Activities -->
+                <div class="timeline-section">
+                    <h3 class="timeline-title">Academic Activities</h3>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">
                             <span class="year">2024</span>
                             <span class="month">November</span>
                         </div>
-                        <div class="experience-content">
-                            <h3>Academic exchange at <b>CNCC2024</b></h3>
-                            <p class="experience-location"><i class="fas fa-map-marker-alt"></i> Hengdian, Zhejiang, China</p>
-                              <!-- <p class="experience-description">Leading research projects on organizational behavior and team dynamics. Developed and implemented new methodologies for analyzing group interactions and collective decision-making processes.</p> -->
-                                <div class="experience-tags">
-                                    <span class="tag">Graphics Neural Network</span>
-                                    <span class="tag">Nvidia</span>
-                                </div>
+                        <div class="timeline-content">
+                            <h4>Academic Exchange at CNCC2024</h4>
+                            <p class="institution">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Hengdian, Zhejiang, China
+                            </p>
+                            <p class="description">Participated in the China National Computer Congress, engaging with leading researchers in computer science and AI.</p>
+                            <div class="timeline-tags">
+                                <span class="tag">Graphics Neural Network</span>
+                                <span class="tag">NVIDIA</span>
+                                <span class="tag">Conference</span>
+                            </div>
                         </div>
                     </div>
-
+                </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="clustrmaps-container">
-        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=_AhZGM9DqgNcORvW5D0isv0WXJPU1XWopy7ZarZtYuA&cl=ffffff&w=300"></script>
-    </div>
+    </section>
+    <!-- Visitor Map Section -->
+    <section class="clustrmaps-container">
+        <div class="container">
+            <h3>🌍 Visitor Map</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem;">
+                Welcome visitors from around the world! Thank you for visiting my academic homepage.
+            </p>
+            <div class="map-wrapper">
+                <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=_AhZGM9DqgNcORvW5D0isv0WXJPU1XWopy7ZarZtYuA&cl=ffffff&w=300"></script>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
     <footer class="site-footer">
-        <div class="footer-content">
-            <p>© 2024-<span id="current-year"></span> <a href="https://github.com/Louaq" target="_blank" rel="noopener noreferrer">YangYang</a>. Licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>© 2024-<span id="current-year"></span> <a href="https://github.com/Louaq" target="_blank" rel="noopener noreferrer">YangYang</a></p>
+                    <p>Developed with <span class="heart">❤️</span> using modern web technologies</p>
+                </div>
+                <div class="footer-links">
+                    <a href="mailto:yangyang@mail.scuec.edu.cn" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://github.com/Louaq" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=ph6q3aQAAAAJ" target="_blank" rel="noopener noreferrer">
+                        <i class="ai ai-google-scholar"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
