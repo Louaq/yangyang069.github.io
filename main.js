@@ -352,8 +352,18 @@ function performSearch(query) {
 
     // 为搜索结果添加点击事件
     document.querySelectorAll('.search-result-item').forEach((item, index) => {
+        // 阻止默认的链接行为和样式
+        item.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+        });
+
+        item.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+        });
+
         item.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             const result = results[index];
 
             closeSearch();
@@ -438,6 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
             performSearch(e.target.value);
         });
     }
+
+
 
     // 键盘快捷键
     document.addEventListener('keydown', (e) => {
