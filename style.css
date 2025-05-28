@@ -4746,3 +4746,83 @@ nav.scrolled {
         max-width: 100%;
     }
 }
+
+/* 修复移动端Talks部分的标题与内容间隔 */
+@media (max-width: 768px) {
+    /* Publications - Fixed mobile layout */
+    .publications-section .container {
+        display: block !important;
+        padding: 0 16px;
+    }
+
+    .publications-section {
+        padding: 1.5rem 0 !important;
+    }
+
+    .publications-section .section-header {
+        position: static !important;
+        flex: none !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* 调整Talks部分与Publications保持一致的间距 */
+    .talks-section .container {
+        display: block !important;
+        padding: 0 16px !important;
+    }
+
+    .talks-section {
+        padding: 1.5rem 0 !important;
+    }
+
+    .talks-section .section-header {
+        position: static !important;
+        flex: none !important;
+        margin-bottom: 1rem !important;
+        text-align: center;
+    }
+    
+    .talks-grid {
+        margin-top: 0 !important;
+    }
+    
+    /* 调整Visitor部分的map居中显示 */
+    .visitor-map-section .section-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .map-wrapper {
+        display: inline-block;
+        max-width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .visitor-map-section .section-header {
+        margin-bottom: 1rem !important;
+        text-align: center !important;
+    }
+}
+
+/* 增强map居中效果 */
+.map-wrapper img,
+.map-wrapper iframe {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 更多移动端优化 */
+@media (max-width: 480px) {
+    .talks-section .section-header,
+    .publications-section .section-header {
+        margin-bottom: 0.8rem !important;
+    }
+    
+    .map-wrapper {
+        padding: 0 !important;
+    }
+}
