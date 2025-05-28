@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://yangyang069.netlify.app/sitemap.xml
 
 # 禁止访问的目录（如果有的话）
 # Disallow: /admin/

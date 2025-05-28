@@ -1,56 +1,56 @@
 [
   {
-    "loc": "https://yourdomain.com/",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "weekly",
     "priority": "1.0",
     "title": "首页"
   },
   {
-    "loc": "https://yourdomain.com/#about",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/#about",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "monthly",
     "priority": "0.9",
     "title": "YangYang"
   },
   {
-    "loc": "https://yourdomain.com/#about-me",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/#about-me",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "monthly",
     "priority": "0.9",
     "title": "About Me"
   },
   {
-    "loc": "https://yourdomain.com/#publications",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/#publications",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "monthly",
     "priority": "0.9",
     "title": "Publications"
   },
   {
-    "loc": "https://yourdomain.com/#talks",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/#talks",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "monthly",
     "priority": "0.8",
     "title": "Talks"
   },
   {
-    "loc": "https://yourdomain.com/#experience",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/#experience",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "monthly",
     "priority": "0.8",
     "title": "Education"
   },
   {
-    "loc": "https://yourdomain.com/#tech-stack",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/#tech-stack",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "monthly",
     "priority": "0.7",
     "title": "Skills"
   },
   {
-    "loc": "https://yourdomain.com/#academic-activities",
-    "lastmod": "2025-05-28T09:59:00+00:00",
+    "loc": "https://yangyang069.netlify.app/#academic-activities",
+    "lastmod": "2025-05-28T10:04:33+00:00",
     "changefreq": "monthly",
     "priority": "0.7",
     "title": "Activities"
