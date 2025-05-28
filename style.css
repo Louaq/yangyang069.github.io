@@ -4415,7 +4415,7 @@ nav.scrolled {
 .talk-image-container {
     width: 300px;
     min-width: 300px;
-    height: 220px;
+    height: 100%;
     position: relative;
     overflow: hidden;
 }
@@ -4545,7 +4545,7 @@ nav.scrolled {
     .talk-image-container {
         width: 100%;
         min-width: 100%;
-        height: 180px;
+        height: 180px; /* 在移动端保留固定高度 */
     }
     
     .talk-content {
@@ -4648,4 +4648,102 @@ nav.scrolled {
 [data-theme="light"] .talk-link:hover {
     background: rgba(0, 153, 204, 0.2);
     box-shadow: var(--glow-blue);
+}
+
+/* Map Timeline 样式，与experience-timeline保持一致 */
+.map-timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* 移除时间线的垂直线条 */
+.map-timeline::before {
+    display: none;
+}
+
+/* 地图内容居中显示 */
+.map-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* 简化地图容器样式，移除背景和装饰 */
+.map-wrapper {
+    display: inline-block;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin-top: 0;
+    width: 100%;
+    max-width: 450px;
+}
+
+.map-wrapper:hover {
+    transform: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* Light主题适配 */
+[data-theme="light"] .map-wrapper {
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
+[data-theme="light"] .map-wrapper:hover {
+    box-shadow: none;
+    border: none;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .map-wrapper {
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .map-timeline .timeline-date {
+        display: none; /* 隐藏移动端时间标签 */
+    }
+}
+
+@media (max-width: 480px) {
+    .map-wrapper {
+        padding: 0.5rem;
+    }
+}
+
+/* 优化访客地图区域 */
+.visitor-map-section .section-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.map-wrapper {
+    display: inline-block;
+    max-width: 450px;
+    width: 100%;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .visitor-map-section .section-content {
+        padding: 0;
+    }
+    
+    .map-wrapper {
+        max-width: 100%;
+    }
 }
