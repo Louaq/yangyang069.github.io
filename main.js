@@ -18,8 +18,8 @@ if (savedTheme) {
 function updateThemeIcon(theme) {
     if (!themeIcon) return;
 
-    // 添加旋转动画
-    themeIcon.style.transform = 'rotate(360deg)';
+    // 添加切换动画类
+    themeToggle.classList.add('switching');
 
     setTimeout(() => {
         if (theme === 'dark') {
@@ -29,111 +29,99 @@ function updateThemeIcon(theme) {
             themeIcon.classList.remove('fa-sun', 'fa-adjust');
             themeIcon.classList.add('fa-moon');
         }
-        themeIcon.style.transform = 'rotate(0deg)';
-    }, 150);
+        themeToggle.classList.remove('switching');
+    }, 200);
+}
+
+// 创建圆形扩散动画
+function createRippleEffect(x, y) {
+    const ripple = document.createElement('div');
+    ripple.className = 'theme-ripple';
+    ripple.style.left = (x - 50) + 'px';
+    ripple.style.top = (y - 50) + 'px';
+    ripple.style.width = '100px';
+    ripple.style.height = '100px';
+
+    document.body.appendChild(ripple);
+
+    // 动画结束后移除元素
+    setTimeout(() => {
+        if (ripple.parentNode) {
+            ripple.parentNode.removeChild(ripple);
+        }
+    }, 600);
+}
+
+// 显示主题指示器
+function showThemeIndicator(theme) {
+    // 移除已存在的指示器
+    const existingIndicator = document.querySelector('.theme-indicator');
+    if (existingIndicator) {
+        existingIndicator.remove();
+    }
+
+    const indicator = document.createElement('div');
+    indicator.className = 'theme-indicator';
+    
+    const icon = theme === 'dark' ? '🌙' : '☀️';
+    indicator.innerHTML = icon;
+
+    document.body.appendChild(indicator);
+
+    // 显示动画
+    requestAnimationFrame(() => {
+        indicator.classList.add('show');
+    });
+
+    // 隐藏动画
+    setTimeout(() => {
+        indicator.classList.remove('show');
+        indicator.classList.add('hide');
+        setTimeout(() => {
+            if (indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }, 300);
+    }, 800);
 }
 
 // 主题切换动画
-function animateThemeTransition() {
-    document.body.style.transition = 'all 0.3s ease-in-out';
-
-    // 创建一个临时的覆盖层来实现平滑过渡
-    const overlay = document.createElement('div');
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--bg-primary);
-        opacity: 0;
-        z-index: 9999;
-        pointer-events: none;
-        transition: opacity 0.15s ease-in-out;
-    `;
-
-    document.body.appendChild(overlay);
-
-    // 淡入覆盖层
-    requestAnimationFrame(() => {
-        overlay.style.opacity = '0.3';
-    });
-
-    // 移除覆盖层
+function animateThemeTransition(clickX, clickY) {
+    // 创建圆形扩散效果
+    createRippleEffect(clickX, clickY);
+    
+    // 添加页面过渡效果
+    document.body.style.transition = 'all 0.4s ease';
+    
+    // 重置过渡效果
     setTimeout(() => {
-        overlay.style.opacity = '0';
-        setTimeout(() => {
-            document.body.removeChild(overlay);
-            document.body.style.transition = '';
-        }, 150);
-    }, 150);
-}
-
-// 显示主题切换通知
-function showThemeNotification(theme) {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: var(--bg-card);
-        color: var(--text-primary);
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        border: 1px solid var(--neon-cyan);
-        box-shadow: var(--glow-cyan);
-        z-index: 10000;
-        font-size: 0.9rem;
-        font-weight: 500;
-        opacity: 0;
-        transform: translateX(100%);
-        transition: all 0.3s ease-in-out;
-        pointer-events: none;
-    `;
-
-    const themeText = theme === 'dark' ? '🌙 深色模式' : '☀️ 浅色模式';
-    notification.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span>${themeText}</span>
-        </div>
-    `;
-
-    document.body.appendChild(notification);
-
-    // 显示通知
-    requestAnimationFrame(() => {
-        notification.style.opacity = '1';
-        notification.style.transform = 'translateX(0)';
-    });
-
-    // 自动隐藏通知
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 2000);
+        document.body.style.transition = '';
+    }, 400);
 }
 
 // 切换主题
 if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
+    themeToggle.addEventListener('click', (e) => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
+        // 获取点击位置
+        const rect = themeToggle.getBoundingClientRect();
+        const clickX = rect.left + rect.width / 2;
+        const clickY = rect.top + rect.height / 2;
+
         // 播放切换动画
-        animateThemeTransition();
+        animateThemeTransition(clickX, clickY);
 
-        // 延迟切换主题以配合动画
+        // 立即切换主题
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+
+        // 显示主题指示器
         setTimeout(() => {
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-
-            // 显示切换通知
-            showThemeNotification(newTheme);
-        }, 75);
+            showThemeIndicator(newTheme);
+        }, 100);
     });
 }
 
@@ -449,8 +437,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-
     // 键盘快捷键
     document.addEventListener('keydown', (e) => {
         // ESC键关闭搜索
@@ -691,4 +677,75 @@ function showCopyFeedback(successful) {
     setTimeout(() => {
         document.body.removeChild(feedback);
     }, 2000);
+}
+
+// 页脚动态功能
+function initFooter() {
+    // 更新当前年份
+    const currentYearElement = document.getElementById('current-year');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+
+    // 更新最后更新时间
+    const lastUpdatedElement = document.getElementById('last-updated');
+    if (lastUpdatedElement) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1;
+        lastUpdatedElement.textContent = `${year}年${month}月`;
+    }
+
+    // 访问统计功能（可以连接到实际的统计服务）
+    const visitorCountElement = document.getElementById('visitor-count');
+    if (visitorCountElement) {
+        // 这里可以连接到实际的访问统计API
+        // 目前显示一个友好的消息
+        const messages = [
+            '感谢您的访问！',
+            '欢迎来到我的学术主页',
+            '很高兴与您分享我的研究',
+            '期待与您的学术交流'
+        ];
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        visitorCountElement.textContent = randomMessage;
+    }
+
+    // 为页脚链接添加悬浮效果
+    const footerLinks = document.querySelectorAll('.footer-section a');
+    footerLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // 为页脚底部的"回到顶部"链接添加平滑滚动
+    const backToTopLinks = document.querySelectorAll('a[href="#"]');
+    backToTopLinks.forEach(link => {
+        if (link.textContent.includes('回到顶部')) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
+}
+
+// 页面加载完成后初始化页脚
+document.addEventListener('DOMContentLoaded', function() {
+    initFooter();
+});
+
+// 如果页面已经加载完成，立即初始化
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFooter);
+} else {
+    initFooter();
 }

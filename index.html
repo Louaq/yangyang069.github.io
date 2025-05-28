@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -29,10 +31,7 @@
         </div>
 
         <div class="nav-right">
-            <button class="search-btn" aria-label="搜索" data-tooltip="搜索 (Ctrl+K)">
-                <i class="fas fa-search"></i>
-            </button>
-            <button class="theme-toggle" aria-label="切换主题" data-tooltip="切换主题">
+            <button class="theme-toggle" aria-label="切换主题">
                 <i class="fas fa-moon"></i>
             </button>
             <a href="feed.xml" class="rss-btn" target="_blank" rel="noopener noreferrer" aria-label="RSS订阅"
@@ -44,16 +43,6 @@
             </button>
         </div>
     </nav>
-
-    <div class="search-overlay">
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="搜索..." aria-label="搜索输入框">
-            <button class="search-close" aria-label="关闭搜索">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="search-results"></div>
-        </div>
-    </div>
 
     <!-- Hero Section -->
     <section class="hero-section" id="about">
@@ -319,12 +308,12 @@
                             <div class="talk-links">
                                 <a href="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8"
                                     class="talk-link" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-play-circle"></i>
+                                    <i class="fas fa-video"></i>
                                     <span>Video</span>
                                 </a>
                                 <a href="https://docs.google.com/presentation/d/18N1NjLzoq4ebQ8FyU649AgYWezRZIxbLarAtNvdkFaQ/edit?usp=sharing"
                                     class="talk-link" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-presentation"></i>
+                                    <i class="fas fa-file-powerpoint"></i>
                                     <span>Slides</span>
                                 </a>
                             </div>
@@ -501,15 +490,19 @@
         </div>
     </section>
     <!-- Visitor Map Section -->
-    <section class="clustrmaps-container">
+    <section class="visitor-map-section" id="visitor-map">
         <div class="container">
-            <h3>🌍 Visitor Map</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem;">
-                Welcome visitors from around the world! Thank you for visiting my academic homepage.
-            </p>
-            <div class="map-wrapper">
-                <script type="text/javascript" id="clustrmaps"
-                    src="//clustrmaps.com/map_v2.js?d=_AhZGM9DqgNcORvW5D0isv0WXJPU1XWopy7ZarZtYuA&cl=ffffff&w=300"></script>
+            <div class="section-header">
+                <h2>Visitor</h2>
+            </div>
+            <div class="section-content">
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem;">
+                    Welcome visitors from around the world! Thank you for visiting my academic homepage.
+                </p>
+                <div class="map-wrapper">
+                    <script type="text/javascript" id="clustrmaps"
+                        src="//clustrmaps.com/map_v2.js?d=_AhZGM9DqgNcORvW5D0isv0WXJPU1XWopy7ZarZtYuA&cl=ffffff&w=300"></script>
+                </div>
             </div>
         </div>
     </section>
