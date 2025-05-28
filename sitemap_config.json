@@ -1,0 +1,45 @@
+{
+  "base_url": "https://yangyang069.netlify.app/",
+  "html_file": "index.html",
+  "output_dir": "./",
+  "settings": {
+    "generate_robots": true,
+    "validate_sitemap": true,
+    "save_debug_info": true
+  },
+  "custom_priorities": {
+    "about": {
+      "priority": "0.9",
+      "changefreq": "monthly"
+    },
+    "publications": {
+      "priority": "0.9",
+      "changefreq": "monthly"
+    },
+    "talks": {
+      "priority": "0.8",
+      "changefreq": "monthly"
+    },
+    "tech-stack": {
+      "priority": "0.7",
+      "changefreq": "monthly"
+    },
+    "experience": {
+      "priority": "0.8",
+      "changefreq": "monthly"
+    },
+    "academic-activities": {
+      "priority": "0.7",
+      "changefreq": "monthly"
+    }
+  },
+  "exclude_sections": [],
+  "additional_urls": [
+    {
+      "url": "/cv.pdf",
+      "priority": "0.8",
+      "changefreq": "yearly",
+      "title": "CV/Resume"
+    }
+  ]
+} 

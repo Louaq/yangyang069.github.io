@@ -4035,6 +4035,31 @@ mark {
     color: #e0e0e0;
 }
 
+/* Dark Theme CTA Buttons */
+[data-theme="dark"] .cta-button.primary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color: #e0e0e0;
+    box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+}
+
+[data-theme="dark"] .cta-button.primary:hover {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.5);
+}
+
+[data-theme="dark"] .cta-button.secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+    border-color: rgba(100, 181, 246, 0.3);
+}
+
+[data-theme="dark"] .cta-button.secondary:hover {
+    background: rgba(100, 181, 246, 0.1);
+    border-color: #64b5f6;
+    color: #64b5f6;
+}
+
 [data-theme="dark"] .experience-date .year {
     color: #64b5f6;
 }

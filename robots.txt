@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# 禁止访问的目录（如果有的话）
+# Disallow: /admin/
+# Disallow: /private/
+
+# 爬取延迟（可选）
+Crawl-delay: 1

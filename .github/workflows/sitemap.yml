@@ -1,0 +1,143 @@
+name: 自动生成网站地图
+
+on:
+  # 当推送到main分支时触发
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'index.html'
+      - 'sitemap_config.json'
+      - '.github/workflows/sitemap.yml'
+  
+  # 每周日凌晨2点自动运行
+  schedule:
+    - cron: '0 2 * * 0'
+  
+  # 允许手动触发
+  workflow_dispatch:
+
+jobs:
+  generate-sitemap:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: 设置Python环境
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: 安装依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install beautifulsoup4
+    
+    - name: 检查文件是否存在
+      run: |
+        if [ ! -f "index.html" ]; then
+          echo "❌ index.html 文件不存在"
+          exit 1
+        fi
+        
+        if [ ! -f "auto_sitemap.py" ] && [ ! -f "generate_sitemap.py" ]; then
+          echo "❌ sitemap生成脚本不存在"
+          exit 1
+        fi
+        
+        echo "✅ 所需文件检查完成"
+    
+    - name: 生成网站地图
+      run: |
+        echo "🚀 开始生成网站地图..."
+        
+        if [ -f "auto_sitemap.py" ]; then
+          echo "使用智能版本生成器"
+          python auto_sitemap.py
+        elif [ -f "generate_sitemap.py" ]; then
+          echo "使用基础版本生成器"
+          python generate_sitemap.py
+        fi
+        
+        echo "✅ 网站地图生成完成"
+    
+    - name: 验证生成的文件
+      run: |
+        if [ -f "sitemap.xml" ]; then
+          echo "✅ sitemap.xml 生成成功"
+          echo "📊 文件大小: $(wc -c < sitemap.xml) 字节"
+          echo "📊 URL数量: $(grep -c '<url>' sitemap.xml)"
+        else
+          echo "❌ sitemap.xml 生成失败"
+          exit 1
+        fi
+        
+        if [ -f "robots.txt" ]; then
+          echo "✅ robots.txt 生成成功"
+        fi
+    
+    - name: 检查是否有变更
+      id: verify-changed-files
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "📝 检测到文件变更"
+        else
+          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "ℹ️  没有文件变更"
+        fi
+    
+    - name: 提交变更
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # 添加生成的文件
+        git add sitemap.xml
+        [ -f "robots.txt" ] && git add robots.txt
+        [ -f "sitemap_pages.json" ] && git add sitemap_pages.json
+        
+        # 提交变更
+        git commit -m "🤖 自动更新网站地图 - $(date '+%Y-%m-%d %H:%M:%S')"
+        
+        echo "✅ 变更已提交"
+    
+    - name: 推送变更
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+    
+    - name: 上传sitemap作为构建产物
+      uses: actions/upload-artifact@v3
+      with:
+        name: sitemap-files
+        path: |
+          sitemap.xml
+          robots.txt
+          sitemap_pages.json
+        retention-days: 30
+    
+    - name: 显示生成结果
+      run: |
+        echo "🎉 网站地图生成工作流完成！"
+        echo ""
+        echo "📋 生成的文件:"
+        [ -f "sitemap.xml" ] && echo "  ✅ sitemap.xml"
+        [ -f "robots.txt" ] && echo "  ✅ robots.txt"
+        [ -f "sitemap_pages.json" ] && echo "  ✅ sitemap_pages.json"
+        echo ""
+        echo "📝 下一步操作:"
+        echo "1. 检查生成的sitemap.xml文件"
+        echo "2. 确保网站可以访问 sitemap.xml"
+        echo "3. 在搜索引擎控制台中提交sitemap"
+        echo ""
+        if [ -f "sitemap.xml" ]; then
+          echo "🔗 sitemap内容预览:"
+          head -20 sitemap.xml
+        fi 

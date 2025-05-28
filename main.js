@@ -8,9 +8,8 @@ if (savedTheme) {
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 } else {
-    // 如果没有保存的主题，则使用系统主题，默认为深色
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const defaultTheme = prefersDark ? 'dark' : 'light';
+    // 如果没有保存的主题，默认使用浅色模式
+    const defaultTheme = 'light';
     document.documentElement.setAttribute('data-theme', defaultTheme);
     updateThemeIcon(defaultTheme);
 }
@@ -138,10 +137,11 @@ if (themeToggle) {
     });
 }
 
-// 监听系统主题变化
+// 监听系统主题变化（但保持默认浅色模式）
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (!localStorage.getItem('theme')) {
-        const newTheme = e.matches ? 'dark' : 'light';
+        // 即使系统主题变化，也保持默认的浅色模式
+        const newTheme = 'light';
         document.documentElement.setAttribute('data-theme', newTheme);
         updateThemeIcon(newTheme);
     }
