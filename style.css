@@ -5083,3 +5083,41 @@ nav.scrolled {
         margin: 0.25rem;
     }
 }
+
+@media (max-width: 480px) {
+    .publication-links {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem; /* Adjust gap as needed */
+    }
+
+    .talk-links {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem; /* Adjust gap as needed */
+    }
+
+    .pub-link, .talk-link {
+        margin-bottom: 0; /* Remove default bottom margin if any */
+        /* Ensure links take full width of grid cell if needed */
+        /* display: flex; */
+        /* justify-content: center; */
+    }
+}
+
+@media (max-width: 480px) {
+    .publication-links,
+    .talk-links { /* Combined selector for containers */
+        display: grid !important; /* Ensure grid layout is applied */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem; 
+    }
+
+    .publication-links .pub-link,
+    .talk-links .pub-link { /* Target .pub-link within these containers */
+        margin-bottom: 0; 
+        min-width: 0 !important; /* Override any conflicting min-width */
+        width: 100%;      /* Make the link fill its grid cell */
+        max-width: 100%;  /* Ensure it respects the grid cell boundary */
+    }
+}
