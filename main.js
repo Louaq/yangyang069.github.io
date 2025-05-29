@@ -1,18 +1,22 @@
+// 使用立即执行函数来设置初始主题，避免闪烁
+(function() {
+    // 检查本地存储中的主题设置
+    const savedTheme = localStorage.getItem('theme');
+    // 如果有保存的主题，就使用它；否则默认使用深色主题
+    const initialTheme = savedTheme || 'dark';
+    // 立即设置主题，不等待DOM加载
+    document.documentElement.setAttribute('data-theme', initialTheme);
+})();
+
 // 主题切换功能
 const themeToggle = document.querySelector('.theme-toggle');
 const themeIcon = themeToggle?.querySelector('i');
 
-// 检查本地存储中的主题设置
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
-} else {
-    // 如果没有保存的主题，默认使用浅色模式
-    const defaultTheme = 'light';
-    document.documentElement.setAttribute('data-theme', defaultTheme);
-    updateThemeIcon(defaultTheme);
-}
+// 页面加载完成后更新图标
+document.addEventListener('DOMContentLoaded', function() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    updateThemeIcon(currentTheme);
+});
 
 // 更新主题图标
 function updateThemeIcon(theme) {
@@ -125,11 +129,12 @@ if (themeToggle) {
     });
 }
 
-// 监听系统主题变化（但保持默认浅色模式）
+// 监听系统主题变化（仅当用户未手动设置主题时）
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    // 只有当用户没有手动设置主题时，才根据系统主题变化
     if (!localStorage.getItem('theme')) {
-        // 即使系统主题变化，也保持默认的浅色模式
-        const newTheme = 'light';
+        // 即使系统主题变化，仍然保持我们的默认主题（深色）
+        const newTheme = 'dark';
         document.documentElement.setAttribute('data-theme', newTheme);
         updateThemeIcon(newTheme);
     }
@@ -741,6 +746,9 @@ function initFooter() {
 // 页面加载完成后初始化页脚
 document.addEventListener('DOMContentLoaded', function() {
     initFooter();
+    
+    // 特别为easyScholar插件添加支持
+    initEasyScholarSupport();
 });
 
 // 如果页面已经加载完成，立即初始化
@@ -748,4 +756,49 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initFooter);
 } else {
     initFooter();
+}
+
+// 为easyScholar插件添加特别支持
+function initEasyScholarSupport() {
+    // 将论文引用信息导出为全局变量，便于插件访问
+    window.scholarMetadata = {
+        "yang2024improved": {
+            title: "An Improved YOLOv8-Based Rice Pest and Disease Detection Method",
+            authors: ["Yang, Yang", "Zhu, Jianlin", "Bo Yang", "Xiao Zhang", "Jin Huang"],
+            year: "2024",
+            venue: "Computer Graphics International Conference",
+            publisher: "Springer",
+            doi: "10.1007/978-3-031-82024-3_8",
+            url: "https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8",
+            pdf: "pdf/978-3-031-82024-3_8.pdf",
+            bibtex: `@inproceedings{yang2024improved,
+  title={An Improved YOLOv8-Based Rice Pest and Disease Detection Method},
+  author={Yang, Yang and Zhu, Jianlin},
+  booktitle={Computer Graphics International Conference},
+  year={2024},
+  organization={Springer}
+}`,
+            plaintext: "Yang, Y., & Zhu, J. (2024). An Improved YOLOv8-Based Rice Pest and Disease Detection Method. In Computer Graphics International Conference. Springer."
+        }
+    };
+    
+    // 创建一个自定义事件，通知插件数据已准备好
+    const scholarEvent = new CustomEvent('scholarMetadataReady', {
+        detail: { metadata: window.scholarMetadata }
+    });
+    document.dispatchEvent(scholarEvent);
+    
+    // 特别处理引用按钮
+    const citationButtons = document.querySelectorAll('.citation-btn');
+    citationButtons.forEach(button => {
+        // 添加可见的数据属性，确保插件能找到
+        button.setAttribute('data-scholar-id', 'yang2024improved');
+        // 确保按钮有正确的HTML结构
+        if (!button.querySelector('.scholar-cite-button')) {
+            button.innerHTML = `
+                <i class="fas fa-quote-right"></i>
+                <span class="scholar-cite-button" data-paper-id="yang2024improved">Cite</span>
+            `;
+        }
+    });
 }

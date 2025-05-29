@@ -5,6 +5,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YangYang(杨杨)-Homepage</title>
+    <!-- 学术元数据 -->
+    <meta name="citation_title" content="An Improved YOLOv8-Based Rice Pest and Disease Detection Method">
+    <meta name="citation_author" content="Yang, Yang">
+    <meta name="citation_author" content="Zhu, Jianlin">
+    <meta name="citation_date" content="2024">
+    <meta name="citation_publisher" content="Springer">
+    <meta name="citation_conference_title" content="Computer Graphics International Conference">
+    <meta name="citation_pdf_url" content="pdf/978-3-031-82024-3_8.pdf">
+    <meta name="citation_abstract" content="This paper presents an enhanced YOLOv8 model for detecting rice pests and diseases, contributing to precision agriculture through advanced computer vision techniques.">
+    <!-- 内联脚本预设主题，防止闪烁 -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            document.documentElement.setAttribute('data-theme', savedTheme || 'dark');
+        })();
+    </script>
+    <!-- 添加高级学术引用元数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "ScholarlyArticle",
+      "name": "An Improved YOLOv8-Based Rice Pest and Disease Detection Method",
+      "author": [
+        {
+          "@type": "Person",
+          "name": "Yang Yang",
+          "affiliation": "South-Central Minzu University"
+        },
+        {
+          "@type": "Person",
+          "name": "Jianlin Zhu",
+          "affiliation": "South-Central Minzu University"
+        },
+        {
+          "@type": "Person",
+          "name": "Bo Yang",
+          "affiliation": "South-Central Minzu University"
+        },
+        {
+          "@type": "Person",
+          "name": "Xiao Zhang",
+          "affiliation": "South-Central Minzu University"
+        },
+        {
+          "@type": "Person",
+          "name": "Jin Huang",
+          "affiliation": "South-Central Minzu University"
+        }
+      ],
+      "datePublished": "2024",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Springer"
+      },
+      "description": "This paper presents an enhanced YOLOv8 model for detecting rice pests and diseases, contributing to precision agriculture through advanced computer vision techniques.",
+      "url": "https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8",
+      "isPartOf": {
+        "@type": "Event",
+        "name": "Computer Graphics International Conference 2024"
+      },
+      "citation": "@inproceedings{yang2024improved, title={An Improved YOLOv8-Based Rice Pest and Disease Detection Method}, author={Yang, Yang and Zhu, Jianlin}, booktitle={Computer Graphics International Conference}, year={2024}, organization={Springer}}"
+    }
+    </script>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -186,7 +249,13 @@
             <div class="section-content">
                 <div class="publications-grid">
                     <!-- Publication 1: CGI 2024 -->
-                    <div class="publication-card">
+                    <div class="publication-card" itemscope itemtype="http://schema.org/ScholarlyArticle">
+                        <meta itemprop="name" content="An Improved YOLOv8-Based Rice Pest and Disease Detection Method">
+                        <meta itemprop="author" content="Yang Yang, Jianlin Zhu, Bo Yang, Xiao Zhang, Jin Huang">
+                        <meta itemprop="datePublished" content="2024">
+                        <meta itemprop="publisher" content="Springer">
+                        <meta itemprop="description" content="This paper presents an enhanced YOLOv8 model for detecting rice pests and diseases, contributing to precision agriculture through advanced computer vision techniques.">
+                        <meta itemprop="url" content="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8">
                         <div class="publication-image">
                             <img src="Paper illustration/cgi.png" alt="CGI 2024 Paper">
                             <div class="publication-overlay">
@@ -197,16 +266,18 @@
                             </div>
                         </div>
                         <div class="publication-content">
-                            <h3>An Improved YOLOv8-Based Rice Pest and Disease Detection Method</h3>
-                            <p class="authors"><strong>Yang Yang</strong>, Jianlin Zhu, Bo Yang, Xiao Zhang, Jin Huang
+                            <h3 itemprop="headline">An Improved YOLOv8-Based Rice Pest and Disease Detection Method</h3>
+                            <p class="authors" itemprop="author"><strong>Yang Yang</strong>, Jianlin Zhu, Bo Yang, Xiao Zhang, Jin Huang
                             </p>
-                            <p class="venue">Computer Graphics International Conference 2024</p>
-                            <p class="description">This paper presents an enhanced YOLOv8 model for detecting rice pests
+                            <p class="venue" itemprop="isPartOf" itemscope itemtype="http://schema.org/Event">
+                                <span itemprop="name">Computer Graphics International Conference 2024</span>
+                            </p>
+                            <p class="description" itemprop="abstract">This paper presents an enhanced YOLOv8 model for detecting rice pests
                                 and diseases, contributing to precision agriculture through advanced computer vision
                                 techniques.</p>
                             <div class="publication-links">
                                 <a href="pdf/978-3-031-82024-3_8.pdf" class="pub-link" target="_blank"
-                                    rel="noopener noreferrer">
+                                    rel="noopener noreferrer" itemprop="url">
                                     <i class="fas fa-file-pdf"></i>
                                     <span>PDF</span>
                                 </a>
@@ -220,22 +291,19 @@
                                     <i class="fas fa-database"></i>
                                     <span>Dataset</span>
                                 </a>
-                                <button class="pub-link citation-btn" data-bibtex="@inproceedings{yang2024improved,
-  title={An Improved YOLOv8-Based Rice Pest and Disease Detection Method},
-  author={Yang, Yang and Zhu, Jianlin},
-  booktitle={Computer Graphics International Conference},
-  year={2024},
-  organization={Springer}
-}">
+                                <a href="./citation/10.1007_978-3-031-82024-3_8-citation.bib" class="pub-link scholar-cite-button">
                                     <i class="fas fa-quote-right"></i>
                                     <span>Cite</span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Publication 2: Under Review -->
-                    <div class="publication-card">
+                    <div class="publication-card" itemscope itemtype="http://schema.org/ScholarlyArticle">
+                        <meta itemprop="name" content="HSFPN-Det: An Effective Model for Detecting Rice Pests and Diseases">
+                        <meta itemprop="author" content="Yang Yang, Yuxin Hong, Wenjie Yu, Xiao Zhang, Bo Yang, Meng Shi, Yangguang Sun, Jun Wang, Jianlin Zhu">
+                        <meta itemprop="description" content="A novel hierarchical spatial feature pyramid network for improved detection of rice pests and diseases, advancing the state-of-the-art in agricultural AI applications.">
                         <div class="publication-image">
                             <img src="Paper illustration/tvc.png" alt="TVC Under Review">
                             <div class="publication-overlay">
@@ -246,11 +314,13 @@
                             </div>
                         </div>
                         <div class="publication-content">
-                            <h3>HSFPN-Det: An Effective Model for Detecting Rice Pests and Diseases</h3>
-                            <p class="authors"><strong>Yang Yang</strong>, Yuxin Hong, Wenjie Yu, Xiao Zhang, Bo Yang,
+                            <h3 itemprop="headline">HSFPN-Det: An Effective Model for Detecting Rice Pests and Diseases</h3>
+                            <p class="authors" itemprop="author"><strong>Yang Yang</strong>, Yuxin Hong, Wenjie Yu, Xiao Zhang, Bo Yang,
                                 Meng Shi, Yangguang Sun, Jun Wang, Jianlin Zhu</p>
-                            <p class="venue">The Visual Computer (Under Review)</p>
-                            <p class="description">A novel hierarchical spatial feature pyramid network for improved
+                            <p class="venue" itemprop="isPartOf" itemscope itemtype="http://schema.org/Periodical">
+                                <span itemprop="name">The Visual Computer</span> (Under Review)
+                            </p>
+                            <p class="description" itemprop="abstract">A novel hierarchical spatial feature pyramid network for improved
                                 detection of rice pests and diseases, advancing the state-of-the-art in agricultural AI
                                 applications.</p>
                             <div class="publication-status">
@@ -512,6 +582,72 @@
     <button class="back-to-top" aria-label="回到顶部">
         <i class="fas fa-arrow-up"></i>
     </button>
+    
+    <!-- easyScholar支持脚本 -->
+    <script>
+        // 为easyScholar准备元数据
+        window.easyScholarPapers = {
+            "yang2024improved": {
+                title: "An Improved YOLOv8-Based Rice Pest and Disease Detection Method",
+                authors: ["Yang, Yang", "Zhu, Jianlin", "Bo Yang", "Xiao Zhang", "Jin Huang"],
+                year: "2024",
+                venue: "Computer Graphics International Conference",
+                publisher: "Springer",
+                doi: "10.1007/978-3-031-82024-3_8",
+                url: "https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8",
+                pdf: "pdf/978-3-031-82024-3_8.pdf",
+                bibtex: `@inproceedings{yang2024improved,
+  title={An Improved YOLOv8-Based Rice Pest and Disease Detection Method},
+  author={Yang, Yang and Zhu, Jianlin},
+  booktitle={Computer Graphics International Conference},
+  year={2024},
+  organization={Springer}
+}`
+            }
+        };
+        
+        // 确保easyScholar API可用
+        window.easyScholarAPI = {
+            getCitation: function(paperId, format) {
+                const paper = window.easyScholarPapers[paperId];
+                if (!paper) return null;
+                
+                if (format === 'bibtex') {
+                    return paper.bibtex;
+                } else {
+                    return "Yang, Y., & Zhu, J. (2024). An Improved YOLOv8-Based Rice Pest and Disease Detection Method. In Computer Graphics International Conference. Springer.";
+                }
+            }
+        };
+        
+        // 手动实现引用点击
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.scholar-cite-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const paperId = this.getAttribute('data-paper-id');
+                    const bibtex = this.getAttribute('data-bibtex');
+                    
+                    // 创建临时文本区域
+                    const textarea = document.createElement('textarea');
+                    textarea.value = bibtex;
+                    textarea.setAttribute('readonly', '');
+                    textarea.style.position = 'absolute';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    
+                    // 复制到剪贴板
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    
+                    // 显示成功消息
+                    alert('引用已复制到剪贴板！');
+                });
+            });
+        });
+    </script>
+    
     <script src="main.js"></script>
 </body>
 
