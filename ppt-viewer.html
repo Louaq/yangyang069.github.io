@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPT查看器 - YangYang</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="ppt-viewer.css">
+</head>
+<body>
+    <!-- 加载指示器 -->
+    <div class="loading-indicator" id="loadingIndicator">
+        <div class="loading-spinner"></div>
+        <p>正在加载演示文稿...</p>
+    </div>
+
+    <!-- 错误提示 -->
+    <div class="error-message" id="errorMessage" style="display: none;">
+        <div class="error-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>加载失败</h3>
+            <p id="errorText">无法加载演示文稿，请检查链接是否正确。</p>
+            <button class="retry-btn" onclick="window.location.reload()">重试</button>
+        </div>
+    </div>
+
+    <!-- PPT查看器容器 -->
+    <div class="ppt-viewer-container" id="pptViewerContainer" style="display: none;">
+        <!-- 工具栏 -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+            </div>
+
+            <div class="toolbar-center">
+                <h3 id="presentationTitle">演示文稿查看器</h3>
+            </div>
+
+            <div class="toolbar-right">
+                <button class="tool-btn" id="fullscreenBtn" title="全屏模式">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button class="tool-btn" id="newWindowBtn" title="在新窗口打开">
+                    <i class="fas fa-external-link-alt"></i>
+                </button>
+                <button class="tool-btn" id="shareBtn" title="分享">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- PPT内容区域 -->
+        <div class="ppt-content" id="pptContent">
+            <!-- Google Slides 嵌入容器 -->
+            <div class="slides-container" id="slidesContainer">
+                <iframe id="slidesIframe" 
+                        frameborder="0" 
+                        allowfullscreen="true" 
+                        mozallowfullscreen="true" 
+                        webkitallowfullscreen="true">
+                </iframe>
+            </div>
+            
+            <!-- 备用内容 -->
+            <div class="fallback-content" id="fallbackContent" style="display: none;">
+                <div class="fallback-message">
+                    <i class="fas fa-file-powerpoint"></i>
+                    <h3>无法直接预览</h3>
+                    <p>此演示文稿无法在浏览器中直接预览。</p>
+                    <div class="fallback-actions">
+                        <a id="downloadLink" class="action-btn primary" target="_blank">
+                            <i class="fas fa-download"></i>
+                            下载文件
+                        </a>
+                        <a id="externalLink" class="action-btn secondary" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            在新窗口打开
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制面板 -->
+        <div class="control-panel" id="controlPanel">
+            <div class="panel-header">
+                <h4>演示控制</h4>
+                <button class="toggle-panel" id="togglePanel">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+            </div>
+            <div class="panel-content">
+                <div class="control-group">
+                    <label>演示模式：</label>
+                    <select id="presentationMode">
+                        <option value="embed">嵌入模式</option>
+                        <option value="fullscreen">全屏模式</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>显示比例：</label>
+                    <select id="aspectRatio">
+                        <option value="16:9">16:9</option>
+                        <option value="4:3">4:3</option>
+                        <option value="custom">自定义</option>
+                    </select>
+                </div>
+                <div class="control-actions">
+                    <button class="control-btn" id="resetView" title="重置视图">
+                        <i class="fas fa-undo"></i>
+                        重置
+                    </button>
+                    <button class="control-btn" id="refreshBtn" title="刷新">
+                        <i class="fas fa-sync-alt"></i>
+                        刷新
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分享模态框 -->
+    <div class="modal" id="shareModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>分享演示文稿</h3>
+                <button class="close-btn" onclick="closeShareModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="share-option">
+                    <label>链接分享：</label>
+                    <div class="share-link-container">
+                        <input type="text" id="shareLink" readonly>
+                        <button class="copy-btn" onclick="copyShareLink()">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="share-buttons">
+                    <button class="share-btn email" onclick="shareViaEmail()">
+                        <i class="fas fa-envelope"></i>
+                        邮件
+                    </button>
+                    <button class="share-btn copy" onclick="copyShareLink()">
+                        <i class="fas fa-link"></i>
+                        复制链接
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="ppt-viewer.js"></script>
+</body>
+</html> 

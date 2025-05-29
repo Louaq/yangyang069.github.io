@@ -1,0 +1,112 @@
+/* 主题切换动画效果 */
+
+/* 主题切换扩散效果 */
+.theme-ripple {
+    position: fixed;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: scale(0);
+    z-index: 9999;
+    pointer-events: none;
+    animation: ripple 0.6s ease-out;
+    width: 100px !important;
+    height: 100px !important;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(30);
+        opacity: 0;
+    }
+}
+
+/* 主题指示器样式 */
+.theme-indicator {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    background-color: var(--bg-card);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.theme-indicator.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.theme-indicator.hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+[data-theme="light"] .theme-indicator {
+    border-color: rgba(0, 153, 204, 0.3);
+}
+
+/* 统一主题过渡类 */
+.theme-transitioning * {
+    transition: all 0.4s ease !important;
+}
+
+/* 修复hero-section过渡速度问题 */
+.hero-section {
+    transition: none !important;
+}
+
+.hero-section * {
+    transition: none !important;
+}
+
+/* 当主题正在过渡时应用的样式 */
+.theme-transitioning .hero-section,
+.theme-transitioning .hero-section * {
+    transition: all 0.4s ease !important;
+}
+
+/* 确保背景和渐变的过渡效果 */
+body::before {
+    transition: background 0.4s ease;
+}
+
+/* 确保文本渐变效果也过渡平滑 */
+h1[style*="background"],
+h2[style*="background"] {
+    transition: color 0.4s ease, -webkit-text-fill-color 0.4s ease !important;
+}
+
+/* 在主题过渡时禁用个别元素的动画效果，避免干扰过渡 */
+.theme-transitioning .wave,
+.theme-transitioning .image-glow {
+    animation-play-state: paused !important;
+}
+
+/* 确保其他元素保持相同的过渡速度 */
+body, body::before, 
+.container, .section-header, .section-content,
+.publication-card, .talk-card, .tech-category, .timeline-content,
+nav, .nav-links, .search-btn, .theme-toggle, .rss-btn {
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
+}
+
+/* 确保图片和渐变的过渡效果一致 */
+.profile-image, .image-glow, .talk-image img, .publication-image img {
+    transition: transform 0.3s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+}
+
+/* 确保文本颜色变化的过渡效果一致 */
+h1, h2, h3, p, a, .nav-links a, .hero-subtitle, .talk-description, .venue, .authors {
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+} 

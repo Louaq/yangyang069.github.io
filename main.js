@@ -41,8 +41,14 @@ function updateThemeIcon(theme) {
 function createRippleEffect(x, y) {
     const ripple = document.createElement('div');
     ripple.className = 'theme-ripple';
-    ripple.style.left = (x - 50) + 'px';
-    ripple.style.top = (y - 50) + 'px';
+    
+    // 将动画放置在屏幕中央而不是点击位置
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // 使用窗口中心点
+    ripple.style.left = (windowWidth / 2 - 50) + 'px';
+    ripple.style.top = (windowHeight / 2 - 50) + 'px';
     ripple.style.width = '100px';
     ripple.style.height = '100px';
 
@@ -69,6 +75,12 @@ function showThemeIndicator(theme) {
     
     const icon = theme === 'dark' ? '🌙' : '☀️';
     indicator.innerHTML = icon;
+    
+    // 将指示器放置在屏幕中央
+    indicator.style.top = '50%';
+    indicator.style.left = '50%';
+    indicator.style.transform = 'translate(-50%, -50%)';
+    indicator.style.right = 'auto'; // 移除右侧定位
 
     document.body.appendChild(indicator);
 
@@ -91,8 +103,11 @@ function showThemeIndicator(theme) {
 
 // 主题切换动画
 function animateThemeTransition(clickX, clickY) {
-    // 创建圆形扩散效果
-    createRippleEffect(clickX, clickY);
+    // 创建圆形扩散效果 - 忽略点击位置参数
+    createRippleEffect();
+    
+    // 在切换前添加统一过渡类
+    document.documentElement.classList.add('theme-transitioning');
     
     // 添加页面过渡效果
     document.body.style.transition = 'all 0.4s ease';
@@ -100,6 +115,8 @@ function animateThemeTransition(clickX, clickY) {
     // 重置过渡效果
     setTimeout(() => {
         document.body.style.transition = '';
+        // 移除统一过渡类
+        document.documentElement.classList.remove('theme-transitioning');
     }, 400);
 }
 
@@ -197,229 +214,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// 搜索功能
-const searchBtn = document.querySelector('.search-btn');
-const searchOverlay = document.querySelector('.search-overlay');
-const searchClose = document.querySelector('.search-close');
-const searchInput = document.querySelector('.search-input');
-const searchResults = document.querySelector('.search-results');
 
-// 存储所有可搜索的内容
-let searchableContent = [];
-
-// 初始化搜索内容
-function initSearchContent() {
-    // 获取Hero section内容
-    const heroSection = document.querySelector('.hero-section');
-    if (heroSection) {
-        const subtitle = heroSection.querySelector('.hero-subtitle');
-        if (subtitle) {
-            searchableContent.push({
-                type: '简介',
-                title: 'About YangYang',
-                description: subtitle.textContent,
-                element: heroSection,
-                link: '#about'
-            });
-        }
-    }
-
-    // 获取发表论文内容
-    document.querySelectorAll('.publication-card').forEach(publication => {
-        const title = publication.querySelector('h3').textContent;
-        const authors = publication.querySelector('.authors')?.textContent || '';
-        const venue = publication.querySelector('.venue')?.textContent || '';
-        const description = publication.querySelector('.description')?.textContent || '';
-        searchableContent.push({
-            type: '论文',
-            title,
-            description: `${authors} ${venue} ${description}`.trim(),
-            element: publication,
-            link: '#publications'
-        });
-    });
-
-    // 获取演讲内容
-    document.querySelectorAll('.talk-card').forEach(talk => {
-        const title = talk.querySelector('h3').textContent;
-        const time = talk.querySelector('.talk-time span')?.textContent || '';
-        const location = talk.querySelector('.talk-location span')?.textContent || '';
-        const description = talk.querySelector('.talk-description')?.textContent || '';
-        searchableContent.push({
-            type: '演讲',
-            title,
-            description: `${time} ${location} ${description}`.trim(),
-            element: talk,
-            link: '#talks'
-        });
-    });
-
-    // 获取技术栈内容
-    document.querySelectorAll('.tech-category').forEach(category => {
-        const title = category.querySelector('h3').textContent;
-        const items = Array.from(category.querySelectorAll('.tech-item span'))
-            .map(span => span.textContent.trim());
-        searchableContent.push({
-            type: '技能',
-            title,
-            description: items.join('、'),
-            element: category,
-            link: '#tech-stack'
-        });
-    });
-
-    // 获取项目内容
-    document.querySelectorAll('.project-card').forEach(project => {
-        const title = project.querySelector('h3').textContent;
-        const description = project.querySelector('p').textContent;
-        searchableContent.push({
-            type: '研究项目',
-            title,
-            description,
-            element: project,
-            link: '#projects'
-        });
-    });
-
-    // 获取经历内容
-    document.querySelectorAll('.timeline-item').forEach(item => {
-        const title = item.querySelector('h4').textContent;
-        const description = item.querySelector('.description')?.textContent || '';
-        const institution = item.querySelector('.institution')?.textContent || '';
-        searchableContent.push({
-            type: '教育经历',
-            title,
-            description: `${institution} ${description}`.trim(),
-            element: item,
-            link: '#experience'
-        });
-    });
-
-    // 获取兴趣标签
-    const interestTags = document.querySelectorAll('.interest-tag');
-    if (interestTags.length > 0) {
-        const interests = Array.from(interestTags).map(tag => tag.textContent.trim());
-        searchableContent.push({
-            type: '兴趣',
-            title: '研究兴趣',
-            description: interests.join('、'),
-            element: document.querySelector('.beyond-code'),
-            link: '#about'
-        });
-    }
-}
-
-// 执行搜索
-function performSearch(query) {
-    query = query.toLowerCase().trim();
-
-    if (!query) {
-        searchResults.innerHTML = '<div class="no-results">请输入搜索关键词</div>';
-        return;
-    }
-
-    const results = searchableContent.filter(item => {
-        const searchText = `${item.title} ${item.description}`.toLowerCase();
-        return searchText.includes(query);
-    });
-
-    if (results.length === 0) {
-        searchResults.innerHTML = '<div class="no-results">未找到相关内容</div>';
-        return;
-    }
-
-    const resultsHtml = results.map(result => {
-        const highlightedTitle = highlightText(result.title, query);
-        const highlightedDesc = highlightText(result.description, query);
-
-        return `
-                    <a href="${result.link}" class="search-result-item" data-type="${result.type}">
-                        <span class="result-type">${result.type}</span>
-                        <h3>${highlightedTitle}</h3>
-                        <p>${highlightedDesc}</p>
-                    </a>
-                `;
-    }).join('');
-
-    searchResults.innerHTML = resultsHtml;
-
-    // 为搜索结果添加点击事件
-    document.querySelectorAll('.search-result-item').forEach((item, index) => {
-        // 阻止默认的链接行为和样式
-        item.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-        });
-
-        item.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-        });
-
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const result = results[index];
-
-            closeSearch();
-
-            if (result.element) {
-                // 移除所有现有的高亮效果
-                document.querySelectorAll('.highlight-target').forEach(el => {
-                    el.classList.remove('highlight-target');
-                });
-
-                // 添加高亮效果
-                result.element.classList.add('highlight-target');
-
-                // 滚动到目标位置
-                result.element.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-
-                // 3秒后移除高亮效果
-                setTimeout(() => {
-                    result.element.classList.remove('highlight-target');
-                }, 3000);
-            } else if (result.link.startsWith('#')) {
-                const targetElement = document.querySelector(result.link);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            } else {
-                window.location.href = result.link;
-            }
-        });
-    });
-}
-
-// 高亮搜索关键词
-function highlightText(text, query) {
-    const regex = new RegExp(`(${query})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
-}
-
-// 打开搜索
-function openSearch() {
-    searchOverlay.style.display = 'flex';
-    // 强制重绘以确保 display 属性生效
-    searchOverlay.offsetHeight;
-    searchOverlay.classList.add('active');
-    setTimeout(() => {
-        searchInput.focus();
-    }, 100);
-    document.body.style.overflow = 'hidden';
-}
-
-// 关闭搜索
-function closeSearch() {
-    searchOverlay.classList.remove('active');
-    setTimeout(() => {
-        searchOverlay.style.display = 'none';
-        searchInput.value = '';
-        searchResults.innerHTML = '';
-    }, 300);
-    document.body.style.overflow = '';
-}
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
@@ -573,117 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
 });
 
-// 复制引用文献功能
-async function copyBibTeX(citationId) {
-    try {
-        const response = await fetch(`citation/${citationId}`);
-        const text = await response.text();
-        await navigator.clipboard.writeText(text);
-
-        // 显示提示信息
-        const tooltip = document.createElement('div');
-        tooltip.className = 'copy-tooltip';
-        tooltip.textContent = '参考文献已复制到剪贴板';
-        tooltip.style.position = 'fixed';
-        tooltip.style.top = '20px';
-        tooltip.style.right = '20px';
-        tooltip.style.padding = '10px 20px';
-        tooltip.style.backgroundColor = '#4CAF50';
-        tooltip.style.color = 'white';
-        tooltip.style.borderRadius = '4px';
-        tooltip.style.zIndex = '1000';
-        document.body.appendChild(tooltip);
-
-        // 2秒后移除提示
-        setTimeout(() => {
-            tooltip.remove();
-        }, 2000);
-    } catch (err) {
-        // 显示错误提示
-        const tooltip = document.createElement('div');
-        tooltip.className = 'copy-tooltip';
-        tooltip.style.position = 'fixed';
-        tooltip.style.top = '20px';
-        tooltip.style.right = '20px';
-        tooltip.style.padding = '10px 20px';
-        tooltip.style.backgroundColor = '#dc3545';  // 错误时使用红色背景
-        tooltip.style.color = 'white';
-        tooltip.style.borderRadius = '4px';
-        tooltip.style.zIndex = '1000';
-        tooltip.textContent = '复制失败，请重试';
-        document.body.appendChild(tooltip);
-
-        setTimeout(() => {
-            tooltip.remove();
-        }, 2000);
-
-        console.error('复制失败:', err);
-    }
-}
-
-function copyToClipboard(text) {
-    // 创建一个临时文本区域
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.setAttribute('readonly', '');
-    textarea.style.position = 'absolute';
-    textarea.style.left = '-9999px';
-    document.body.appendChild(textarea);
-
-    // 检查是否是iOS设备（包括Safari）
-    const isIOS = navigator.userAgent.match(/ipad|iphone/i);
-
-    if (isIOS) {
-        // iOS设备特殊处理
-        const range = document.createRange();
-        range.selectNodeContents(textarea);
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-        textarea.setSelectionRange(0, text.length);
-    } else {
-        // 其他设备
-        textarea.select();
-    }
-
-    let successful = false;
-    try {
-        // 尝试执行复制命令
-        successful = document.execCommand('copy');
-    } catch (err) {
-        console.error('无法复制文本: ', err);
-    }
-
-    // 移除临时文本区域
-    document.body.removeChild(textarea);
-
-    // 显示复制成功/失败的提示
-    showCopyFeedback(successful);
-}
-
-function showCopyFeedback(successful) {
-    // 创建提示元素
-    const feedback = document.createElement('div');
-    feedback.className = 'copy-feedback';
-    feedback.textContent = successful ? '已复制到剪贴板！' : '复制失败，请手动复制';
-    feedback.style.position = 'fixed';
-    feedback.style.top = '20px'; // 改为顶部
-    feedback.style.right = '20px'; // 改为右侧
-    feedback.style.transform = 'none'; // 移除左侧的转换
-    feedback.style.padding = '10px 20px';
-    feedback.style.backgroundColor = successful ? '#4CAF50' : '#F44336';
-    feedback.style.color = 'white';
-    feedback.style.borderRadius = '4px';
-    feedback.style.zIndex = '1000';
-
-    document.body.appendChild(feedback);
-
-    // 2秒后移除提示
-    setTimeout(() => {
-        document.body.removeChild(feedback);
-    }, 2000);
-}
-
 // 页脚动态功能
 function initFooter() {
     // 更新当前年份
@@ -758,47 +442,3 @@ if (document.readyState === 'loading') {
     initFooter();
 }
 
-// 为easyScholar插件添加特别支持
-function initEasyScholarSupport() {
-    // 将论文引用信息导出为全局变量，便于插件访问
-    window.scholarMetadata = {
-        "yang2024improved": {
-            title: "An Improved YOLOv8-Based Rice Pest and Disease Detection Method",
-            authors: ["Yang, Yang", "Zhu, Jianlin", "Bo Yang", "Xiao Zhang", "Jin Huang"],
-            year: "2024",
-            venue: "Computer Graphics International Conference",
-            publisher: "Springer",
-            doi: "10.1007/978-3-031-82024-3_8",
-            url: "https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8",
-            pdf: "pdf/978-3-031-82024-3_8.pdf",
-            bibtex: `@inproceedings{yang2024improved,
-  title={An Improved YOLOv8-Based Rice Pest and Disease Detection Method},
-  author={Yang, Yang and Zhu, Jianlin},
-  booktitle={Computer Graphics International Conference},
-  year={2024},
-  organization={Springer}
-}`,
-            plaintext: "Yang, Y., & Zhu, J. (2024). An Improved YOLOv8-Based Rice Pest and Disease Detection Method. In Computer Graphics International Conference. Springer."
-        }
-    };
-    
-    // 创建一个自定义事件，通知插件数据已准备好
-    const scholarEvent = new CustomEvent('scholarMetadataReady', {
-        detail: { metadata: window.scholarMetadata }
-    });
-    document.dispatchEvent(scholarEvent);
-    
-    // 特别处理引用按钮
-    const citationButtons = document.querySelectorAll('.citation-btn');
-    citationButtons.forEach(button => {
-        // 添加可见的数据属性，确保插件能找到
-        button.setAttribute('data-scholar-id', 'yang2024improved');
-        // 确保按钮有正确的HTML结构
-        if (!button.querySelector('.scholar-cite-button')) {
-            button.innerHTML = `
-                <i class="fas fa-quote-right"></i>
-                <span class="scholar-cite-button" data-paper-id="yang2024improved">Cite</span>
-            `;
-        }
-    });
-}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幻灯片查看器 - YangYang</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+    <!-- 加载指示器 -->
+    <div class="loading-indicator" id="loadingIndicator">
+        <div class="loading-spinner"></div>
+        <p>正在加载幻灯片...</p>
+    </div>
+
+    <!-- PDF查看器容器 -->
+    <div class="viewer-container" id="viewerContainer">
+        <!-- 页面缩略图侧边栏 -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h4>页面导航</h4>
+            </div>
+            <div class="thumbnails-container" id="thumbnailsContainer">
+                <!-- 缩略图将在这里动态生成 -->
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 工具栏 -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <button class="tool-btn" id="prevBtn" title="上一页">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="page-info">
+                        <input type="number" id="pageNumber" min="1" value="1" />
+                        <span> / </span>
+                        <span id="totalPages">-</span>
+                    </span>
+                    <button class="tool-btn" id="nextBtn" title="下一页">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-center">
+                    <h3 id="presentationTitle">幻灯片查看器</h3>
+                </div>
+
+                <div class="toolbar-right">
+                    <button class="tool-btn" id="zoomOutBtn" title="缩小">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <span class="zoom-info" id="zoomLevel">100%</span>
+                    <button class="tool-btn" id="zoomInBtn" title="放大">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="tool-btn" id="fitPageBtn" title="适应页面">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                    <button class="tool-btn" id="fullscreenBtn" title="全屏">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF渲染区域 -->
+            <div class="pdf-container" id="pdfContainer">
+                <canvas id="pdfCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- PDF.js 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="viewer.js"></script>
+</body>
+</html> 
