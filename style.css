@@ -1359,7 +1359,9 @@ nav.scrolled {
         border: 1px solid rgba(0, 255, 255, 0.3) !important;
         color: var(--neon-cyan) !important;
         text-decoration: none !important;
-        display: block !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         visibility: visible !important;
         box-sizing: border-box !important;
         height: 28px !important;
@@ -2248,79 +2250,122 @@ nav.scrolled {
 .talk-link {
     display: inline-flex;
     align-items: center;
-    padding: 0.8rem 1.5rem;
-    background: rgba(0, 255, 255, 0.15);
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.7rem 1.3rem;
+    background: rgba(0, 255, 255, 0.1);
     color: var(--neon-cyan);
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    transition: var(--transition-normal);
-    border: 1px solid rgba(0, 255, 255, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.2);
     gap: 0.6rem;
-    min-width: 130px;
-    justify-content: center;
-    box-shadow: 0 2px 10px rgba(0, 255, 255, 0.1);
 }
 
 .talk-link:hover {
-    background: rgba(0, 255, 255, 0.25);
+    background: rgba(0, 255, 255, 0.2);
     transform: translateY(-3px);
     box-shadow: var(--glow-cyan);
-    border-color: rgba(0, 255, 255, 0.5);
 }
 
 .talk-link i {
-    font-size: 1.2rem;
-}
-
-.talk-link.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* 移除重复的浅色主题定义 */
-[data-theme="light"] .talk-link {
-    background: rgba(0, 153, 204, 0.15);
-    color: var(--neon-blue);
-    border: 1px solid rgba(0, 153, 204, 0.3);
-    box-shadow: 0 2px 10px rgba(0, 153, 204, 0.1);
-}
-
-[data-theme="light"] .talk-link:hover {
-    background: rgba(0, 153, 204, 0.25);
-    box-shadow: var(--glow-blue);
-    border-color: rgba(0, 153, 204, 0.5);
+    margin-right: 0.4rem;
+    font-size: 1.1rem;
 }
 
 /* 移动端按钮样式优化 */
 @media (max-width: 768px) {
     .talk-links {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-    }
-
-    .talk-link {
-        flex: 1;
-        min-width: 0;
-        padding: 0.7rem 1rem;
-        font-size: 0.95rem;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        margin: 0 !important;
+        width: 100% !important;
     }
     
-    .talk-link i {
-        font-size: 1.1rem;
+    .pub-link {
+        flex: 1 !important;
+        min-width: calc(50% - 2px) !important;
+        max-width: calc(50% - 2px) !important;
+        padding: 4px 6px !important;
+        font-size: 10px !important;
+        text-align: center !important;
+        border-radius: 8px !important;
+        background: rgba(0, 255, 255, 0.1) !important;
+        border: 1px solid rgba(0, 255, 255, 0.3) !important;
+        color: var(--neon-cyan) !important;
+        text-decoration: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        visibility: visible !important;
+        box-sizing: border-box !important;
+        height: 28px !important;
+        line-height: 18px !important;
     }
 }
 
 @media (max-width: 480px) {
-    .talk-link {
-        padding: 0.6rem 0.8rem;
-        font-size: 0.9rem;
+    .talk-links {
+        gap: 8px;
     }
-    
+
+    .talk-link {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        width: calc(50% - 4px);
+    }
+
     .talk-link i {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        margin-right: 4px;
+    }
+}
+
+@media (max-width: 390px) {
+    .talk-links {
+        gap: 6px;
+    }
+
+    .talk-link {
+        padding: 0.4rem;
+        font-size: 0.75rem;
+        width: calc(50% - 3px);
+    }
+
+    .talk-link i {
+        font-size: 0.85rem;
+        margin-right: 3px;
+    }
+}
+
+/* 针对极小屏幕设备（如iPhone SE）的优化 */
+@media (max-width: 320px) {
+    .talk-links {
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 4px !important;
+        width: 100% !important;
+    }
+
+    .pub-link {
+        padding: 0.35rem !important;
+        font-size: 0.7rem !important;
+        flex: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        width: calc(50% - 2px) !important;
+        min-width: 0 !important;
+        max-width: calc(50% - 2px) !important;
+    }
+
+    .pub-link i {
+        font-size: 0.8rem !important;
+        margin-right: 2px !important;
     }
 }
 
@@ -4825,4 +4870,86 @@ nav.scrolled {
     .map-wrapper {
         padding: 0 !important;
     }
+}
+
+/* 针对极小屏幕设备（如iPhone SE）的优化 */
+@media (max-width: 320px) {
+    .talk-links {
+        gap: 4px;
+        width: 100%;
+        flex-wrap: nowrap;
+    }
+
+    .talk-link {
+        padding: 0.3rem 0.4rem !important;
+        font-size: 0.7rem !important;
+        min-width: calc(50% - 2px);
+        max-width: calc(50% - 2px);
+        flex: 1;
+    }
+
+    .talk-link i {
+        font-size: 0.8rem !important;
+        margin-right: 2px;
+    }
+}
+
+/* 添加Light主题样式 */
+[data-theme="light"] .talk-link {
+    background: rgba(0, 153, 204, 0.1);
+    color: var(--neon-blue);
+    border: 1px solid rgba(0, 153, 204, 0.2);
+}
+
+[data-theme="light"] .talk-link:hover {
+    background: rgba(0, 153, 204, 0.2);
+    box-shadow: var(--glow-blue);
+    border-color: rgba(0, 153, 204, 0.4);
+}
+
+/* 补充适用于所有talk-link的样式 */
+.talk-link.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 修复极小屏幕下的样式，确保talk-links展示正确 */
+@media (max-width: 320px) {
+    .talk-links {
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .talk-link {
+        padding: 0.35rem;
+        font-size: 0.7rem;
+        flex: 1;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        width: calc(50% - 2px);
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .talk-link i {
+        font-size: 0.8rem !important;
+        margin-right: 2px !important;
+    }
+}
+
+[data-theme="light"] .pub-link {
+    background: rgba(0, 153, 204, 0.1);
+    color: var(--neon-blue);
+    border: 1px solid rgba(0, 153, 204, 0.2);
+}
+
+[data-theme="light"] .pub-link:hover {
+    background: rgba(0, 153, 204, 0.2);
+    box-shadow: var(--glow-blue);
+    border-color: rgba(0, 153, 204, 0.4);
 }
