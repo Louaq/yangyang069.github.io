@@ -2,28 +2,76 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>幻灯片查看器 - YangYang</title>
-    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>PDF查看器</title>
+    <!-- PDF.js库 - 使用更稳定的版本 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <!-- 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 样式 -->
     <link rel="stylesheet" href="viewer.css">
+    <!-- 预加载PDF Worker -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js" as="script">
+    <!-- 预加载CMap文件 -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/cmaps/" as="fetch" crossorigin="anonymous">
+    <script>
+        // 暗色主题检测
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            document.documentElement.setAttribute('data-theme', savedTheme || 
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+        })();
+        
+        // 设置PDF.js worker
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        }
+
+        // 添加错误处理
+        window.addEventListener('error', function(e) {
+            console.error('页面错误:', e.message);
+            
+            // 显示用户友好的错误消息
+            if (e.message.includes('pdf.js') || e.message.includes('PDF')) {
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                if (loadingIndicator) {
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'error-message';
+                    errorMessage.innerHTML = `
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>PDF加载失败</p>
+                        <p class="error-details">${e.message}</p>
+                        <button onclick="location.reload()" class="retry-button">重试</button>
+                    `;
+                    loadingIndicator.innerHTML = '';
+                    loadingIndicator.appendChild(errorMessage);
+                }
+            }
+        });
+    </script>
 </head>
 <body>
     <!-- 加载指示器 -->
-    <div class="loading-indicator" id="loadingIndicator">
+    <div id="loadingIndicator" class="loading-indicator">
         <div class="loading-spinner"></div>
-        <p>正在加载幻灯片...</p>
+        <p>正在加载PDF文件...</p>
+        <p class="loading-filename"></p>
     </div>
 
-    <!-- PDF查看器容器 -->
-    <div class="viewer-container" id="viewerContainer">
-        <!-- 页面缩略图侧边栏 -->
-        <div class="sidebar" id="sidebar">
+    <!-- 主查看器容器 -->
+    <div id="viewerContainer" class="viewer-container">
+        <!-- 侧边栏（缩略图） -->
+        <div id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <h4>页面导航</h4>
+                <h4 class="thumbnail-title">页面缩略图</h4>
+                <p class="mobile-sidebar-hint">移动设备模式</p>
             </div>
-            <div class="thumbnails-container" id="thumbnailsContainer">
-                <!-- 缩略图将在这里动态生成 -->
+            <div id="thumbnailsContainer" class="thumbnails-container"></div>
+            <div class="sidebar-footer">
+                <p class="sidebar-info">使用左侧按钮<i class="fas fa-chevron-right"></i>可隐藏侧边栏</p>
             </div>
         </div>
 
@@ -32,48 +80,119 @@
             <!-- 工具栏 -->
             <div class="toolbar">
                 <div class="toolbar-left">
-                    <button class="tool-btn" id="prevBtn" title="上一页">
-                        <i class="fas fa-chevron-left"></i>
+                    <!-- 侧边栏切换按钮将通过JS动态添加 -->
+                    <button id="prevBtn" class="tool-btn" title="上一页" type="button">
+                        <i class="fas fa-chevron-up"></i>
                     </button>
-                    <span class="page-info">
-                        <input type="number" id="pageNumber" min="1" value="1" />
-                        <span> / </span>
-                        <span id="totalPages">-</span>
-                    </span>
-                    <button class="tool-btn" id="nextBtn" title="下一页">
-                        <i class="fas fa-chevron-right"></i>
+                    <button id="nextBtn" class="tool-btn" title="下一页" type="button">
+                        <i class="fas fa-chevron-down"></i>
                     </button>
                 </div>
 
                 <div class="toolbar-center">
-                    <h3 id="presentationTitle">幻灯片查看器</h3>
+                    <h3 id="presentationTitle">PDF文档</h3>
                 </div>
 
                 <div class="toolbar-right">
-                    <button class="tool-btn" id="zoomOutBtn" title="缩小">
+                    <div class="page-info">
+                        <input type="number" id="pageNumber" value="1" min="1">
+                        <span>/</span>
+                        <span id="totalPages">1</span>
+                    </div>
+
+                    <div class="zoom-info">
+                        <span id="zoomLevel">100%</span>
+                    </div>
+
+                    <button id="zoomOutBtn" class="tool-btn" title="缩小" type="button">
                         <i class="fas fa-search-minus"></i>
                     </button>
-                    <span class="zoom-info" id="zoomLevel">100%</span>
-                    <button class="tool-btn" id="zoomInBtn" title="放大">
+                    <button id="zoomInBtn" class="tool-btn" title="放大" type="button">
                         <i class="fas fa-search-plus"></i>
                     </button>
-                    <button class="tool-btn" id="fitPageBtn" title="适应页面">
+                    <button id="fitPageBtn" class="tool-btn" title="适合页面" type="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </button>
-                    <button class="tool-btn" id="fullscreenBtn" title="全屏">
+                    <button id="fullscreenBtn" class="tool-btn" title="全屏" type="button">
                         <i class="fas fa-expand"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- PDF渲染区域 -->
-            <div class="pdf-container" id="pdfContainer">
+            <!-- PDF显示区域 -->
+            <div id="pdfContainer" class="pdf-container">
                 <canvas id="pdfCanvas"></canvas>
             </div>
         </div>
     </div>
-    <!-- PDF.js 库 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- 移动端页面导航控制 -->
+    <div id="mobilePageControls" class="page-navigation-controls hide-on-scroll">
+        <button id="mobilePrevBtn" class="page-nav-button prev-button" type="button">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div id="mobilePageCounter" class="page-counter">1 / 1</div>
+        <button id="mobileNextBtn" class="page-nav-button next-button" type="button">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <!-- 移动端页面缩略图导航栏 -->
+    <div id="mobileThumbnailsBar" class="page-thumbnails-bar"></div>
+
+    <!-- 帮助按钮 -->
+    <button onclick="toggleHelp()" class="help-button" title="帮助" type="button">
+        <i class="fas fa-question"></i>
+    </button>
+
+    <!-- 帮助覆盖层 -->
+    <div id="helpOverlay" class="help-overlay">
+        <div class="help-content">
+            <h3>快捷键 & 操作指南</h3>
+            <div class="shortcuts">
+                <div class="shortcut-item">
+                    <span>上一页</span>
+                    <kbd>↑</kbd> / <kbd>←</kbd>
+                </div>
+                <div class="shortcut-item">
+                    <span>下一页</span>
+                    <kbd>↓</kbd> / <kbd>→</kbd>
+                </div>
+                <div class="shortcut-item">
+                    <span>放大</span>
+                    <kbd>+</kbd> / <kbd>Ctrl</kbd> + <kbd>滚轮上</kbd>
+                </div>
+                <div class="shortcut-item">
+                    <span>缩小</span>
+                    <kbd>-</kbd> / <kbd>Ctrl</kbd> + <kbd>滚轮下</kbd>
+                </div>
+                <div class="shortcut-item">
+                    <span>适合页面</span>
+                    <kbd>0</kbd>
+                </div>
+                <div class="shortcut-item">
+                    <span>全屏</span>
+                    <kbd>F11</kbd>
+                </div>
+                <div class="shortcut-item">
+                    <span>移动设备缩放</span>
+                    <span>双指捏合</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>移动设备翻页</span>
+                    <span>上下滑动</span>
+                </div>
+            </div>
+            <button onclick="toggleHelp()" class="help-close" type="button">关闭</button>
+        </div>
+    </div>
+    
+    <!-- 返回主页按钮 -->
+    <a href="index.html" class="back-to-home" title="返回主页">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <!-- 脚本 -->
     <script src="viewer.js"></script>
 </body>
 </html> 

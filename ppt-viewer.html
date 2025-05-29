@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPT查看器 - YangYang</title>
+    <title>PPT Viewer - YangYang</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="ppt-viewer.css">
@@ -12,15 +12,15 @@
     <!-- 加载指示器 -->
     <div class="loading-indicator" id="loadingIndicator">
         <div class="loading-spinner"></div>
-        <p>正在加载演示文稿...</p>
+        <p>Loading PPT...</p>
     </div>
 
     <!-- 错误提示 -->
     <div class="error-message" id="errorMessage" style="display: none;">
         <div class="error-content">
             <i class="fas fa-exclamation-triangle"></i>
-            <h3>加载失败</h3>
-            <p id="errorText">无法加载演示文稿，请检查链接是否正确。</p>
+            <h3>Load Failed</h3>
+            <p id="errorText">Failed to load PPT, please check the link.</p>
             <button class="retry-btn" onclick="window.location.reload()">重试</button>
         </div>
     </div>
@@ -33,7 +33,7 @@
             </div>
 
             <div class="toolbar-center">
-                <h3 id="presentationTitle">演示文稿查看器</h3>
+                <h3 id="presentationTitle">PPT Viewer</h3>
             </div>
 
             <div class="toolbar-right">

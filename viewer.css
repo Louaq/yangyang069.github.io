@@ -13,6 +13,7 @@
     --danger-color: #ef4444;
     --toolbar-height: 85px;
     --sidebar-width: 360px;
+    --resizer-width: 6px;
 }
 
 /* 暗色主题 */
@@ -89,6 +90,23 @@ body {
     opacity: 1;
 }
 
+/* 调整时的样式 */
+.resizing-sidebar {
+    cursor: col-resize !important;
+    user-select: none;
+}
+
+.resizing-sidebar .pdf-container,
+.resizing-sidebar .thumbnails-container {
+    pointer-events: none;
+}
+
+/* 移动设备特定样式 */
+body.mobile-device {
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+}
+
 /* 侧边栏 - 固定在左侧 */
 .sidebar {
     width: var(--sidebar-width);
@@ -99,6 +117,58 @@ body {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    position: relative; /* 为调整器提供定位上下文 */
+    transition: width 0.1s ease, transform 0.3s ease; /* 平滑过渡 */
+    transform: translateX(0);
+}
+
+/* 侧边栏隐藏状态 */
+.sidebar:not(.open) {
+    transform: translateX(-100%);
+    width: 0;
+}
+
+/* 侧边栏切换按钮 */
+.sidebar-toggle {
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.sidebar-toggle:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* 侧边栏调整器 */
+.sidebar-resizer {
+    position: absolute;
+    top: 0;
+    right: calc(var(--resizer-width) / -2);
+    width: var(--resizer-width);
+    height: 100%;
+    background: transparent;
+    cursor: col-resize;
+    z-index: 200;
+}
+
+.sidebar-resizer:hover,
+.sidebar-resizer:active {
+    background: var(--primary-color);
+    opacity: 0.5;
 }
 
 .sidebar-header {
@@ -106,6 +176,7 @@ body {
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
@@ -113,6 +184,31 @@ body {
     font-size: 18px;
     font-weight: 600;
     color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.mobile-sidebar-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: none;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.sidebar-info {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.sidebar-info i {
+    margin: 0 4px;
+    font-size: 11px;
 }
 
 .thumbnails-container {
@@ -122,6 +218,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-height: 100px;
 }
 
 /* 缩略图 */
@@ -133,7 +230,13 @@ body {
     transition: all 0.2s ease;
     position: relative;
     background: white;
-    min-height: 360px;
+    /* 高度自动调整，保持宽高比，但设置最小高度 */
+    width: 100%;
+    height: auto;
+    min-height: 200px; /* 设置一个合理的最小高度 */
+    max-height: 280px; /* 限制最大高度 */
+    display: flex;
+    flex-direction: column;
 }
 
 .thumbnail:hover {
@@ -149,9 +252,9 @@ body {
 
 .thumbnail canvas {
     width: 100%;
-    height: auto;
+    flex: 1;
+    object-fit: contain; /* 确保内容适应容器且保持比例 */
     display: block;
-    min-height: 360px;
     /* 提高缩略图渲染质量 */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
@@ -288,25 +391,91 @@ body {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* 改为顶部对齐以支持内容滚动 */
     padding: 20px;
     background: var(--background-color);
     overflow: auto;
     position: relative;
+    /* 仅在用户主动滚动时使用平滑滚动，缩放时不需要 */
+    scrollbar-gutter: stable; /* 防止滚动条出现导致布局变化 */
+    overscroll-behavior: contain; /* 防止过度滚动 */
+}
+
+/* 当用户主动滚动时启用平滑滚动 */
+.pdf-container.user-scrolling {
+    scroll-behavior: smooth;
+}
+
+/* 连续滚动容器 */
+.pdf-scroll-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* 页面间距 */
+    padding: 10px;
+    margin-bottom: 40px;
+    /* 确保缩放时内容保持居中 */
+    min-width: min-content;
+    min-height: min-content;
+}
+
+/* 单页容器 */
+.pdf-page-container {
+    position: relative;
+    background: white;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    border-radius: 8px;
+    transition: transform 0.25s ease;
+    margin-bottom: 20px;
+    /* 防止缩放时的闪烁 */
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* 页面标签 */
+.page-label {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10;
+    opacity: 0.7;
+    transition: opacity 0.25s ease;
+}
+
+.pdf-page-container:hover .page-label {
+    opacity: 1;
+}
+
+/* PDF页面canvas */
+.pdf-page-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
 }
 
 /* PDF画布平滑过渡 */
 #pdfCanvas {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: none; /* 允许内容超过容器宽度 */
+    max-height: none; /* 允许内容超过容器高度 */
     box-shadow: 0 8px 32px var(--shadow-color);
     border-radius: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
     cursor: grab;
     /* 确保高质量渲染 */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     image-rendering: auto;
+    /* 添加平滑缩放 */
+    transform-origin: center center;
+    /* 添加底部边距，使滚动到底部时有空间 */
+    margin-bottom: 20px;
 }
 
 #pdfCanvas:active {
@@ -429,14 +598,14 @@ body {
 
 /* 移除旧的翻页动画，使用平滑过渡 */
 .page-transition {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-/* 简化的缩放动画 */
+/* 修改缩放动画，使其更平滑 */
 @keyframes smoothZoom {
     from { 
-        opacity: 0.8; 
-        transform: scale(0.95); 
+        opacity: 0.9; 
+        transform: scale(0.97); 
     }
     to { 
         opacity: 1; 
@@ -445,146 +614,448 @@ body {
 }
 
 .smooth-zoom {
-    animation: smoothZoom 0.3s ease-out;
+    animation: smoothZoom 0.25s ease-out;
 }
 
-/* 响应式设计 */
+/* 响应式设计 - 增强移动端支持 */
 @media (max-width: 768px) {
     :root {
-        --toolbar-height: 70px;
-        --sidebar-width: 280px;
+        --toolbar-height: 60px;
+        --sidebar-width: 85%;
+    }
+
+    body {
+        font-size: 14px;
+        overflow: hidden;
     }
 
     .viewer-container {
         flex-direction: column;
     }
-
+    
     .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
         width: 100%;
-        height: 200px;
+        height: 50%;
+        z-index: 1000;
+        transform: translateY(100%);
+        border-top: 1px solid var(--border-color);
         border-right: none;
-        border-bottom: 1px solid var(--border-color);
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.15);
     }
-
-    .thumbnails-container {
+    
+    .sidebar.open {
+        transform: translateY(0);
+    }
+    
+    .sidebar-header {
+        padding: 12px 16px;
         flex-direction: row;
-        padding: 16px;
-        gap: 12px;
+        justify-content: space-between;
     }
-
-    .thumbnail {
-        min-width: 120px;
-        min-height: 160px;
-        flex-shrink: 0;
+    
+    .sidebar-header h4 {
+        font-size: 16px;
     }
-
-    .thumbnail canvas {
-        min-height: 160px;
+    
+    .mobile-sidebar-hint {
+        display: block;
     }
-
-    .main-content {
-        flex: 1;
-    }
-
-    .toolbar {
-        padding: 0 20px;
-    }
-
-    .toolbar-center h3 {
+    
+    .sidebar-footer {
         display: none;
     }
-
-    .toolbar-left,
-    .toolbar-right {
-        gap: 14px;
+    
+    .thumbnails-container {
+        padding: 12px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+        overflow-y: auto;
+        max-height: calc(100% - 50px);
     }
-
-    .tool-btn {
+    
+    .thumbnail {
+        min-height: 140px;
+        max-height: 160px;
+    }
+    
+    .sidebar-toggle {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        height: auto;
+        padding: 8px 16px;
+        border-radius: 30px;
+        z-index: 999;
+        margin: 0;
+    }
+    
+    .sidebar-toggle:hover {
+        transform: translateX(-50%) translateY(-2px);
+    }
+    
+    .sidebar-toggle i {
+        margin-left: 8px;
+    }
+    
+    .sidebar.open .sidebar-toggle i {
+        transform: rotate(180deg);
+    }
+    
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 900;
+        display: none;
+    }
+    
+    .sidebar-overlay.visible {
+        display: block;
+    }
+    
+    .mobile-thumbnail-info {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        z-index: 2;
+    }
+    
+    .mobile-page-indicators {
+        display: flex;
+        justify-content: center;
+        gap: 4px;
+        margin-top: 8px;
+    }
+    
+    .page-indicator {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    
+    .page-thumbnails-bar {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        width: 100%;
+        height: 90px;
+        background: var(--surface-color);
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        padding: 10px;
+        gap: 10px;
+        z-index: 900;
+        border-top: 1px solid var(--border-color);
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        transition: transform 0.3s ease;
+    }
+    
+    .page-thumbnails-bar.hidden {
+        transform: translateY(100%);
+    }
+    
+    .thumbnail-item {
+        display: inline-block;
+        width: 60px;
+        height: 70px;
+        border: 2px solid var(--border-color);
+        border-radius: 6px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+        background: white;
+    }
+    
+    .thumbnail-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .thumbnail-item.active {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+    }
+    
+    .thumbnail-page-number {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-size: 10px;
+        padding: 2px 0;
+        text-align: center;
+    }
+    
+    .current-thumbnail-indicator {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        border: 1px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        color: white;
+    }
+    
+    .page-navigation-controls {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 900;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .page-nav-button {
         width: 50px;
         height: 50px;
+        border-radius: 50%;
+        background: var(--surface-color);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 18px;
+        cursor: pointer;
+        color: var(--text-primary);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease;
     }
-
+    
+    .page-nav-button:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .page-nav-button:disabled {
+        opacity: 0.5;
+    }
+    
+    .page-counter {
+        background: var(--surface-color);
+        color: var(--text-primary);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    
+    .hide-on-scroll {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .hide-on-scroll.hidden {
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+    }
+    
+    /* 重新调整内容区域 */
     .pdf-container {
+        margin-top: 0;
         padding: 10px;
     }
-
-    .page-info {
-        font-size: 16px;
-        gap: 12px;
+    
+    .toolbar {
+        height: var(--toolbar-height);
     }
-
+    
+    .toolbar-left, 
+    .toolbar-right {
+        flex: 1;
+    }
+    
+    .tool-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
     #pageNumber {
-        width: 85px;
-        font-size: 16px;
-        padding: 10px 14px;
-    }
-
-    .zoom-info {
-        font-size: 16px;
-        min-width: 65px;
-        padding: 8px 12px;
-    }
-
-    .help-button {
-        width: 56px;
-        height: 56px;
-        font-size: 20px;
-    }
-
-    .help-content {
-        margin: 20px;
-        padding: 20px;
-        max-width: calc(100vw - 40px);
-    }
-
-    .thumbnail-label {
+        width: 32px;
+        height: 32px;
         font-size: 14px;
-        padding: 8px 12px 12px;
+    }
+    
+    .zoom-info {
+        font-size: 12px;
+        width: 48px;
     }
 }
 
+/* 针对更小屏幕的优化 */
 @media (max-width: 480px) {
-    .toolbar-left,
-    .toolbar-right {
-        gap: 10px;
+    :root {
+        --toolbar-height: 50px;
     }
-
-    .tool-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 16px;
+    
+    .sidebar {
+        height: 60%;
     }
-
-    #pageNumber {
-        width: 70px;
-        font-size: 14px;
+    
+    .thumbnails-container {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        padding: 8px;
+    }
+    
+    .sidebar-header {
         padding: 8px 12px;
     }
-
-    .zoom-info {
-        font-size: 14px;
-        min-width: 55px;
-        padding: 6px 10px;
+    
+    .mobile-thumbnail-info {
+        font-size: 10px;
+        padding: 1px 4px;
+        right: 5px;
+        top: 5px;
     }
-
-    .page-info {
-        font-size: 14px;
-        gap: 10px;
-    }
-
-    .thumbnail {
-        min-width: 100px;
-        min-height: 140px;
-    }
-
-    .thumbnail canvas {
-        min-height: 140px;
-    }
-
-    .thumbnail-label {
+    
+    .sidebar-toggle {
+        padding: 6px 12px;
         font-size: 12px;
-        padding: 6px 10px 10px;
+    }
+    
+    .page-indicator {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+    
+    .page-indicator-ellipsis {
+        width: 20px;
+    }
+    
+    .page-thumbnails-bar {
+        height: 70px;
+    }
+    
+    .thumbnail-item {
+        width: 48px;
+        height: 56px;
+    }
+    
+    .thumbnail-page-number {
+        font-size: 8px;
+    }
+    
+    .page-navigation-controls {
+        right: 15px;
+        bottom: 15px;
+    }
+    
+    .page-nav-button {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+    
+    .toolbar-center h3 {
+        font-size: 14px;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0 10px;
+    }
+    
+    .tool-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    #pageNumber {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .zoom-info {
+        font-size: 11px;
+        width: 40px;
+    }
+}
+
+/* 适应横屏平板 */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .sidebar {
+        width: 280px;
+    }
+    
+    .pdf-container {
+        margin-left: 0;
+    }
+}
+
+/* 针对触摸设备的优化 */
+@media (pointer: coarse) {
+    .tool-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .thumbnail {
+        min-height: 120px;
+    }
+}
+
+/* 针对横屏小设备的优化 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+        width: 200px;
+    }
+    
+    .toolbar {
+        height: 50px;
+    }
+    
+    .sidebar-toggle {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .pdf-container {
+        margin-top: 50px;
+        margin-left: 0;
     }
 }
 
@@ -652,4 +1123,157 @@ body {
     .thumbnail {
         border-width: 4px;
     }
+}
+
+/* 移动设备缩略图提示信息 */
+.mobile-thumbnail-info {
+    padding: 12px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+    background: var(--surface-color);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    margin: 0;
+}
+
+/* 移动设备页码指示器 */
+.mobile-page-indicators {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.page-indicator {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--background-color);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+
+.page-indicator.active {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    border-color: var(--primary-color);
+}
+
+.page-indicator:hover:not(.active) {
+    background: var(--border-color);
+    transform: scale(1.1);
+}
+
+.page-indicator-ellipsis {
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 0 4px;
+}
+
+/* 添加错误消息样式 */
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--danger-color);
+    text-align: center;
+    padding: 2rem;
+}
+
+.error-message i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.error-message p {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.error-message .error-details {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    max-width: 80%;
+    word-break: break-word;
+    margin-bottom: 1.5rem;
+}
+
+.retry-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    margin: 0 0.5rem;
+}
+
+.retry-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+}
+
+.retry-button.secondary {
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.retry-button.secondary:hover {
+    background-color: var(--border-color);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 返回主页按钮 */
+.back-to-home {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 900;
+    transition: all 0.2s ease;
+}
+
+.back-to-home:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* 文件名显示 */
+.loading-filename {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 8px;
+    font-style: italic;
 } 

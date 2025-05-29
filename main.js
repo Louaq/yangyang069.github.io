@@ -159,62 +159,43 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
 
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
-// 移动端菜单
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-menuToggle.addEventListener('click', () => {
-    const isActive = navLinks.classList.contains('active');
-    const icon = menuToggle.querySelector('i');
-
-    if (isActive) {
-        // Closing the menu
-        icon.style.transform = 'rotate(0deg)';
-        setTimeout(() => {
-            navLinks.classList.remove('active');
-            icon.classList.add('fa-bars');
-            icon.classList.remove('fa-times');
-        }, 50);
-    } else {
-        // Opening the menu
-        icon.style.transform = 'rotate(90deg)';
-        navLinks.classList.add('active');
-        setTimeout(() => {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        }, 200);
+// 添加移动端导航切换功能
+document.addEventListener('DOMContentLoaded', function() {
+    // 移动端菜单切换
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('mobile-active');
+            // 切换图标
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                if (navLinks.classList.contains('mobile-active')) {
+                    icon.className = 'fas fa-times';
+                } else {
+                    icon.className = 'fas fa-bars';
+                }
+            }
+        });
+        
+        // 点击导航链接后关闭菜单
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('mobile-active');
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        icon.className = 'fas fa-bars';
+                    }
+                }
+            });
+        });
     }
+    
+    // 其余现有代码
+    // ... existing code ...
 });
-
-// 点击导航链接时关闭菜单
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        const icon = menuToggle.querySelector('i');
-        icon.style.transform = 'rotate(0deg)';
-
-        setTimeout(() => {
-            navLinks.classList.remove('active');
-            icon.classList.add('fa-bars');
-            icon.classList.remove('fa-times');
-        }, 50);
-    });
-});
-
-// 点击页面其他地方关闭菜单
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle') && navLinks.classList.contains('active')) {
-        const icon = menuToggle.querySelector('i');
-        icon.style.transform = 'rotate(0deg)';
-
-        setTimeout(() => {
-            navLinks.classList.remove('active');
-            icon.classList.add('fa-bars');
-            icon.classList.remove('fa-times');
-        }, 50);
-    }
-});
-
-
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
