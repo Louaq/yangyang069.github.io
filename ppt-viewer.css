@@ -306,7 +306,9 @@ body {
     color: white;
     transform: translateY(calc(100% - 50px));
     transition: transform 0.3s ease;
-    z-index: 99;
+    z-index: 999;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .control-panel.expanded {
@@ -317,86 +319,333 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
-    cursor: pointer;
+    padding: 12px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .panel-header h4 {
-    font-size: 16px;
-    font-weight: 600;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .toggle-panel {
     background: none;
     border: none;
     color: white;
-    font-size: 16px;
     cursor: pointer;
+    font-size: 14px;
     transition: transform 0.3s ease;
 }
 
-.control-panel.expanded .toggle-panel {
+.control-panel.expanded .toggle-panel i {
     transform: rotate(180deg);
 }
 
 .panel-content {
-    padding: 20px 25px;
-    display: grid;
-    grid-template-columns: 1fr 1fr auto;
-    gap: 20px;
-    align-items: center;
+    padding: 15px;
 }
 
+/* 工具栏样式 */
+.control-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+/* 控制组: 标签和选择框在同一行 */
 .control-group {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 8px;
 }
 
-.control-group label {
+.control-label,
+.control-label span {
     font-size: 14px;
-    font-weight: 500;
-    opacity: 0.9;
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    max-width: none !important;
+    overflow: visible !important;
+}
+
+.control-label i {
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
+    color: #FFFFFF !important;
+}
+
+/* Ensure text in buttons is visible by default */
+.control-btn span {
+    display: inline !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: #FFFFFF !important;
+    margin-left: 5px;
+    max-width: none !important;
+    overflow: visible !important;
+    white-space: nowrap;
 }
 
 .control-group select {
-    padding: 8px 12px;
-    border: none;
+    padding: 7px 10px;
     border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.1);
-    color: white;
+
     font-size: 14px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='white' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 8px 10px;
+    padding-right: 28px;
+    min-width: 120px;
 }
 
-.control-group select option {
-    background: #2c3e50;
-    color: white;
-}
-
-.control-actions {
+/* 按钮组 */
+.control-buttons {
     display: flex;
     gap: 10px;
 }
 
 .control-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 6px;
+    padding: 7px 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white !important;
     font-size: 14px;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.control-btn i {
+    font-size: 13px;
+    color: #FFFFFF !important;
 }
 
 .control-btn:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* 媒体查询 - 移动设备适配 */
+@media (max-width: 768px) {
+    .control-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .control-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .control-group select {
+        min-width: 150px;
+        flex-grow: 1;
+    }
+    
+    .control-buttons {
+        width: 100%;
+        justify-content: space-around;
+    }
+    
+    .control-btn {
+        flex-grow: 1;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .control-label,
+    .control-label span {
+        font-size: 13px;
+    }
+    .control-group select,
+    .control-btn,
+    .control-btn span {
+        font-size: 13px;
+    }
+    .control-label i,
+    .control-btn i {
+        font-size: 13px;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ppt-viewer-container {
+    animation: fadeIn 0.5s ease;
+}
+
+/* 全屏样式 */
+.fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    background: black !important;
+}
+
+.fullscreen .slides-container {
+    padding: 0;
+}
+
+.fullscreen .control-panel {
+    display: none;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #95a5a6;
+}
+
+/* Toast消息样式 */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* PDF查看器特定样式 */
+.pdf-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* 添加脉冲动画 */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.pulse-animation {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* 增强下载按钮样式 */
+.action-btn.enhanced {
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn.enhanced:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+}
+
+.action-btn.enhanced.primary {
+    background: #3498db;
+    color: white;
+}
+
+.action-btn.enhanced.primary:hover {
+    background: #2980b9;
+}
+
+/* 备用内容扩展样式 */
+.fallback-message .enhanced-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+}
+
+.fallback-message .enhanced-title {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.fallback-message .enhanced-desc {
+    color: #7f8c8d;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.enhanced-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.note {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* 添加丢失的分享模态框样式 */
 /* 分享模态框 */
 .modal {
     position: fixed;
@@ -531,198 +780,4 @@ body {
 
 .share-btn.copy:hover {
     background: #7f8c8d;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .toolbar {
-        padding: 12px 15px;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .toolbar-center {
-        order: 3;
-        flex-basis: 100%;
-        margin-top: 10px;
-    }
-    
-    .toolbar-center h3 {
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 200px;
-    }
-    
-    .tool-btn {
-        padding: 8px;
-        font-size: 12px;
-    }
-    
-    .tool-btn span {
-        display: none;
-    }
-
-    /* 在移动端隐藏工具栏分隔符 */
-    .toolbar-divider {
-        display: none;
-    }
-
-    /* 优化导航按钮在移动端的显示 */
-    #prevSlideBtn, #nextSlideBtn {
-        min-width: 40px;
-        justify-content: center;
-    }
-    
-    .slides-container {
-        padding: 10px;
-    }
-    
-    .panel-content {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .control-actions {
-        justify-content: center;
-    }
-    
-    .modal-content {
-        width: 95%;
-        margin: 20px;
-    }
-    
-    .modal-header {
-        padding: 15px 20px;
-    }
-    
-    .modal-body {
-        padding: 20px;
-    }
-    
-    .share-buttons {
-        flex-direction: column;
-    }
-    
-    .fallback-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .toolbar {
-        padding: 10px;
-    }
-    
-    .fallback-message {
-        padding: 20px;
-    }
-    
-    .fallback-message i {
-        font-size: 48px;
-    }
-    
-    .fallback-message h3 {
-        font-size: 12px;
-        max-width: 120px;
-    }
-    
-    .error-content {
-        padding: 30px 20px;
-        margin: 20px;
-    }
-    
-    .error-content i {
-        font-size: 36px;
-    }
-    
-    .error-content h3 {
-        font-size: 20px;
-    }
-}
-
-/* 动画效果 */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.ppt-viewer-container {
-    animation: fadeIn 0.5s ease;
-}
-
-/* 全屏样式 */
-.fullscreen {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 9999 !important;
-    background: black !important;
-}
-
-.fullscreen .slides-container {
-    padding: 0;
-}
-
-.fullscreen .control-panel {
-    display: none;
-}
-
-/* 自定义滚动条 */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #bdc3c7;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #95a5a6;
-}
-
-/* Toast消息样式 */
-.toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
-    z-index: 10000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.toast.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* PDF查看器特定样式 */
-.pdf-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
 } 

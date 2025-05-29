@@ -15,6 +15,8 @@ class PPTViewer {
         this.loadAttempts = 0; // 添加加载尝试次数
         this.repeatedNavigationAttempts = 0; // 添加重复导航尝试次数
         this.hasSuccessfullyLoaded = false; // 添加成功加载标志
+        this.usingPptxJS = false; // 是否使用PptxJS渲染
+        this.pptxSlides = null; // 存储PPTX幻灯片对象
         this.init();
     }
 
@@ -48,9 +50,9 @@ class PPTViewer {
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         fullscreenBtn?.addEventListener('click', () => this.toggleFullscreen());
 
-        // 新窗口打开按钮
-        const newWindowBtn = document.getElementById('newWindowBtn');
-        newWindowBtn?.addEventListener('click', () => this.openInNewWindow());
+        // 下载按钮
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn?.addEventListener('click', () => this.downloadPresentation());
 
         // 分享按钮
         const shareBtn = document.getElementById('shareBtn');
@@ -101,57 +103,23 @@ class PPTViewer {
             }
         });
         
-        // 监听iframe中的鼠标事件
-        const iframe = document.getElementById('slidesIframe');
-        iframe?.addEventListener('load', () => {
-            try {
-                // 尝试监听iframe内的点击事件（可能受跨域限制）
-                if (iframe.contentDocument) {
-                    iframe.contentDocument.addEventListener('click', () => {
-                        this.lastSlideAreaClickTime = Date.now();
-                        
-                        // 如果是最后一页并且刚刚点击，显示提示
-                        if (this.isLastSlide) {
-                            // 稍微延迟以便更自然
-                            setTimeout(() => {
-                                showToast('⚠️ 已经是最后一页', 2000);
-                            }, 300);
-                        }
-                    });
-                    
-                    // 监听iframe内的错误事件
-                    iframe.contentWindow.addEventListener('error', (e) => {
-                        console.log('iframe内部错误:', e);
-                        // 如果已经成功加载过，且是导航操作引起的错误，拦截它
-                        if (this.hasSuccessfullyLoaded) {
-                            // 检查是否是最近的导航操作
-                            const now = Date.now();
-                            const recentNav = (this.lastRightArrowTime && (now - this.lastRightArrowTime < 2000)) ||
-                                           (this.lastSlideAreaClickTime && (now - this.lastSlideAreaClickTime < 2000));
-                            
-                            if (recentNav) {
-                                if (this.isLastSlide) {
-                                    showToast('⚠️ 已经是最后一页', 2000);
-                                } else {
-                                    showToast('⚠️ 已到达边界页', 2000);
-                                }
-                                e.preventDefault();
-                                e.stopPropagation();
-                                return false;
-                            }
-                        }
-                    });
-                }
-            } catch (e) {
-                // 跨域限制，忽略错误
-                console.log('无法直接监听iframe内部事件（跨域限制）:', e);
+        // PPTX本地渲染相关控制
+        const prevSlide = document.getElementById('prevSlide');
+        const nextSlide = document.getElementById('nextSlide');
+        
+        prevSlide?.addEventListener('click', () => {
+            if (this.usingPptxJS) {
+                this.navigatePptxSlide('prev');
+            } else {
+                this.navigateSlide('prev');
             }
-            
-            // 无论如何，标记为已成功加载
-            if (iframe.src) {
-                setTimeout(() => {
-                    this.hasSuccessfullyLoaded = true;
-                }, 1000);
+        });
+        
+        nextSlide?.addEventListener('click', () => {
+            if (this.usingPptxJS) {
+                this.navigatePptxSlide('next');
+            } else {
+                this.navigateSlide('next');
             }
         });
     }
@@ -164,17 +132,415 @@ class PPTViewer {
         }
 
         try {
-            const embedUrl = this.convertToEmbedUrl(this.currentUrl);
-            if (embedUrl) {
-                // 设置标志位表示正在尝试加载
-                this.isLoadingPresentation = true;
-                this.loadEmbedPresentation(embedUrl);
+            // 检查是否是本地PPTX文件
+            const isLocalPptx = this.currentUrl.endsWith('.pptx') && 
+                               (this.currentUrl.startsWith('./') || this.currentUrl.startsWith('/'));
+            
+            if (isLocalPptx) {
+                console.log('检测到本地PPTX文件:', this.currentUrl);
+                
+                // 直接使用Google Docs Viewer查看PPTX
+                this.directGoogleDocsViewer(this.currentUrl);
+                
+                // 设置下载链接
+                const downloadLink = document.getElementById('downloadLink');
+                if (downloadLink) {
+                    downloadLink.href = this.currentUrl;
+                    downloadLink.download = this.currentUrl.split('/').pop();
+                }
             } else {
-                this.showFallbackContent();
+                const embedUrl = this.convertToEmbedUrl(this.currentUrl);
+                if (embedUrl) {
+                    // 设置标志位表示正在尝试加载
+                    this.isLoadingPresentation = true;
+                    this.loadEmbedPresentation(embedUrl);
+                } else {
+                    this.showFallbackContent();
+                }
             }
         } catch (error) {
             console.error('加载演示文稿出错:', error);
             this.showError('加载演示文稿时出现错误');
+        }
+    }
+    
+    // 直接使用Google Docs Viewer (无降级方案)
+    directGoogleDocsViewer(url) {
+        console.log('直接使用Google Docs Viewer...');
+        
+        const pptxContainer = document.getElementById('pptxContainer');
+        const slidesContainer = document.getElementById('slidesContainer');
+        const fallbackContent = document.getElementById('fallbackContent');
+        const controlPanel = document.getElementById('controlPanel');
+        
+        // 显示PPTX容器，隐藏其他容器
+        pptxContainer.style.display = 'block';
+        slidesContainer.style.display = 'none';
+        fallbackContent.style.display = 'none';
+        
+        // 确保控制面板可见
+        if (controlPanel) {
+            controlPanel.style.display = 'block';
+        }
+        
+        // 设置标志位
+        this.usingPptxJS = false;
+        this.isLoadingPresentation = true;
+        
+        // 显示加载指示器
+        const loadingText = document.querySelector('#loadingIndicator p');
+        if (loadingText) {
+            loadingText.textContent = '正在加载Google文档查看器...';
+        }
+        
+        // 完整的文件URL
+        let fileUrl = url;
+        
+        // 如果是相对路径，转换为完整URL
+        if (url.startsWith('./') || url.startsWith('/')) {
+            const baseUrl = window.location.origin;
+            fileUrl = baseUrl + (url.startsWith('/') ? url : '/' + url.substring(2));
+        }
+        
+        // 构建Google Docs Viewer URL
+        const encodedUrl = encodeURIComponent(fileUrl);
+        const googleViewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
+        
+        console.log('Google Docs Viewer URL:', googleViewerUrl);
+        
+        // 显示Google Docs Viewer - 移除内联样式，让CSS文件中的样式生效
+        $("#pptx-viewer").empty();
+        $("#pptx-viewer").html(`
+            <div class="office-viewer-container"> 
+                <div class="loading-message">正在加载Google文档查看器...</div>
+                <iframe 
+                    id="google-viewer-frame"
+                    src="${googleViewerUrl}" 
+                    frameborder="0">
+                </iframe>
+            </div>
+        `);
+        
+        // 设置iframe加载事件
+        const iframe = document.getElementById('google-viewer-frame');
+        if (iframe) {
+            iframe.onload = () => {
+                console.log('Google Docs Viewer已加载');
+                
+                // 检查是否加载了错误页面
+                try {
+                    // 尝试捕获iframe内容中的错误信息
+                    const iframeContent = iframe.contentDocument || iframe.contentWindow.document;
+                    const errorText = iframeContent.body.innerText || '';
+                    
+                    if (errorText.includes('error') || errorText.includes('sorry') || errorText.includes('cannot')) {
+                        console.log('检测到Google Viewer错误页面，使用备选方案');
+                        this.tryEmbeddedPptViewer(url);
+                        return;
+                    }
+                } catch (e) {
+                    // 跨域限制无法访问iframe内容
+                    console.log('无法检查iframe内容:', e);
+                }
+                
+                // 隐藏加载信息
+                $(".loading-message").fadeOut();
+                
+                // 设置成功标志
+                this.hasSuccessfullyLoaded = true;
+                this.isLoadingPresentation = false;
+                this.hideLoading();
+                
+                // 显示成功提示
+                showToast('✅ 已使用Google文档查看器打开', 3000);
+            };
+            
+            iframe.onerror = () => {
+                console.error('Google Docs Viewer加载失败');
+                this.tryEmbeddedPptViewer(url);
+            };
+            
+            // 监听iframe的加载事件，检测错误
+            const handleIframeError = () => {
+                // 检查iframe是否包含错误信息
+                try {
+                    const frameWindow = iframe.contentWindow;
+                    if (frameWindow.document.title.includes("error") || 
+                        frameWindow.document.body.innerHTML.includes("error") ||
+                        frameWindow.document.body.innerHTML.includes("can't open")) {
+                        console.log('检测到Google Viewer错误');
+                        this.tryEmbeddedPptViewer(url);
+                    }
+                } catch (e) {
+                    // 可能因为跨域无法访问内容
+                    console.log('无法检查iframe内容(跨域限制)');
+                }
+            };
+            
+            // 添加额外的错误检测
+            iframe.addEventListener('load', handleIframeError);
+            
+            // 设置超时，如果加载时间过长，则使用备选方案
+            setTimeout(() => {
+                if (this.isLoadingPresentation) {
+                    console.log('Google Docs Viewer加载超时');
+                    this.tryEmbeddedPptViewer(url);
+                }
+            }, 10000);
+        } else {
+            // 如果无法创建iframe，使用备选方案
+            this.tryEmbeddedPptViewer(url);
+        }
+    }
+
+    // 尝试使用内嵌PPT查看器 (备选方案)
+    tryEmbeddedPptViewer(url) {
+        console.log('尝试使用内嵌PPT查看器...');
+        
+        // 提示用户
+        showToast('⚠️ 在线查看服务不可用，使用内嵌查看器...', 3000);
+        
+        // 获取文件名
+        const filename = url.split('/').pop();
+        
+        // 修改界面，提供更友好的体验
+        $("#pptx-viewer").empty();
+        $("#pptx-viewer").html(`
+            <div class="embedded-viewer">
+                <div class="viewer-header">
+                    <h3>${this.currentTitle}</h3>
+                    <p>内置查看器模式</p>
+                </div>
+                <div class="viewer-content">
+                    <div class="slide-preview">
+                        <div class="preview-content">
+                            <div class="preview-icon">
+                                <i class="fas fa-file-powerpoint"></i>
+                            </div>
+                            <div class="preview-text">
+                                <h4>${filename}</h4>
+                                <p>PowerPoint 演示文稿</p>
+                            </div>
+                        </div>
+                        <div class="preview-overlay">
+                            <div class="preview-message">
+                                <i class="fas fa-eye"></i>
+                                <p>查看器不可用</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-info">
+                        <div class="file-info">
+                            <p><i class="fas fa-info-circle"></i> 由于技术限制，无法在浏览器中直接查看此演示文稿</p>
+                            <p><i class="fas fa-file-powerpoint"></i> <strong>文件名:</strong> ${filename}</p>
+                            <p><i class="fas fa-download"></i> <strong>解决方案:</strong> 请下载文件后使用PowerPoint查看</p>
+                        </div>
+                        <div class="actions">
+                            <button class="action-button download-btn" id="embedded-download-btn">
+                                <i class="fas fa-download"></i> 下载查看
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        
+        // 添加下载按钮事件
+        const downloadBtn = document.getElementById('embedded-download-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => {
+                this.downloadPresentation();
+            });
+        }
+        
+        // 如果完全无法显示，最终回退到下载界面
+        this.hasSuccessfullyLoaded = true;
+        this.isLoadingPresentation = false;
+        this.hideLoading();
+    }
+
+    // PPTX加载完成回调
+    onPptxLoaded(args) {
+        console.log('PPTX加载完成:', args);
+        
+        // 隐藏加载指示器
+        this.hideLoading();
+        
+        // 设置幻灯片计数
+        this.totalSlides = args.totalSlides || $('.slide').length || 0;
+        this.currentSlideNumber = args.currentSlide || 1;
+        
+        // 更新UI
+        this.updatePptxSlideCounter();
+        
+        // 重置标志位
+        this.isLoadingPresentation = false;
+        this.hasSuccessfullyLoaded = true;
+        
+        // 获取幻灯片对象
+        this.pptxSlides = $('#all_slides_warpper');
+        
+        // 显示成功提示
+        showToast('PPTX文件加载成功', 2000);
+    }
+    
+    // PPTX幻灯片切换回调
+    onPptxSlideChanged(args) {
+        console.log('幻灯片已切换:', args);
+        
+        if (args) {
+            this.currentSlideNumber = args.currentSlide || this.currentSlideNumber;
+            this.totalSlides = args.totalSlides || this.totalSlides;
+            
+            // 更新是否在最后一页的状态
+            this.isLastSlide = (this.currentSlideNumber === this.totalSlides);
+            
+            // 更新计数器
+            this.updatePptxSlideCounter();
+        }
+    }
+    
+    // 更新PPTX幻灯片计数器
+    updatePptxSlideCounter() {
+        const currentSlideEl = document.getElementById('currentSlide');
+        const totalSlidesEl = document.getElementById('totalSlides');
+        
+        if (currentSlideEl) {
+            currentSlideEl.textContent = this.currentSlideNumber;
+        }
+        
+        if (totalSlidesEl) {
+            totalSlidesEl.textContent = this.totalSlides;
+        }
+    }
+    
+    // 导航PPTX幻灯片
+    navigatePptxSlide(direction) {
+        if (!this.pptxSlides) return;
+        
+        if (direction === 'next') {
+            if (this.currentSlideNumber < this.totalSlides) {
+                // 使用PptxJS的API切换到下一页
+                $("#slides-next-btn").click();
+                this.currentSlideNumber++;
+                this.updatePptxSlideCounter();
+            } else {
+                showToast('⚠️ 已经是最后一页', 2000);
+            }
+        } else if (direction === 'prev') {
+            if (this.currentSlideNumber > 1) {
+                // 使用PptxJS的API切换到上一页
+                $("#slides-prev-btn").click();
+                this.currentSlideNumber--;
+                this.updatePptxSlideCounter();
+            } else {
+                showToast('⚠️ 已经是第一页', 2000);
+            }
+        }
+    }
+    
+    // PPTX渲染失败时显示备用界面
+    showPptxFallback(url) {
+        console.log('PPTX渲染失败，显示备用界面');
+        
+        // 显示备用下载界面
+        this.showLocalPptxContent();
+        
+        // 显示错误提示
+        showToast('⚠️ PPTX渲染失败，请下载后查看', 3000);
+    }
+
+    // 显示本地PPTX文件的下载界面
+    showLocalPptxContent() {
+        const slidesContainer = document.getElementById('slidesContainer');
+        const pptxContainer = document.getElementById('pptxContainer');
+        const fallbackContent = document.getElementById('fallbackContent');
+        const downloadLink = document.getElementById('downloadLink');
+        const externalLink = document.getElementById('externalLink');
+
+        // 隐藏其他容器，显示备用内容
+        slidesContainer.style.display = 'none';
+        pptxContainer.style.display = 'none';
+        fallbackContent.style.display = 'flex';
+
+        // 设置下载链接
+        downloadLink.href = this.currentUrl;
+        downloadLink.download = this.currentUrl.split('/').pop();
+        
+        // 修改备用内容的显示文本
+        const fallbackMessage = fallbackContent.querySelector('.fallback-message');
+        if (fallbackMessage) {
+            const icon = fallbackMessage.querySelector('i');
+            const title = fallbackMessage.querySelector('h3');
+            const description = fallbackMessage.querySelector('p.enhanced-desc');
+            
+            if (icon) {
+                icon.className = 'fas fa-file-powerpoint enhanced-icon';
+                // 根据文件类型设置不同的图标颜色
+                if (this.currentUrl.endsWith('.pptx')) {
+                    icon.style.color = '#e74c3c'; // PowerPoint红色
+                }
+            }
+            
+            if (title) title.textContent = '演示文稿准备就绪';
+            if (description) {
+                const filename = this.currentUrl.split('/').pop();
+                description.textContent = `演示文稿"${filename}"可供下载查看。无法在浏览器中直接渲染该PPTX文件。`;
+            }
+            
+            // 设置下载按钮文本
+            const downloadBtn = downloadLink.querySelector('span') || downloadLink;
+            if (downloadBtn) {
+                const downloadIcon = downloadLink.querySelector('i');
+                if (downloadIcon) downloadIcon.className = 'fas fa-download';
+                downloadLink.innerHTML = '<i class="fas fa-download"></i> 下载演示文稿';
+            }
+        }
+        
+        // 隐藏外部链接按钮
+        if (externalLink) externalLink.style.display = 'none';
+        
+        // 重置加载状态
+        this.isLoadingPresentation = false;
+        this.loadAttempts = 0;
+        
+        // 隐藏加载指示器
+        this.hideLoading();
+        
+        // 添加动画效果，吸引用户注意
+        setTimeout(() => {
+            const icon = fallbackMessage.querySelector('i.enhanced-icon');
+            if (icon) {
+                icon.style.animation = 'pulse 2s infinite';
+            }
+            
+            // 在下载按钮上添加脉冲动画
+            if (downloadLink) {
+                downloadLink.classList.add('pulse-animation');
+            }
+        }, 500);
+    }
+
+    // 下载演示文稿
+    downloadPresentation() {
+        if (this.currentUrl) {
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.href = this.currentUrl;
+            
+            // 获取文件名
+            const filename = this.currentUrl.split('/').pop();
+            link.download = filename; 
+            
+            // 触发下载
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 显示提示
+            showToast(`正在下载: ${filename}`, 3000);
+        } else {
+            showToast('没有可下载的文件', 2000);
         }
     }
 
@@ -183,6 +549,13 @@ class PPTViewer {
         if (!url) return null;
         
         try {
+            // 本地PPTX文件支持
+            if (url.endsWith('.pptx')) {
+                // 如果是本地PPTX文件，使用Office Online Viewer
+                const encodedUrl = encodeURIComponent(window.location.origin + '/' + url);
+                return `https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}`;
+            }
+            
             // Google Slides URL转换
             if (url.includes('docs.google.com/presentation')) {
                 // 提取文档ID
@@ -198,6 +571,14 @@ class PPTViewer {
                 const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
                 if (match) {
                     const fileId = match[1];
+                    
+                    // 如果是PPTX文件，使用Office Online Viewer
+                    if (url.toLowerCase().includes('.pptx') || url.toLowerCase().includes('presentation')) {
+                        const driveUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                        const encodedUrl = encodeURIComponent(driveUrl);
+                        return `https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}`;
+                    }
+                    
                     return `https://drive.google.com/file/d/${fileId}/preview`;
                 }
             }
@@ -313,11 +694,6 @@ class PPTViewer {
 
     // 显示备用内容
     showFallbackContent() {
-        // 如果可能是因为翻页导致的，尝试再次检查
-        if (this.handleLoadingError()) {
-            return; // 已经处理了翻页错误，不显示备用内容
-        }
-        
         // 检查是否有加载中的iframe
         const iframe = document.getElementById('slidesIframe');
         if (iframe && iframe.src && this.currentUrl) {
@@ -338,8 +714,32 @@ class PPTViewer {
 
         // 设置下载和外部链接
         if (this.currentUrl) {
-            downloadLink.href = this.currentUrl;
-            externalLink.href = this.currentUrl;
+            // 检查是否是本地PPTX文件
+            const isLocalPptx = this.currentUrl.endsWith('.pptx') && 
+                               (this.currentUrl.startsWith('./') || this.currentUrl.startsWith('/'));
+            
+            if (isLocalPptx) {
+                // 本地PPTX文件
+                downloadLink.href = this.currentUrl;
+                downloadLink.download = this.currentUrl.split('/').pop();
+                
+                // 修改备用内容的显示文本
+                const fallbackMessage = fallbackContent.querySelector('.fallback-message');
+                if (fallbackMessage) {
+                    const title = fallbackMessage.querySelector('h3');
+                    const description = fallbackMessage.querySelector('p');
+                    
+                    if (title) title.textContent = '无法在线预览PPTX';
+                    if (description) description.textContent = '您可以下载演示文稿在本地查看。';
+                }
+                
+                // 隐藏外部链接按钮
+                if (externalLink) externalLink.style.display = 'none';
+            } else {
+                // 其他链接
+                downloadLink.href = this.currentUrl;
+                externalLink.href = this.currentUrl;
+            }
         }
         
         // 重置加载状态
@@ -463,40 +863,126 @@ class PPTViewer {
 
     // 改变显示比例
     changeAspectRatio(ratio) {
-        const slidesContainer = document.getElementById('slidesContainer');
-        
+        console.log('Changing aspect ratio to:', ratio);
+        const googleFrame = document.getElementById('google-viewer-frame');
+        let targetElement = null;
+
+        if (googleFrame && googleFrame.closest) { // Ensure googleFrame and closest method exist
+            targetElement = googleFrame.closest('.office-viewer-container');
+        }
+
+        if (!targetElement) {
+            console.warn('Target element for aspect ratio change not found.');
+            // Fallback to pptxContainer or slidesContainer if Google Viewer is not the active one
+            // This part might need more context on how `this.usingPptxJS` is determined reliably
+            const pptxContainer = document.getElementById('pptxContainer');
+            const slidesContainer = document.getElementById('slidesContainer');
+            if (pptxContainer && pptxContainer.style.display !== 'none') {
+                targetElement = pptxContainer;
+            } else if (slidesContainer && slidesContainer.style.display !== 'none') {
+                targetElement = slidesContainer;
+            }
+            if (!targetElement) {
+                console.error('No suitable target element found for aspect ratio change.');
+                 showToast('无法应用显示比例：未找到目标容器', 2000);
+                return;
+            }
+        }
+
+        // Resetting properties that might interfere with aspect-ratio
+        targetElement.style.width = ''; // Let CSS handle width initially or set explicitly below
+        targetElement.style.height = ''; // Let CSS handle height or set explicitly below
+        targetElement.style.maxWidth = '';
+        targetElement.style.maxHeight = ''; // CSS will enforce max-height from .office-viewer-container
+
         switch (ratio) {
             case '16:9':
-                slidesContainer.style.aspectRatio = '16/9';
+                targetElement.style.aspectRatio = '16/9';
+                targetElement.style.width = '100%'; // Take full width, height adjusts
+                targetElement.style.maxHeight = '80vh'; // Re-apply if needed, though CSS should handle
                 break;
             case '4:3':
-                slidesContainer.style.aspectRatio = '4/3';
+                targetElement.style.aspectRatio = '4/3';
+                targetElement.style.width = '100%'; // Take full width, height adjusts
+                targetElement.style.maxHeight = '80vh'; // Re-apply if needed
                 break;
-            case 'custom':
-                slidesContainer.style.aspectRatio = 'auto';
+            case 'custom': // Fill available space, respecting max-height from CSS
+                targetElement.style.aspectRatio = 'auto';
+                targetElement.style.width = '100%';
+                targetElement.style.height = '100%'; // Try to fill height, CSS max-height will cap it
+                // If .office-viewer-container has max-height: 80vh, this effectively makes it 80vh
                 break;
+            default:
+                console.warn('Unknown aspect ratio:', ratio);
+                return;
         }
+        showToast(`显示比例已设置为: ${ratio}`, 1500);
     }
 
     // 重置视图
     resetView() {
-        const iframe = document.getElementById('slidesIframe');
-        const slidesContainer = document.getElementById('slidesContainer');
-        
-        // 重置样式
-        slidesContainer.style.aspectRatio = '';
-        
-        // 重新加载iframe
-        if (iframe.src) {
-            iframe.src = iframe.src;
-        }
-    }
+        console.log('Resetting view...');
+        const googleFrame = document.getElementById('google-viewer-frame');
+        let targetElement = null;
 
+        if (googleFrame && googleFrame.closest) {
+            targetElement = googleFrame.closest('.office-viewer-container');
+        }
+        
+        if (!targetElement) {
+            console.warn('Target element for view reset not found.');
+            const pptxContainer = document.getElementById('pptxContainer');
+            const slidesContainer = document.getElementById('slidesContainer');
+            if (pptxContainer && pptxContainer.style.display !== 'none') {
+                targetElement = pptxContainer;
+            } else if (slidesContainer && slidesContainer.style.display !== 'none') {
+                targetElement = slidesContainer;
+            }
+             if (!targetElement) {
+                console.error('No suitable target element found for view reset.');
+                showToast('无法重置视图：未找到目标容器', 2000);
+                return;
+            }
+        }
+
+        // Reset to default defined in CSS for .office-viewer-container
+        targetElement.style.aspectRatio = '16/9';
+        targetElement.style.width = '100%';
+        targetElement.style.height = ''; // Let aspect ratio and max-height determine height
+        targetElement.style.maxWidth = '';
+        targetElement.style.maxHeight = '80vh'; // Explicitly reset max-height if it was changed
+
+        // Reset the dropdown in the UI
+        const aspectRatioSelect = document.getElementById('aspectRatio');
+        if (aspectRatioSelect) {
+            aspectRatioSelect.value = '16:9';
+        }
+
+        // Optionally, refresh the iframe if it's Google Docs Viewer to ensure changes apply
+        if (googleFrame && googleFrame.src && targetElement === googleFrame.closest('.office-viewer-container')) {
+            // To prevent rapid reloads, consider if this is always necessary
+            // googleFrame.src = googleFrame.src; 
+            console.log('Google Docs Viewer frame will be visually reset by style changes.');
+        }
+
+        showToast('视图已重置为默认设置', 1500);
+    }
+    
     // 刷新演示文稿
     refreshPresentation() {
         const iframe = document.getElementById('slidesIframe');
-        if (iframe.src) {
+        const googleFrame = document.getElementById('google-viewer-frame');
+        
+        if (googleFrame && googleFrame.src) {
+            // 刷新Google Docs Viewer
+            googleFrame.src = googleFrame.src;
+            showToast('正在刷新演示文稿...', 1500);
+            return;
+        }
+        
+        if (iframe && iframe.src) {
             iframe.src = iframe.src;
+            showToast('正在刷新演示文稿...', 1500);
         }
     }
 
