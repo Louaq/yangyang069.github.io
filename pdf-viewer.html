@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer - YangYang</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="ppt-viewer.css">
+    <!-- 添加PDF.js库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- 设置PDF.js Worker -->
+    <script>
+        // 设置PDF.js worker路径
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+    </script>
+    <style>
+        /* PDF查看器特定样式 */
+        .pdf-container {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: #525659;
+            position: relative;
+        }
+        
+        #pdfViewerContainer {
+            margin: 0 auto;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100%;
+        }
+        
+        .pdf-page {
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            background-color: white;
+        }
+        
+        /* 导航控制 */
+        .pdf-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            z-index: 100;
+        }
+        
+        .pdf-control-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .pdf-control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .page-indicator {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 加载指示器样式 */
+        .pdf-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+        
+        .pdf-loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        
+        #downloadOriginalBtn {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(52, 152, 219, 0.8);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        #downloadOriginalBtn:hover {
+            background: rgba(52, 152, 219, 1);
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载指示器 -->
+    <div class="loading-indicator" id="loadingIndicator">
+        <div class="loading-spinner"></div>
+        <p>加载PDF文件中...</p>
+    </div>
+
+    <!-- 错误提示 -->
+    <div class="error-message" id="errorMessage" style="display: none;">
+        <div class="error-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>加载失败</h3>
+            <p id="errorText">无法加载PDF文件，请检查链接。</p>
+            <button class="retry-btn" onclick="window.location.reload()">重试</button>
+        </div>
+    </div>
+
+    <!-- PDF查看器容器 -->
+    <div class="ppt-viewer-container" id="pptViewerContainer" style="display: none;">
+        <!-- 工具栏 -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <button id="prevPageBtn" class="tool-btn" title="上一页">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="nextPageBtn" class="tool-btn" title="下一页">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <span id="pageInfo" class="page-info">1 / 1</span>
+            </div>
+
+            <div class="toolbar-center">
+                <h3 id="presentationTitle">PDF文档</h3>
+            </div>
+
+            <div class="toolbar-right">
+                <button id="zoomOutBtn" class="tool-btn" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+                <button id="zoomInBtn" class="tool-btn" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <button id="fullscreenBtn" class="tool-btn" title="全屏模式">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button id="shareBtn" class="tool-btn" title="分享">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- PDF内容区域 -->
+        <div class="pdf-container" id="pdfContainer">
+            <div id="pdfViewerContainer"></div>
+            
+            <!-- 下载原始PDF按钮 -->
+            <button id="downloadOriginalBtn">
+                <i class="fas fa-download"></i>
+                <span>下载原文件</span>
+            </button>
+            
+            <!-- PDF加载指示器 -->
+            <div class="pdf-loading" id="pdfLoading">
+                <div class="pdf-loading-spinner"></div>
+                <p>渲染PDF中...</p>
+            </div>
+            
+            <!-- 页面导航控制 -->
+            <div class="pdf-controls" id="pdfControls">
+                <button id="firstPageBtn" class="pdf-control-btn">
+                    <i class="fas fa-angle-double-left"></i>
+                </button>
+                <button id="prevPageBtnBottom" class="pdf-control-btn">
+                    <i class="fas fa-angle-left"></i>
+                </button>
+                <div class="page-indicator">
+                    <span id="currentPage">1</span> / <span id="totalPages">1</span>
+                </div>
+                <button id="nextPageBtnBottom" class="pdf-control-btn">
+                    <i class="fas fa-angle-right"></i>
+                </button>
+                <button id="lastPageBtn" class="pdf-control-btn">
+                    <i class="fas fa-angle-double-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分享模态框 -->
+    <div class="modal" id="shareModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>分享PDF文档</h3>
+                <button class="close-btn" onclick="closeShareModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="share-option">
+                    <label>链接分享：</label>
+                    <div class="share-link-container">
+                        <input type="text" id="shareLink" readonly>
+                        <button class="copy-btn" onclick="copyShareLink()">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="share-buttons">
+                    <button class="share-btn email" onclick="shareViaEmail()">
+                        <i class="fas fa-envelope"></i>
+                        邮件
+                    </button>
+                    <button class="share-btn copy" onclick="copyShareLink()">
+                        <i class="fas fa-link"></i>
+                        复制链接
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="pdf-viewer.js"></script>
+</body>
+</html> 
