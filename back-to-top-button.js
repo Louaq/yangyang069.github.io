@@ -1,6 +1,5 @@
 // 等待DOM加载完成
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('开始创建返回顶部按钮');
     
     // 创建按钮元素
     var backToTopBtn = document.createElement('button');
@@ -32,8 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 添加按钮到body
     document.body.appendChild(backToTopBtn);
     
-    console.log('按钮已添加到DOM');
-    
     // 悬停效果
     backToTopBtn.addEventListener('mouseenter', function() {
         this.style.backgroundColor = '#00ff88'; // 变为绿色
@@ -50,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 点击事件 - 滚动到顶部
     backToTopBtn.addEventListener('click', function() {
-        console.log('按钮被点击');
         
         // 点击反馈效果
         this.style.transform = 'scale(0.95)';
@@ -136,5 +132,4 @@ document.addEventListener('DOMContentLoaded', function() {
         backToTopBtn.style.visibility = 'visible';
     }
     
-    console.log('返回顶部按钮初始化完成');
 }); 
