@@ -7,7 +7,7 @@ class PDFViewer {
         this.pdfDoc = null;
         this.currentPage = 1;
         this.totalPages = 0;
-        this.scale = 1.5; // 初始缩放比例
+        this.scale = this.getInitialScale(); // 根据设备动态设置初始缩放比例
         this.pdfInstance = null;
         this.rendering = false;
         this.pageRendering = false;
@@ -17,7 +17,15 @@ class PDFViewer {
         this.isGoogleDriveUrl = false;
         this.googleDriveFileId = '';
         this.pdfData = null;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
         this.init();
+    }
+
+    // 根据设备设置合适的初始缩放比例
+    getInitialScale() {
+        const isMobile = window.innerWidth <= 768;
+        return isMobile ? 1.0 : 1.5; // 移动端使用较小的缩放比例
     }
 
     init() {
@@ -58,15 +66,9 @@ class PDFViewer {
     setupEventListeners() {
         // 上一页按钮
         document.getElementById('prevPageBtn')?.addEventListener('click', () => this.prevPage());
-        document.getElementById('prevPageBtnBottom')?.addEventListener('click', () => this.prevPage());
         
         // 下一页按钮
         document.getElementById('nextPageBtn')?.addEventListener('click', () => this.nextPage());
-        document.getElementById('nextPageBtnBottom')?.addEventListener('click', () => this.nextPage());
-        
-        // 首页和尾页按钮
-        document.getElementById('firstPageBtn')?.addEventListener('click', () => this.gotoPage(1));
-        document.getElementById('lastPageBtn')?.addEventListener('click', () => this.gotoPage(this.totalPages));
         
         // 缩放按钮
         document.getElementById('zoomInBtn')?.addEventListener('click', () => this.zoomIn());
@@ -78,9 +80,6 @@ class PDFViewer {
         // 分享按钮
         document.getElementById('shareBtn')?.addEventListener('click', () => this.showShareModal());
         
-        // 下载原始PDF按钮
-        document.getElementById('downloadOriginalBtn')?.addEventListener('click', () => this.downloadPDF());
-        
         // 键盘事件
         document.addEventListener('keydown', (e) => this.handleKeyboardEvents(e));
         
@@ -89,6 +88,51 @@ class PDFViewer {
         document.addEventListener('webkitfullscreenchange', () => this.onFullscreenChange());
         document.addEventListener('mozfullscreenchange', () => this.onFullscreenChange());
         document.addEventListener('MSFullscreenChange', () => this.onFullscreenChange());
+        
+        // 触摸事件 - 添加滑动翻页功能
+        const pdfContainer = document.getElementById('pdfContainer');
+        if (pdfContainer) {
+            pdfContainer.addEventListener('touchstart', (e) => this.handleTouchStart(e));
+            pdfContainer.addEventListener('touchend', (e) => this.handleTouchEnd(e));
+        }
+        
+        // 窗口大小变化时重新计算缩放比例
+        window.addEventListener('resize', () => {
+            // 只有当屏幕宽度变化跨越移动端与桌面端边界时才重新渲染
+            const newScale = this.getInitialScale();
+            if ((this.scale > 1.0 && newScale === 1.0) || (this.scale === 1.0 && newScale > 1.0)) {
+                this.scale = newScale;
+                this.rerenderWithNewScale();
+            }
+        });
+    }
+
+    // 处理触摸开始事件
+    handleTouchStart(e) {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+    }
+
+    // 处理触摸结束事件
+    handleTouchEnd(e) {
+        if (!e.changedTouches || !e.changedTouches[0]) return;
+        
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        
+        const diffX = this.touchStartX - touchEndX;
+        const diffY = this.touchStartY - touchEndY;
+        
+        // 确保是水平滑动而不是垂直滑动
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                // 向左滑动，下一页
+                this.nextPage();
+            } else {
+                // 向右滑动，上一页
+                this.prevPage();
+            }
+        }
     }
 
     // 加载PDF
@@ -118,15 +162,6 @@ class PDFViewer {
                 }
             }
             
-            // 设置下载原始文件按钮的链接
-            document.getElementById('downloadOriginalBtn').onclick = () => {
-                if (directDownloadUrl) {
-                    window.open(directDownloadUrl, '_blank');
-                } else {
-                    window.open(this.currentUrl, '_blank');
-                }
-            };
-            
             try {
                 // 加载PDF文件
                 const loadingTask = pdfjsLib.getDocument({
@@ -143,7 +178,6 @@ class PDFViewer {
                 this.totalPages = this.pdfDoc.numPages;
                 
                 // 更新页码信息
-                document.getElementById('totalPages').textContent = this.totalPages;
                 document.getElementById('pageInfo').textContent = `1 / ${this.totalPages}`;
                 
                 // 渲染PDF
@@ -167,7 +201,6 @@ class PDFViewer {
                         this.totalPages = this.pdfDoc.numPages;
                         
                         // 更新页码信息
-                        document.getElementById('totalPages').textContent = this.totalPages;
                         document.getElementById('pageInfo').textContent = `1 / ${this.totalPages}`;
                         
                         // 渲染PDF
@@ -250,7 +283,6 @@ class PDFViewer {
         this.currentPage = pageNum;
         
         // 更新页码显示
-        document.getElementById('currentPage').textContent = this.currentPage;
         document.getElementById('pageInfo').textContent = `${this.currentPage} / ${this.totalPages}`;
         
         // 滚动到指定页面
@@ -299,23 +331,6 @@ class PDFViewer {
         
         // 滚动到当前页
         this.gotoPage(currentPageNum);
-    }
-    
-    // 下载PDF
-    downloadPDF() {
-        if (this.isGoogleDriveUrl && this.googleDriveFileId) {
-            if (this.googleDriveFileId === '1F_-B5dBFDnUULavpaM1SWXx-FXBBzvFw') {
-                // 对于本地文件，提供本地下载链接
-                window.open('./pdf/978-3-031-82024-3_8.pdf', '_blank');
-            } else {
-                // 对于Google Drive链接，使用导出下载
-                const downloadUrl = `https://drive.google.com/uc?export=download&id=${this.googleDriveFileId}`;
-                window.open(downloadUrl, '_blank');
-            }
-        } else {
-            // 对于其他链接，直接打开
-            window.open(this.currentUrl, '_blank');
-        }
     }
 
     // 处理键盘事件

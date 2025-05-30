@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PDF Viewer - YangYang</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -39,45 +39,8 @@
             margin-bottom: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             background-color: white;
-        }
-        
-        /* 导航控制 */
-        .pdf-controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 10px 15px;
-            border-radius: 8px;
-            z-index: 100;
-        }
-        
-        .pdf-control-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .pdf-control-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .page-indicator {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
+            max-width: 100%;
+            height: auto;
         }
         
         /* 加载指示器样式 */
@@ -103,24 +66,35 @@
             margin-bottom: 10px;
         }
         
-        #downloadOriginalBtn {
-            position: fixed;
-            top: 70px;
-            right: 20px;
-            background: rgba(52, 152, 219, 0.8);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        /* 全屏模式样式 */
+        .fullscreen .pdf-container {
+            background-color: #2c3e50;
         }
         
-        #downloadOriginalBtn:hover {
-            background: rgba(52, 152, 219, 1);
+        .fullscreen .toolbar {
+            background: rgba(44, 62, 80, 0.9);
+        }
+        
+        /* 移动端响应式设计 */
+        @media (max-width: 768px) {
+            .toolbar-center h3 {
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {            
+            .toolbar-left .tool-btn,
+            .toolbar-right .tool-btn {
+                padding: 6px;
+            }
+            
+            .toolbar-center h3 {
+                max-width: 120px;
+            }
         }
     </style>
 </head>
@@ -179,35 +153,10 @@
         <div class="pdf-container" id="pdfContainer">
             <div id="pdfViewerContainer"></div>
             
-            <!-- 下载原始PDF按钮 -->
-            <button id="downloadOriginalBtn">
-                <i class="fas fa-download"></i>
-                <span>下载原文件</span>
-            </button>
-            
             <!-- PDF加载指示器 -->
             <div class="pdf-loading" id="pdfLoading">
                 <div class="pdf-loading-spinner"></div>
                 <p>渲染PDF中...</p>
-            </div>
-            
-            <!-- 页面导航控制 -->
-            <div class="pdf-controls" id="pdfControls">
-                <button id="firstPageBtn" class="pdf-control-btn">
-                    <i class="fas fa-angle-double-left"></i>
-                </button>
-                <button id="prevPageBtnBottom" class="pdf-control-btn">
-                    <i class="fas fa-angle-left"></i>
-                </button>
-                <div class="page-indicator">
-                    <span id="currentPage">1</span> / <span id="totalPages">1</span>
-                </div>
-                <button id="nextPageBtnBottom" class="pdf-control-btn">
-                    <i class="fas fa-angle-right"></i>
-                </button>
-                <button id="lastPageBtn" class="pdf-control-btn">
-                    <i class="fas fa-angle-double-right"></i>
-                </button>
             </div>
         </div>
     </div>
