@@ -143,6 +143,11 @@ if (themeToggle) {
         setTimeout(() => {
             showThemeIndicator(newTheme);
         }, 100);
+        
+        // 发布主题变化事件
+        document.dispatchEvent(new CustomEvent('themeChanged', { 
+            detail: { theme: newTheme } 
+        }));
     });
 }
 
@@ -197,135 +202,173 @@ document.addEventListener('DOMContentLoaded', function() {
     // ... existing code ...
 });
 
-// 动态创建返回顶部按钮
+// 创建全新的返回顶部按钮 (v3 - Sleek Compact)
 function createBackToTopButton() {
-    // 检查是否已存在返回顶部按钮
-    if (document.querySelector('.back-to-top-new')) {
-        return;
+    // 彻底移除所有已知的旧按钮实例
+    const oldButtonSelectors = [
+        '.back-to-top-new', 
+        '.modern-back-to-top', 
+        '.floating-back-to-top', 
+        '.sleek-back-to-top' // 也包括当前尝试创建的按钮，以防重复执行
+    ];
+    oldButtonSelectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(btn => btn.remove());
+    });
+
+    // 移除旧样式 (if any)
+    const oldStyle = document.getElementById('back-to-top-style');
+    if (oldStyle) {
+        oldStyle.remove();
     }
-    
-    // 创建按钮元素
+
+    // 创建新按钮元素
     const backToTopButton = document.createElement('button');
-    backToTopButton.className = 'back-to-top-new';
+    backToTopButton.className = 'sleek-back-to-top';
     backToTopButton.setAttribute('aria-label', '返回顶部');
     
-    // 创建图标
-    const icon = document.createElement('i');
-    icon.className = 'fas fa-arrow-up';
-    icon.style.fontSize = '20px';
-    
-    // 添加样式
-    backToTopButton.style.position = 'fixed';
-    backToTopButton.style.bottom = '30px';
-    backToTopButton.style.right = '30px';
-    backToTopButton.style.width = '50px';
-    backToTopButton.style.height = '50px';
-    backToTopButton.style.borderRadius = '50%';
-    backToTopButton.style.backgroundColor = '#00ffff';
-    backToTopButton.style.color = '#0a0a0a';
-    backToTopButton.style.border = 'none';
-    backToTopButton.style.boxShadow = '0 4px 15px rgba(0, 255, 255, 0.3)';
-    backToTopButton.style.cursor = 'pointer';
-    backToTopButton.style.zIndex = '9999';
-    backToTopButton.style.display = 'flex';
-    backToTopButton.style.alignItems = 'center';
-    backToTopButton.style.justifyContent = 'center';
-    backToTopButton.style.transition = 'all 0.3s ease';
-    
-    // 添加图标到按钮
-    backToTopButton.appendChild(icon);
-    
-    // 添加按钮到body
+    // 创建SVG图标
+    backToTopButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 8.293l-6.293 6.293a1 1 0 01-1.414-1.414l7-7a1 1 0 011.414 0l7 7a1 1 0 01-1.414 1.414L12 8.293z"/>
+        </svg>
+    `;
+
     document.body.appendChild(backToTopButton);
-    
-    // 添加点击事件
-    backToTopButton.addEventListener('click', function() {
-        // 添加点击效果
-        this.style.transform = 'scale(0.95)';
-        this.style.boxShadow = '0 2px 8px rgba(0, 255, 255, 0.2)';
-        
-        // 200ms后恢复
-        setTimeout(() => {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 15px rgba(0, 255, 255, 0.3)';
-        }, 200);
-        
+
+    // 添加CSS样式
+    const styleSheet = document.createElement('style');
+    styleSheet.id = 'back-to-top-style';
+    styleSheet.textContent = `
+        .sleek-back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            background-color: var(--button-bg-color, rgba(0, 0, 0, 0.7));
+            border: 1px solid var(--button-border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 12px;
+            color: var(--button-icon-color, #ffffff);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.9);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .sleek-back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        .sleek-back-to-top:hover {
+            background-color: var(--button-bg-hover-color, rgba(0, 0, 0, 0.9));
+            border-color: var(--button-border-hover-color, rgba(255, 255, 255, 0.3));
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        .sleek-back-to-top:active {
+            transform: translateY(0) scale(0.95);
+            background-color: var(--button-bg-active-color, rgba(0, 0, 0, 0.6));
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .sleek-back-to-top svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            transition: transform 0.2s ease;
+        }
+        .sleek-back-to-top:hover svg {
+           transform: scale(1.1);
+        }
+
+        /* Theme variables for the button */
+        :root {
+            --button-bg-color-dark: rgba(30, 30, 30, 0.8);
+            --button-border-color-dark: rgba(80, 80, 80, 0.7);
+            --button-icon-color-dark: var(--neon-cyan, #00ffff);
+            --button-bg-hover-color-dark: rgba(50, 50, 50, 0.9);
+            --button-border-hover-color-dark: var(--neon-cyan, #00ffff);
+            --button-bg-active-color-dark: rgba(20, 20, 20, 0.7);
+
+            --button-bg-color-light: rgba(255, 255, 255, 0.9);
+            --button-border-color-light: rgba(200, 200, 200, 0.8);
+            --button-icon-color-light: var(--neon-blue, #007bff);
+            --button-bg-hover-color-light: rgba(240, 240, 240, 1);
+            --button-border-hover-color-light: var(--neon-blue, #007bff);
+            --button-bg-active-color-light: rgba(230, 230, 230, 0.9);
+        }
+
+        [data-theme="dark"] .sleek-back-to-top {
+            --button-bg-color: var(--button-bg-color-dark);
+            --button-border-color: var(--button-border-color-dark);
+            --button-icon-color: var(--button-icon-color-dark);
+            --button-bg-hover-color: var(--button-bg-hover-color-dark);
+            --button-border-hover-color: var(--button-border-hover-color-dark);
+            --button-bg-active-color: var(--button-bg-active-color-dark);
+        }
+
+        [data-theme="light"] .sleek-back-to-top {
+            --button-bg-color: var(--button-bg-color-light);
+            --button-border-color: var(--button-border-color-light);
+            --button-icon-color: var(--button-icon-color-light);
+            --button-bg-hover-color: var(--button-bg-hover-color-light);
+            --button-border-hover-color: var(--button-border-hover-color-light);
+            --button-bg-active-color: var(--button-bg-active-color-light);
+        }
+
+        @media (max-width: 768px) {
+            .sleek-back-to-top {
+                width: 42px;
+                height: 42px;
+                bottom: 20px;
+                right: 20px;
+                border-radius: 10px;
+            }
+            .sleek-back-to-top svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    `;
+    document.head.appendChild(styleSheet);
+
+    // 点击事件
+    backToTopButton.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
     });
-    
-    // 添加悬停效果
-    backToTopButton.addEventListener('mouseover', function() {
-        this.style.backgroundColor = '#00ff88';
-        this.style.transform = 'translateY(-5px)';
-        this.style.boxShadow = '0 8px 25px rgba(0, 255, 255, 0.5)';
-    });
-    
-    backToTopButton.addEventListener('mouseout', function() {
-        this.style.backgroundColor = '#00ffff';
-        this.style.transform = 'translateY(0)';
-        this.style.boxShadow = '0 4px 15px rgba(0, 255, 255, 0.3)';
-    });
-    
-    // 如果是浅色模式，调整颜色
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    if (currentTheme === 'light') {
-        backToTopButton.style.backgroundColor = '#0099cc';
-    }
-    
-    // 初始状态隐藏
-    backToTopButton.style.opacity = '0';
-    backToTopButton.style.visibility = 'hidden';
-    
-    // 监听滚动事件
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 300) {
-            backToTopButton.style.opacity = '1';
-            backToTopButton.style.visibility = 'visible';
+
+    // 滚动显示/隐藏
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            backToTopButton.classList.add('visible');
         } else {
-            backToTopButton.style.opacity = '0';
-            backToTopButton.style.visibility = 'hidden';
+            backToTopButton.classList.remove('visible');
         }
     });
-    
-    // 初始检查
-    if (window.scrollY > 300) {
-        backToTopButton.style.opacity = '1';
-        backToTopButton.style.visibility = 'visible';
+    // Initial check
+    if (window.scrollY > 200) {
+        backToTopButton.classList.add('visible');
     }
-    
-    // 移动设备适配
-    function adjustForMobile() {
-        if (window.innerWidth <= 768) {
-            backToTopButton.style.width = '40px';
-            backToTopButton.style.height = '40px';
-            backToTopButton.style.bottom = '20px';
-            backToTopButton.style.right = '20px';
-            icon.style.fontSize = '16px';
-        } else {
-            backToTopButton.style.width = '50px';
-            backToTopButton.style.height = '50px';
-            backToTopButton.style.bottom = '30px';
-            backToTopButton.style.right = '30px';
-            icon.style.fontSize = '20px';
-        }
-    }
-    
-    // 初始化调整
-    adjustForMobile();
-    
-    // 监听窗口大小变化
-    window.addEventListener('resize', adjustForMobile);
-    
-    console.log('返回顶部按钮已创建');
 }
 
 // 独立的返回顶部按钮功能
 function initBackToTop() {
-    // 创建按钮
     createBackToTopButton();
+}
+
+// Ensure the initBackToTop is called after DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBackToTop);
+} else {
+    initBackToTop(); // Or call it directly if DOM is already loaded
 }
 
 // 初始化
