@@ -197,9 +197,141 @@ document.addEventListener('DOMContentLoaded', function() {
     // ... existing code ...
 });
 
+// 动态创建返回顶部按钮
+function createBackToTopButton() {
+    // 检查是否已存在返回顶部按钮
+    if (document.querySelector('.back-to-top-new')) {
+        return;
+    }
+    
+    // 创建按钮元素
+    const backToTopButton = document.createElement('button');
+    backToTopButton.className = 'back-to-top-new';
+    backToTopButton.setAttribute('aria-label', '返回顶部');
+    
+    // 创建图标
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-arrow-up';
+    icon.style.fontSize = '20px';
+    
+    // 添加样式
+    backToTopButton.style.position = 'fixed';
+    backToTopButton.style.bottom = '30px';
+    backToTopButton.style.right = '30px';
+    backToTopButton.style.width = '50px';
+    backToTopButton.style.height = '50px';
+    backToTopButton.style.borderRadius = '50%';
+    backToTopButton.style.backgroundColor = '#00ffff';
+    backToTopButton.style.color = '#0a0a0a';
+    backToTopButton.style.border = 'none';
+    backToTopButton.style.boxShadow = '0 4px 15px rgba(0, 255, 255, 0.3)';
+    backToTopButton.style.cursor = 'pointer';
+    backToTopButton.style.zIndex = '9999';
+    backToTopButton.style.display = 'flex';
+    backToTopButton.style.alignItems = 'center';
+    backToTopButton.style.justifyContent = 'center';
+    backToTopButton.style.transition = 'all 0.3s ease';
+    
+    // 添加图标到按钮
+    backToTopButton.appendChild(icon);
+    
+    // 添加按钮到body
+    document.body.appendChild(backToTopButton);
+    
+    // 添加点击事件
+    backToTopButton.addEventListener('click', function() {
+        // 添加点击效果
+        this.style.transform = 'scale(0.95)';
+        this.style.boxShadow = '0 2px 8px rgba(0, 255, 255, 0.2)';
+        
+        // 200ms后恢复
+        setTimeout(() => {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 15px rgba(0, 255, 255, 0.3)';
+        }, 200);
+        
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // 添加悬停效果
+    backToTopButton.addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#00ff88';
+        this.style.transform = 'translateY(-5px)';
+        this.style.boxShadow = '0 8px 25px rgba(0, 255, 255, 0.5)';
+    });
+    
+    backToTopButton.addEventListener('mouseout', function() {
+        this.style.backgroundColor = '#00ffff';
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '0 4px 15px rgba(0, 255, 255, 0.3)';
+    });
+    
+    // 如果是浅色模式，调整颜色
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'light') {
+        backToTopButton.style.backgroundColor = '#0099cc';
+    }
+    
+    // 初始状态隐藏
+    backToTopButton.style.opacity = '0';
+    backToTopButton.style.visibility = 'hidden';
+    
+    // 监听滚动事件
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            backToTopButton.style.opacity = '1';
+            backToTopButton.style.visibility = 'visible';
+        } else {
+            backToTopButton.style.opacity = '0';
+            backToTopButton.style.visibility = 'hidden';
+        }
+    });
+    
+    // 初始检查
+    if (window.scrollY > 300) {
+        backToTopButton.style.opacity = '1';
+        backToTopButton.style.visibility = 'visible';
+    }
+    
+    // 移动设备适配
+    function adjustForMobile() {
+        if (window.innerWidth <= 768) {
+            backToTopButton.style.width = '40px';
+            backToTopButton.style.height = '40px';
+            backToTopButton.style.bottom = '20px';
+            backToTopButton.style.right = '20px';
+            icon.style.fontSize = '16px';
+        } else {
+            backToTopButton.style.width = '50px';
+            backToTopButton.style.height = '50px';
+            backToTopButton.style.bottom = '30px';
+            backToTopButton.style.right = '30px';
+            icon.style.fontSize = '20px';
+        }
+    }
+    
+    // 初始化调整
+    adjustForMobile();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', adjustForMobile);
+    
+    console.log('返回顶部按钮已创建');
+}
+
+// 独立的返回顶部按钮功能
+function initBackToTop() {
+    // 创建按钮
+    createBackToTopButton();
+}
+
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
     initSearchContent();
+    initBackToTop(); // 添加返回顶部按钮初始化
 
     // 搜索按钮点击事件
     if (searchBtn) {
@@ -240,28 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === searchOverlay) {
                 closeSearch();
             }
-        });
-    }
-
-    // 回到顶部按钮逻辑
-    const backToTopButton = document.querySelector('.back-to-top');
-
-    if (backToTopButton) {
-        // 监听滚动事件
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-
-        // 点击回到顶部
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
         });
     }
 

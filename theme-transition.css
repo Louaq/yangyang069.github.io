@@ -109,4 +109,13 @@ nav, .nav-links, .search-btn, .theme-toggle, .rss-btn {
 /* 确保文本颜色变化的过渡效果一致 */
 h1, h2, h3, p, a, .nav-links a, .hero-subtitle, .talk-description, .venue, .authors {
     transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+/* 返回顶部按钮过渡效果 */
+.back-to-top {
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-transitioning .back-to-top {
+    transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease !important;
 } 
