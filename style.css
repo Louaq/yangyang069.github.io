@@ -591,16 +591,6 @@ nav.scrolled {
 }
 
 /* Light Theme CTA Buttons */
-[data-theme="light"] .cta-button.primary {
-    background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.25);
-}
-
-[data-theme="light"] .cta-button.primary:hover {
-    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
-    background: linear-gradient(135deg, #00e6ff 0%, #00ff99 100%);
-}
 
 [data-theme="light"] .cta-button.secondary {
     background: transparent;
@@ -608,10 +598,6 @@ nav.scrolled {
     border-color: rgba(0, 153, 204, 0.3);
 }
 
-[data-theme="light"] .cta-button.secondary:hover {
-    background: rgba(0, 153, 204, 0.1);
-    border-color: var(--neon-cyan);
-}
 
 /* Light Theme Clustrmaps Container */
 [data-theme="light"] .clustrmaps-container {
@@ -656,12 +642,12 @@ nav.scrolled {
 
 /* Hero Section */
 .hero-section {
-    min-height: 100vh;
+    min-height: 55vh; /* 从100vh减少到80vh */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 3rem 2rem; /* 增加上下内边距 */
     margin-top: 70px;
     position: relative;
 }
@@ -744,11 +730,6 @@ nav.scrolled {
     box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
-.cta-button.primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
-    background: linear-gradient(135deg, #00e6ff 0%, #00ff99 100%);
-}
 
 .cta-button.secondary {
     background: rgba(255, 255, 255, 0.05);
@@ -758,13 +739,6 @@ nav.scrolled {
     -webkit-backdrop-filter: blur(10px);
 }
 
-.cta-button.secondary:hover {
-    background: rgba(0, 212, 255, 0.1);
-    border-color: #00d4ff;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
-    color: #00d4ff;
-}
 
 /* Hero Image */
 .hero-image {
@@ -786,17 +760,12 @@ nav.scrolled {
     border-radius: 50%;
     object-fit: cover;
     border: none;
-    box-shadow: var(--glow-cyan);
+    
     transition: var(--transition-normal);
     position: absolute;
     top: 0;
     left: 0;
     z-index: 2;
-}
-
-.profile-image:hover {
-    transform: rotate(3deg);
-    box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
 }
 
 .image-glow {
@@ -5178,5 +5147,171 @@ nav.scrolled {
     
     .back-to-top i {
         font-size: 16px;
+    }
+}
+
+/* 引用模态对话框样式 */
+.citation-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* 减轻背景不透明度 */
+    backdrop-filter: blur(2px); /* 减轻模糊效果 */
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.citation-modal-content {
+    background-color: #fff; /* 固定为白色背景 */
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin: 10% auto;
+    padding: 24px;
+    width: 90%;
+    max-width: 550px;
+    position: relative;
+    animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.citation-close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    color: #5f6368;
+    font-size: 22px;
+    font-weight: normal;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.citation-close:hover {
+    color: #202124;
+}
+
+.citation-modal h3 {
+    color: #202124;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    margin-right: 30px;
+}
+
+.citation-text-container {
+    margin: 20px 0;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #dadce0;
+}
+
+#citation-text {
+    white-space: pre-wrap;
+    font-family: 'Roboto Mono', monospace;
+    margin: 0;
+    color: #202124;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* 重新设计复制引用按钮 */
+.copy-citation-btn {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: none;
+    margin-left: auto;
+}
+
+.copy-citation-btn:hover {
+    background-color: #1765cc;
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3);
+}
+
+.copy-citation-btn:active {
+    background-color: #185abc;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+}
+
+.copy-success {
+    background-color: #188038 !important;
+}
+
+/* 亮色主题下保持相同的样式 */
+[data-theme="light"] .citation-modal {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .citation-modal-content,
+[data-theme="dark"] .citation-modal-content {
+    background-color: #fff;
+    color: #202124;
+}
+
+[data-theme="light"] .citation-text-container,
+[data-theme="dark"] .citation-text-container {
+    background-color: #f8f9fa;
+}
+
+[data-theme="light"] #citation-text,
+[data-theme="dark"] #citation-text {
+    color: #202124;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .citation-modal-content {
+        width: 95%;
+        margin: 15% auto;
+        padding: 20px;
+    }
+    
+    .citation-text-container {
+        padding: 12px;
+        max-height: 200px;
+    }
+    
+    .copy-citation-btn {
+        width: auto;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: auto; /* 移动端不使用vh单位 */
+        padding: 4rem 1rem 3rem; /* 调整移动端上下内边距 */
+    }
+    
+    .hero-content {
+        gap: 2rem;
     }
 }

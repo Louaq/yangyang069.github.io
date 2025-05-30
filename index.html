@@ -7,7 +7,7 @@
     <title>YangYang(杨杨)-Homepage</title>
     <!-- 内联脚本预设主题，防止闪烁 -->
     <script>
-        (function() {
+        (function () {
             const savedTheme = localStorage.getItem('theme');
             document.documentElement.setAttribute('data-theme', savedTheme || 'dark');
         })();
@@ -18,8 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-transition.css">
     <link rel="stylesheet" href="back-to-top.css">
@@ -64,18 +63,6 @@
                 <p class="hero-subtitle">MS Student with 2+ years of experience, passionate about Computer Vision, AI
                     research, and innovative technology that sparks breakthrough discoveries. I love bringing research
                     ideas to life. 🚀🔬</p>
-
-                <div class="hero-actions">
-                    <a href="mailto:yangyang@mail.scuec.edu.cn" class="cta-button primary">
-                        <i class="fas fa-envelope"></i>
-                        Contact Me
-                    </a>
-                    <a href="#about-me" class="cta-button secondary">
-                        <i class="fas fa-user"></i>
-                        About Me
-                    </a>
-                </div>
-
                 <div class="social-links">
                     <a href="mailto:yangyang@mail.scuec.edu.cn" data-tooltip="Email" target="_blank"
                         rel="noopener noreferrer">
@@ -103,19 +90,6 @@
                 <div class="image-container">
                     <img src="img/avatar.png" alt="YangYang Profile" class="profile-image">
                 </div>
-            </div>
-        </div>
-
-        <!-- Beyond the Code Section -->
-        <div class="beyond-code">
-            <h3>Beyond the Code</h3>
-            <div class="interests-grid">
-                <span class="interest-tag">Research</span>
-                <span class="interest-tag">Deep Learning</span>
-                <span class="interest-tag">Computer Vision</span>
-                <span class="interest-tag">Open Source</span>
-                <span class="interest-tag">Academic Writing</span>
-                <span class="interest-tag">Innovation</span>
             </div>
         </div>
     </section>
@@ -206,16 +180,19 @@
                         </div>
                         <div class="publication-content">
                             <h3 itemprop="headline">An Improved YOLOv8-Based Rice Pest and Disease Detection Method</h3>
-                            <p class="authors" itemprop="author"><strong>Yang Yang</strong>, Jianlin Zhu, Bo Yang, Xiao Zhang, Jin Huang
+                            <p class="authors" itemprop="author"><strong>Yang Yang</strong>, Jianlin Zhu, Bo Yang, Xiao
+                                Zhang, Jin Huang
                             </p>
                             <p class="venue" itemprop="isPartOf" itemscope itemtype="http://schema.org/Event">
                                 <span itemprop="name">Computer Graphics International Conference 2024</span>
                             </p>
-                            <p class="description" itemprop="abstract">This paper presents an enhanced YOLOv8 model for detecting rice pests
+                            <p class="description" itemprop="abstract">This paper presents an enhanced YOLOv8 model for
+                                detecting rice pests
                                 and diseases, contributing to precision agriculture through advanced computer vision
                                 techniques.</p>
                             <div class="publication-links">
-                                <a href="pdf-viewer.html?url=./pdf/978-3-031-82024-3_8.pdf&title=An Improved YOLOv8-Based Rice Pest and Disease Detection Method" class="pub-link" rel="noopener noreferrer">
+                                <a href="pdf-viewer.html?url=./pdf/978-3-031-82024-3_8.pdf&title=An Improved YOLOv8-Based Rice Pest and Disease Detection Method"
+                                    class="pub-link" rel="noopener noreferrer">
                                     <i class="fas fa-file-pdf"></i>
                                     <span>PDF</span>
                                 </a>
@@ -224,13 +201,13 @@
                                     <i class="fab fa-github"></i>
                                     <span>Code</span>
                                 </a>
-                                <a href="https://drive.google.com/file/d/1UJcbH2cKLstZdyEJPGv_Hb3GP06MYJff/view?usp=sharing" class="pub-link"
-                                    target="_blank" rel="noopener noreferrer">
+                                <a href="https://drive.google.com/file/d/1UJcbH2cKLstZdyEJPGv_Hb3GP06MYJff/view?usp=sharing"
+                                    class="pub-link" target="_blank" rel="noopener noreferrer">
                                     <i class="fas fa-database"></i>
                                     <span>Dataset</span>
                                 </a>
-                                <a href="./citation/10.1007_978-3-031-82024-3_8-citation.bib" 
-                                   class="pub-link scholar-cite-button citation-button">
+                                <a href="#" class="pub-link scholar-cite-button citation-button"
+                                    data-citation-file="./citation/10.1007_978-3-031-82024-3_8-citation.bib">
                                     <i class="fas fa-quote-right"></i>
                                     <span>Cite</span>
                                 </a>
@@ -272,7 +249,7 @@
                                     <i class="fas fa-database"></i>
                                     <span>Dataset</span>
                                 </a>
-                                <a href="#" class="pub-link disabled">
+                                <a href="#" class="pub-link scholar-cite-button citation-button disabled" data-citation-file="#">
                                     <i class="fas fa-quote-right"></i>
                                     <span>Cite</span>
                                 </a>
@@ -298,7 +275,8 @@
                             </p>
                             <p class="description" itemprop="abstract">xxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
                             <div class="publication-status">
-                                <span class="status-indicator">🔥 Waiting for submission at xxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                <span class="status-indicator">🔥 Waiting for submission at
+                                    xxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                             </div>
                             <div class="publication-links">
                                 <a href="#" class="pub-link disabled">
@@ -313,7 +291,8 @@
                                     <i class="fas fa-database"></i>
                                     <span>Dataset</span>
                                 </a>
-                                <a href="#" class="pub-link disabled">
+                                <a href="#" class="pub-link scholar-cite-button citation-button disabled"
+                                    data-citation-file="#">
                                     <i class="fas fa-quote-right"></i>
                                     <span>Cite</span>
                                 </a>
@@ -343,13 +322,16 @@
                         </div>
                         <div class="talk-content">
                             <h3>An Improved YOLOv8-Based Rice Pest and Disease Detection Method</h3>
-                            <p class="talk-description">This talk presents an improved YOLOv8-based rice pest and disease detection method</p>
+                            <p class="talk-description">This talk presents an improved YOLOv8-based rice pest and
+                                disease detection method</p>
                             <div class="talk-links">
-                                <a href="ppt-viewer.html?url=https://docs.google.com/presentation/d/18N1NjLzoq4ebQ8FyU649AgYWezRZIxbLarAtNvdkFaQ/edit?usp=drive_link&title=CGI2024演示文稿" class="pub-link" rel="noopener noreferrer">
+                                <a href="ppt-viewer.html?url=https://docs.google.com/presentation/d/18N1NjLzoq4ebQ8FyU649AgYWezRZIxbLarAtNvdkFaQ/edit?usp=drive_link&title=CGI2024演示文稿"
+                                    class="pub-link" rel="noopener noreferrer">
                                     <i class="fas fa-file-powerpoint"></i>
                                     <span>Slides</span>
                                 </a>
-                                <a href="https://drive.google.com/file/d/1MYGWupPT0zrqpIpRvBc7m3qs2gzznOiw/view?usp=sharing" class="pub-link" target="_blank" rel="noopener noreferrer">
+                                <a href="https://drive.google.com/file/d/1MYGWupPT0zrqpIpRvBc7m3qs2gzznOiw/view?usp=sharing"
+                                    class="pub-link" target="_blank" rel="noopener noreferrer">
                                     <i class="fas fa-video"></i>
                                     <span>Video</span>
                                 </a>
@@ -536,6 +518,20 @@
             </div>
         </div>
     </section>
+
+    <!-- 引用模态对话框 -->
+    <div id="citation-modal" class="citation-modal">
+        <div class="citation-modal-content">
+            <span class="citation-close">&times;</span>
+            <h3>引用</h3>
+            <div class="citation-text-container">
+                <pre id="citation-text"></pre>
+            </div>
+            <button id="copy-citation-btn" class="copy-citation-btn">
+                <i class="fas fa-copy"></i> 复制
+            </button>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="site-footer">

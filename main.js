@@ -533,3 +533,105 @@ if (document.readyState === 'loading') {
     initFooter();
 }
 
+// 引用模态对话框功能
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取模态对话框元素
+    const citationModal = document.getElementById('citation-modal');
+    const citationText = document.getElementById('citation-text');
+    const closeBtn = document.querySelector('.citation-close');
+    const copyBtn = document.getElementById('copy-citation-btn');
+    
+    // 为所有引用按钮添加点击事件
+    document.querySelectorAll('.citation-button').forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // 获取引用文件路径
+            const citationFile = this.getAttribute('data-citation-file');
+            if (!citationFile) return;
+            
+            try {
+                // 获取引用文件内容
+                const response = await fetch(citationFile);
+                if (!response.ok) {
+                    throw new Error('无法加载引用文件');
+                }
+                
+                const data = await response.text();
+                citationText.textContent = data;
+                
+                // 显示模态对话框
+                citationModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // 防止背景滚动
+            } catch (error) {
+                console.error('获取引用信息出错:', error);
+                alert('获取引用信息失败，请稍后再试。');
+            }
+        });
+    });
+    
+    // 关闭模态对话框
+    closeBtn.addEventListener('click', function() {
+        citationModal.style.display = 'none';
+        document.body.style.overflow = ''; // 恢复背景滚动
+    });
+    
+    // 点击模态对话框外部关闭
+    window.addEventListener('click', function(e) {
+        if (e.target === citationModal) {
+            citationModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // 复制引用内容
+    copyBtn.addEventListener('click', function() {
+        const text = citationText.textContent;
+        
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                // 显示复制成功反馈
+                copyBtn.classList.add('copy-success');
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> 复制成功';
+                
+                // 3秒后恢复按钮状态
+                setTimeout(() => {
+                    copyBtn.classList.remove('copy-success');
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制引用';
+                }, 3000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制。');
+            });
+        } else {
+            // 备用复制方法
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    copyBtn.classList.add('copy-success');
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> 复制成功';
+                    
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copy-success');
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制引用';
+                    }, 3000);
+                } else {
+                    alert('复制失败，请手动复制。');
+                }
+            } catch (err) {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制。');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+    });
+});
+
