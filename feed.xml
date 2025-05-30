@@ -1,59 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>YangYang的个人主页</title>
-    <description>YangYang的学术研究、论文发表和最新动态</description>
-    <link>https://yangyang.com</link>
-    <atom:link href="https://yangyang.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <language>zh-CN</language>
-    <lastBuildDate>Mon, 18 Mar 2024 12:00:00 +0800</lastBuildDate>
+    <title>YangYang - Homepage Updates</title>
+    <link>https://louaq.github.io</link>
+    <description>Updates from YangYang's homepage, including new publications and talks.</description>
+    <language>en-us</language>
+    <atom:link href="https://louaq.github.io/feed.xml" rel="self" type="application/rss+xml" />
 
     <item>
-      <title>An Improved YOLOv8-Based Rice Pest and Disease Detection</title>
+      <title>New Publication: An Improved YOLOv8-Based Rice Pest and Disease Detection Method</title>
+      <link>https://louaq.github.io/#publications</link>
+      <pubDate>Sat, 01 Jun 2024 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">https://louaq.github.io/publication/cgi2024</guid>
       <description>
         <![CDATA[
-          <p>作者: Yang Yang, Jianlin Zhu, Bo Yang, Xiao Zhang and Jin Huang</p>
-          <p>发表于: Computer Graphics International Conference 2024</p>
-          <p>状态: 已接受</p>
-          <p>相关资源:</p>
-          <ul>
-            <li><a href="https://github.com/Louaq/CGI2024">代码</a></li>
-            <li><a href="pdf/978-3-031-82024-3_8.pdf">PDF</a></li>
-            <li><a href="https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8">论文链接</a></li>
-            <li><a href="https://huggingface.co/datasets/loupk/pest_diseases/tree/main">数据集</a></li>
-          </ul>
+          <p><strong>Authors:</strong> Yang Yang, Jianlin Zhu, Bo Yang, Xiao Zhang, Jin Huang</p>
+          <p><strong>Conference:</strong> Computer Graphics International Conference 2024 (CGI 2024)</p>
+          <p><strong>Abstract:</strong> This paper presents an enhanced YOLOv8 model for detecting rice pests and diseases, contributing to precision agriculture through advanced computer vision techniques.</p>
+          <p>
+            <a href="https://louaq.github.io/pdf-viewer.html?url=./pdf/978-3-031-82024-3_8.pdf&title=An Improved YOLOv8-Based Rice Pest and Disease Detection Method">PDF</a> | 
+            <a href="https://github.com/Louaq/CGI2024">Code</a> |
+            <a href="https://drive.google.com/file/d/1UJcbH2cKLstZdyEJPGv_Hb3GP06MYJff/view?usp=sharing">Dataset</a> |
+            <a href="https://louaq.github.io/#publications" onclick="document.querySelector('[data-citation-file=\'./citation/10.1007_978-3-031-82024-3_8-citation.bib\']').click(); return false;">Cite</a>
+          </p>
         ]]>
       </description>
-      <link>https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8</link>
-      <guid>https://link.springer.com/chapter/10.1007/978-3-031-82024-3_8</guid>
-      <pubDate>Mon, 18 Mar 2024 12:00:00 +0800</pubDate>
     </item>
 
     <item>
-      <title>HSFPN-Det: An Effective Model for Detecting Rice Pests and Diseases</title>
+      <title>New Talk: An Improved YOLOv8-Based Rice Pest and Disease Detection Method (CGI 2024)</title>
+      <link>https://louaq.github.io/#talks</link>
+      <pubDate>Sat, 01 Jun 2024 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">https://louaq.github.io/talk/cgi2024</guid>
       <description>
         <![CDATA[
-          <p>作者: Yang Yang, Jianlin Zhu</p>
-          <p>发表于: The Visual Computer</p>
-          <p>状态: 等待提交</p>
+          <p><strong>Event:</strong> Computer Graphics International Conference 2024 (Online)</p>
+          <p><strong>Description:</strong> This talk presents an improved YOLOv8-based rice pest and disease detection method.</p>
+          <p>
+            <a href="https://louaq.github.io/ppt-viewer.html?url=https://docs.google.com/presentation/d/18N1NjLzoq4ebQ8FyU649AgYWezRZIxbLarAtNvdkFaQ/edit?usp=drive_link&title=CGI2024演示文稿">Slides</a> | 
+            <a href="https://drive.google.com/file/d/1MYGWupPT0zrqpIpRvBc7m3qs2gzznOiw/view?usp=sharing">Video</a>
+          </p>
         ]]>
       </description>
-      <link>https://yangyang.com/papers/hsfpn-det</link>
-      <guid>https://yangyang.com/papers/hsfpn-det</guid>
-      <pubDate>Mon, 18 Mar 2024 12:00:00 +0800</pubDate>
     </item>
 
-    <item>
-      <title>学术交流 - CNCC2024</title>
-      <description>
-        <![CDATA[
-          <p>将于2024年11月在浙江横店参加CNCC2024学术会议</p>
-          <p>主题：Graphics Neural Network, Nvidia</p>
-        ]]>
-      </description>
-      <link>https://yangyang.com/experiences#cncc2024</link>
-      <guid>https://yangyang.com/experiences#cncc2024</guid>
-      <pubDate>Mon, 18 Mar 2024 12:00:00 +0800</pubDate>
-    </item>
   </channel>
 </rss> 
