@@ -175,10 +175,10 @@ a {
     transition: var(--transition-normal);
 }
 
-a:hover {
+/* a:hover {
     color: var(--neon-green);
     text-shadow: var(--glow-green);
-}
+} */
 
 /* Navigation Styles */
 nav {
@@ -220,10 +220,6 @@ nav.scrolled {
     position: relative;
 }
 
-.nav-name:hover {
-    transform: translateY(-2px);
-    filter: drop-shadow(var(--glow-cyan));
-}
 
 /* Navigation Links */
 .nav-links {
@@ -5296,4 +5292,206 @@ nav.scrolled {
 /* 确保主题切换不使用任何动画 */
 [data-theme], [data-theme] * {
     transition: none !important;
+}
+
+/* 友情链接区域样式 */
+.friend-links {
+    margin-top: 2rem;
+    padding: 1.5rem 0;
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.friend-links h3 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.friend-links h3::after {
+    content: ':';
+    position: absolute;
+    right: -10px;
+}
+
+.friend-links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin-top: 1rem;
+}
+
+.friend-link {
+    display: inline-block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.friend-link i {
+    display: none;
+}
+
+.friend-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--neon-cyan);
+    transition: width 0.3s;
+}
+
+.friend-link:hover {
+    background: transparent;
+    border-color: transparent;
+    transform: none;
+    color: var(--neon-cyan);
+}
+
+.friend-link:hover::after {
+    width: 100%;
+}
+
+.friend-link:hover i {
+    color: var(--neon-cyan);
+    transform: none;
+}
+
+/* 亮色主题样式 */
+[data-theme="light"] .friend-links {
+    border-top: 1px solid rgba(0, 153, 204, 0.1);
+}
+
+[data-theme="light"] .friend-link {
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+}
+
+[data-theme="light"] .friend-link:hover {
+    background: transparent;
+    color: var(--neon-blue);
+}
+
+[data-theme="light"] .friend-link::after {
+    background-color: var(--neon-blue);
+}
+
+/* 移动端响应式布局 */
+@media (max-width: 992px) {
+    .friend-links-grid {
+        flex-wrap: wrap;
+    }
+    
+    .friend-link {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .friend-links {
+        padding: 1rem 0;
+    }
+    
+    .friend-links h3 {
+        display: block;
+        margin-bottom: 0.8rem;
+    }
+    
+    .friend-links h3::after {
+        display: none;
+    }
+    
+    .friend-link {
+        font-size: 0.9rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
+
+/* 页脚样式优化 */
+.footer-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.footer-text p {
+    margin-bottom: 0.5rem;
+}
+
+.footer-quick-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-quick-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.footer-quick-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--neon-cyan);
+    transition: width 0.3s;
+}
+
+.footer-quick-links a:hover {
+    color: var(--neon-cyan);
+}
+
+.footer-quick-links a:hover::after {
+    width: 100%;
+}
+
+/* 亮色主题样式 */
+[data-theme="light"] .footer-quick-links a {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .footer-quick-links a:hover {
+    color: var(--neon-blue);
+}
+
+[data-theme="light"] .footer-quick-links a::after {
+    background-color: var(--neon-blue);
+}
+
+/* 移动端响应式布局 */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .footer-text {
+        align-items: center;
+    }
+    
+    .footer-quick-links {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-quick-links {
+        gap: 0.5rem;
+    }
 }
