@@ -1,4 +1,4 @@
-# YangYang's Academic Homepage
+# Academic Homepage
 
 A modern, responsive academic homepage inspired by the NeonMint design, featuring a cyberpunk/neon aesthetic with advanced animations and interactive elements.
 
@@ -104,13 +104,4 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 🤝 Contributing
 
 Feel free to fork this project and customize it for your own academic homepage!
-
-## 📞 Contact
-
-- Email: yangyang@mail.scuec.edu.cn
-- GitHub: [@Louaq](https://github.com/Louaq)
-- Google Scholar: [Profile](https://scholar.google.com/citations?user=ph6q3aQAAAAJ)
-
 ---
-
-*Developed with ❤️ using modern web technologies*
