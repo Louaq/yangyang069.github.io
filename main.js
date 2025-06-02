@@ -39,85 +39,20 @@ function updateThemeIcon(theme) {
 
 // 创建圆形扩散动画
 function createRippleEffect(x, y) {
-    const ripple = document.createElement('div');
-    ripple.className = 'theme-ripple';
-    
-    // 将动画放置在屏幕中央而不是点击位置
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    
-    // 使用窗口中心点
-    ripple.style.left = (windowWidth / 2 - 50) + 'px';
-    ripple.style.top = (windowHeight / 2 - 50) + 'px';
-    ripple.style.width = '100px';
-    ripple.style.height = '100px';
-
-    document.body.appendChild(ripple);
-
-    // 动画结束后移除元素
-    setTimeout(() => {
-        if (ripple.parentNode) {
-            ripple.parentNode.removeChild(ripple);
-        }
-    }, 600);
+    // 移除了扩散动画效果
+    return;
 }
 
 // 显示主题指示器
 function showThemeIndicator(theme) {
-    // 移除已存在的指示器
-    const existingIndicator = document.querySelector('.theme-indicator');
-    if (existingIndicator) {
-        existingIndicator.remove();
-    }
-
-    const indicator = document.createElement('div');
-    indicator.className = 'theme-indicator';
-    
-    const icon = theme === 'dark' ? '🌙' : '☀️';
-    indicator.innerHTML = icon;
-    
-    // 将指示器放置在屏幕中央
-    indicator.style.top = '50%';
-    indicator.style.left = '50%';
-    indicator.style.transform = 'translate(-50%, -50%)';
-    indicator.style.right = 'auto'; // 移除右侧定位
-
-    document.body.appendChild(indicator);
-
-    // 显示动画
-    requestAnimationFrame(() => {
-        indicator.classList.add('show');
-    });
-
-    // 隐藏动画
-    setTimeout(() => {
-        indicator.classList.remove('show');
-        indicator.classList.add('hide');
-        setTimeout(() => {
-            if (indicator.parentNode) {
-                indicator.parentNode.removeChild(indicator);
-            }
-        }, 300);
-    }, 800);
+    // 移除了主题指示器动画效果
+    return;
 }
 
 // 主题切换动画
 function animateThemeTransition(clickX, clickY) {
-    // 创建圆形扩散效果 - 忽略点击位置参数
-    createRippleEffect();
-    
-    // 在切换前添加统一过渡类
-    document.documentElement.classList.add('theme-transitioning');
-    
-    // 添加页面过渡效果
-    document.body.style.transition = 'all 0.4s ease';
-    
-    // 重置过渡效果
-    setTimeout(() => {
-        document.body.style.transition = '';
-        // 移除统一过渡类
-        document.documentElement.classList.remove('theme-transitioning');
-    }, 400);
+    // 移除了所有动画效果
+    return;
 }
 
 // 切换主题
@@ -126,23 +61,10 @@ if (themeToggle) {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-        // 获取点击位置
-        const rect = themeToggle.getBoundingClientRect();
-        const clickX = rect.left + rect.width / 2;
-        const clickY = rect.top + rect.height / 2;
-
-        // 播放切换动画
-        animateThemeTransition(clickX, clickY);
-
-        // 立即切换主题
+        // 立即切换主题，无动画
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme);
-
-        // 显示主题指示器
-        setTimeout(() => {
-            showThemeIndicator(newTheme);
-        }, 100);
         
         // 发布主题变化事件
         document.dispatchEvent(new CustomEvent('themeChanged', { 

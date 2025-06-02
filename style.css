@@ -25,9 +25,9 @@
     --glow-blue: 0 0 20px rgba(0, 128, 255, 0.5);
 
     /* Transitions */
-    --transition-fast: 0.2s ease;
-    --transition-normal: 0.3s ease;
-    --transition-slow: 0.5s ease;
+    --transition-fast: 0s;
+    --transition-normal: 0s;
+    --transition-slow: 0s;
 }
 
 /* Light Theme Variables */
@@ -294,16 +294,14 @@ nav.scrolled {
 }
 
 .search-btn:hover,
-.rss-btn:hover,
 .theme-toggle:hover {
     color: var(--neon-cyan);
-    transform: translateY(-2px);
+    
 }
 
 /* Tooltip for buttons */
 .search-btn::before,
-.theme-toggle::before,
-.rss-btn::before {
+.theme-toggle::before{
     content: attr(data-tooltip);
     position: absolute;
     bottom: 120%;
@@ -327,17 +325,9 @@ nav.scrolled {
 .rss-btn:hover::before {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(-5px);
+    
 }
 
-.search-btn:hover,
-.rss-btn:hover,
-.theme-toggle:hover {
-    color: var(--neon-cyan);
-    background: rgba(0, 255, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: var(--glow-cyan);
-}
 
 /* Enhanced Theme Toggle */
 .theme-toggle {
@@ -352,25 +342,6 @@ nav.scrolled {
     transform-origin: center;
 }
 
-.theme-toggle:hover i {
-    transform: rotate(180deg);
-}
-
-/* Light theme specific adjustments */
-[data-theme="light"] .search-btn,
-[data-theme="light"] .rss-btn,
-[data-theme="light"] .theme-toggle {
-    color: var(--text-secondary);
-}
-
-[data-theme="light"] .search-btn:hover,
-[data-theme="light"] .rss-btn:hover,
-[data-theme="light"] .theme-toggle:hover {
-    color: var(--neon-cyan);
-    /* background: rgba(0, 153, 204, 0.1); */
-    /* box-shadow: var(--glow-cyan); */
-    transform: translateY(-2px);
-}
 
 [data-theme="light"] nav {
     background: rgba(255, 255, 255, 0.95);
@@ -5314,4 +5285,15 @@ nav.scrolled {
     .hero-content {
         gap: 2rem;
     }
+}
+
+/* 全局禁用所有过渡和动画效果 */
+*, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* 确保主题切换不使用任何动画 */
+[data-theme], [data-theme] * {
+    transition: none !important;
 }
