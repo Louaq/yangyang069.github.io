@@ -2,8 +2,8 @@
 (function() {
     // 检查本地存储中的主题设置
     const savedTheme = localStorage.getItem('theme');
-    // 如果有保存的主题，就使用它；否则默认使用深色主题
-    const initialTheme = savedTheme || 'dark';
+    // 如果有保存的主题，就使用它；否则默认使用浅色主题
+    const initialTheme = savedTheme || 'light';
     // 立即设置主题，不等待DOM加载
     document.documentElement.setAttribute('data-theme', initialTheme);
 })();
@@ -77,8 +77,8 @@ if (themeToggle) {
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     // 只有当用户没有手动设置主题时，才根据系统主题变化
     if (!localStorage.getItem('theme')) {
-        // 即使系统主题变化，仍然保持我们的默认主题（深色）
-        const newTheme = 'dark';
+        // 即使系统主题变化，仍然保持我们的默认主题（浅色）
+        const newTheme = 'light';
         document.documentElement.setAttribute('data-theme', newTheme);
         updateThemeIcon(newTheme);
     }
