@@ -22,38 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
 function updateThemeIcon(theme) {
     if (!themeIcon) return;
 
-    // 添加切换动画类
-    themeToggle.classList.add('switching');
-
-    setTimeout(() => {
-        if (theme === 'dark') {
-            themeIcon.classList.remove('fa-moon', 'fa-adjust');
-            themeIcon.classList.add('fa-sun');
-        } else {
-            themeIcon.classList.remove('fa-sun', 'fa-adjust');
-            themeIcon.classList.add('fa-moon');
-        }
-        themeToggle.classList.remove('switching');
-    }, 200);
+    // 移除延时操作，立即切换图标
+    if (theme === 'dark') {
+        themeIcon.classList.remove('fa-moon', 'fa-adjust');
+        themeIcon.classList.add('fa-sun');
+    } else {
+        themeIcon.classList.remove('fa-sun', 'fa-adjust');
+        themeIcon.classList.add('fa-moon');
+    }
 }
 
-// 创建圆形扩散动画
-function createRippleEffect(x, y) {
-    // 移除了扩散动画效果
-    return;
-}
-
-// 显示主题指示器
-function showThemeIndicator(theme) {
-    // 移除了主题指示器动画效果
-    return;
-}
-
-// 主题切换动画
-function animateThemeTransition(clickX, clickY) {
-    // 移除了所有动画效果
-    return;
-}
 
 // 切换主题
 if (themeToggle) {
