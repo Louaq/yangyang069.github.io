@@ -128,7 +128,7 @@ function createBackToTopButton() {
     
     // 创建带有进度条的按钮结构
     backToTopButton.innerHTML = `
-        <svg class="progress-ring" width="50" height="50">
+        <svg class="progress-ring" viewBox="0 0 50 50">
             <circle class="progress-ring__circle-bg" cx="25" cy="25" r="20" />
             <circle class="progress-ring__circle" cx="25" cy="25" r="20" />
         </svg>
@@ -271,6 +271,14 @@ function createBackToTopButton() {
                 height: 45px;
                 bottom: 20px;
                 right: 20px;
+            }
+            .sleek-back-to-top .arrow-icon {
+                width: 20px;
+                height: 20px;
+            }
+            .sleek-back-to-top .arrow-icon svg {
+                width: 12px;
+                height: 12px;
             }
         }
     `;
