@@ -166,6 +166,7 @@ function createBackToTopButton() {
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .sleek-back-to-top.visible {
