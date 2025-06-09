@@ -634,26 +634,6 @@ function initFooter() {
         lastUpdatedElement.textContent = `${year}年${month}月`;
     }
     
-    // 处理邮件链接，防止被直接获取
-    const emailLinks = document.querySelectorAll('#email-link');
-    if (emailLinks.length > 0) {
-        // 分散存储邮件地址的各个部分
-        const part1 = 'yang';
-        const part2 = 'yang';
-        const part3 = 'mail';
-        const part4 = 'scuec';
-        const part5 = 'edu';
-        const part6 = 'cn';
-        
-        // 为所有邮件链接添加点击事件
-        emailLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const emailAddress = part1 + part2 + '@' + part3 + '.' + part4 + '.' + part5 + '.' + part6;
-                window.location.href = 'mailto:' + emailAddress;
-            });
-        });
-    }
 
     // 访问统计功能（可以连接到实际的统计服务）
     const visitorCountElement = document.getElementById('visitor-count');
@@ -661,10 +641,10 @@ function initFooter() {
         // 这里可以连接到实际的访问统计API
         // 目前显示一个友好的消息
         const messages = [
-            '感谢您的访问！',
-            '欢迎来到我的学术主页',
-            '很高兴与您分享我的研究',
-            '期待与您的学术交流'
+            'Thank you for visiting!',
+            'Welcome to my academic homepage',
+            'I am glad to share my research with you',
+            'Looking forward to academic exchange with you'
         ];
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
         visitorCountElement.textContent = randomMessage;
@@ -922,7 +902,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 获取引用文件内容
                 const response = await fetch(citationFile);
                 if (!response.ok) {
-                    throw new Error('无法加载引用文件');
+                    throw new Error('Failed to load citation file');
                 }
                 
                 const data = await response.text();
@@ -932,8 +912,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 citationModal.style.display = 'block';
                 document.body.style.overflow = 'hidden'; // 防止背景滚动
             } catch (error) {
-                console.error('获取引用信息出错:', error);
-                alert('获取引用信息失败，请稍后再试。');
+                console.error('Error getting citation information:', error);
+                alert('Failed to get citation information, please try again later.');
             }
         });
     });
@@ -960,16 +940,16 @@ document.addEventListener('DOMContentLoaded', function() {
             navigator.clipboard.writeText(text).then(() => {
                 // 显示复制成功反馈
                 copyBtn.classList.add('copy-success');
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> 复制成功';
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copy Success';
                 
                 // 3秒后恢复按钮状态
                 setTimeout(() => {
                     copyBtn.classList.remove('copy-success');
-                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制引用';
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Citation';
                 }, 3000);
             }).catch(err => {
-                console.error('复制失败:', err);
-                alert('复制失败，请手动复制。');
+                console.error('Copy failed:', err);
+                alert('Copy failed, please copy manually.');
             });
         } else {
             // 备用复制方法
@@ -984,18 +964,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 const successful = document.execCommand('copy');
                 if (successful) {
                     copyBtn.classList.add('copy-success');
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i> 复制成功';
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copy Success';
                     
                     setTimeout(() => {
                         copyBtn.classList.remove('copy-success');
-                        copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制引用';
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Citation';
                     }, 3000);
                 } else {
-                    alert('复制失败，请手动复制。');
+                    alert('Copy failed, please copy manually.');
                 }
             } catch (err) {
-                console.error('复制失败:', err);
-                alert('复制失败，请手动复制。');
+                console.error('Copy failed:', err);
+                alert('Copy failed, please copy manually.');
             }
             
             document.body.removeChild(textarea);

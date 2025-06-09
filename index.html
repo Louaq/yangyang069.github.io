@@ -15,38 +15,38 @@
             const savedTheme = localStorage.getItem('theme');
             document.documentElement.setAttribute('data-theme', savedTheme || 'light');
         })();
-        
+
         // 高级防调试技术 - 在开发者工具打开后立即重定向
-        (function() {
+        (function () {
             let devtools = {
                 isOpen: false,
                 orientation: undefined
             };
-            
+
             // 函数执行时间检测
             const threshold = 160;
-            const checkDevTools = function() {
+            const checkDevTools = function () {
                 const start = performance.now();
                 debugger;
                 const end = performance.now();
-                
+
                 // 如果debugger语句暂停时间过长，说明开发者工具在使用
                 if (end - start > threshold) {
                     window.location.reload();
                 }
             };
-            
+
             // 设置访问器属性检测开发者工具
             const element = new Image();
             Object.defineProperty(element, 'id', {
-                get: function() {
+                get: function () {
                     devtools.isOpen = true;
                     return '';
                 }
             });
-            
+
             // 在检测到可能的调试活动时立即重定向
-            setInterval(function() {
+            setInterval(function () {
                 devtools.isOpen = false;
                 console.log(element);
                 if (devtools.isOpen) {
@@ -106,8 +106,7 @@
                     research, and innovative technology that sparks breakthrough discoveries. I love bringing research
                     ideas to life. 🚀🔬</p>
                 <div class="social-links">
-                    <a id="email-link" href="javascript:void(0);" data-tooltip="Email" target="_blank"
-                        rel="noopener noreferrer">
+                    <a href="#" data-tooltip="yangyang@scuec.edu.cn" rel="noopener noreferrer">
                         <i class="fas fa-envelope"></i>
                     </a>
                     <a href="https://scholar.google.com/citations?user=ph6q3aQAAAAJ" data-tooltip="Google Scholar"
@@ -390,9 +389,8 @@
                                     height="30" class="scu-logo">
                             </p>
                             <p class="description">Focusing on Computer Vision, Semantic Segmentation, and Deep Learning
-                                under the supervision of <a
-                                href="https://www.scuec.edu.cn/jky/info/1165/4995.htm" target="_blank"
-                                rel="noopener noreferrer">Dr. Jianlin Zhu. </a></p>
+                                under the supervision of <a href="https://www.scuec.edu.cn/jky/info/1165/4995.htm"
+                                    target="_blank" rel="noopener noreferrer">Dr. Jianlin Zhu. </a></p>
                             <div class="timeline-tags">
                                 <span class="tag">Computer Vision</span>
                                 <span class="tag">Deep Learning</span>
@@ -493,8 +491,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-text">
-                    <p>Copyright © 2024-<span id="current-year"></span> <a href="https://github.com/Louaq" target="_blank"
-                            rel="noopener noreferrer">YangYang</a></p>
+                    <p>Copyright © 2024-<span id="current-year"></span> <a href="https://github.com/Louaq"
+                            target="_blank" rel="noopener noreferrer">YangYang</a></p>
                     <div class="footer-quick-links">
                         <a href="https://www.scuec.edu.cn/jky/index.htm" target="_blank" rel="noopener noreferrer">
                             School of Computer Science (School of Artificial Intelligence)
@@ -509,10 +507,10 @@
                 </div>
 
                 <div class="footer-links">
-                    <a id="email-link" href="javascript:void(0);" data-tooltip="Email" target="_blank"
-                        rel="noopener noreferrer">
+                    <a href="mailto:yangyang@mail.scuec.edu.cn" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-envelope"></i>
                     </a>
+
                     <a href="https://github.com/Louaq" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-github"></i>
                     </a>
@@ -526,21 +524,22 @@
     </footer>
 
     <script src="main.js"></script>
-    
+
     <!-- 只保留右键菜单禁用的简化保护 -->
     <script>
         // 禁用右键菜单作为备份措施
-        document.oncontextmenu = function(e) {
+        document.oncontextmenu = function (e) {
             e.preventDefault();
             return false;
         };
     </script>
-    
+
     <!-- 禁用JavaScript提示 -->
     <noscript>
         <div style="text-align:center;padding:50px;font-family:Arial,sans-serif;">
-            <h1>请启用JavaScript</h1>
-            <p>本网站需要JavaScript才能正常工作。请在您的浏览器设置中启用JavaScript后刷新页面。</p>
+            <h1>Please enable JavaScript</h1>
+            <p>This website requires JavaScript to work properly. Please enable JavaScript in your browser settings and
+                refresh the page.</p>
         </div>
     </noscript>
 </body>
