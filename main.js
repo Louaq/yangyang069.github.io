@@ -1,3 +1,139 @@
+// 立即执行函数，在页面加载前就开始保护页面
+(function() {
+    // 标记是否已显示警告
+    let warningShown = false;
+    let devToolsActive = false;
+    
+    // 检测开发者工具状态的阈值设置
+    function detectDevTools() {
+        const widthThreshold = window.outerWidth - window.innerWidth > 250;
+        const heightThreshold = window.outerHeight - window.innerHeight > 250;
+        
+        // 检测 Firefox 的开发者工具
+        const firefoxDevTools = /Firefox\//.test(navigator.userAgent) && 
+            window.console && 
+            (window.console.firebug || (window.console.table && window.console.clear));
+        
+        // 检测 Chrome 的开发者工具状态
+        const chromeDevTools = widthThreshold || heightThreshold;
+        
+        return chromeDevTools || firefoxDevTools;
+    }
+    
+    // 定义处理开发者工具的函数
+    function handleDevTools() {
+        if (detectDevTools()) {
+            devToolsActive = true;
+            
+            // 不重复显示警告
+            if (!warningShown) {
+                warningShown = true;
+                alert("banned by the developer");
+                
+                // 在警告框关闭后，检查开发者工具是否仍在运行
+                setTimeout(function() {
+                    if (detectDevTools()) {
+                        // 如果开发者工具仍在运行，强制刷新页面
+                        window.location.reload();
+                    } else {
+                        // 如果已关闭，重置警告标记
+                        warningShown = false;
+                        devToolsActive = false;
+                    }
+                }, 100);
+            }
+            
+            // 如果开发者工具已打开，增加检测频率
+            if (devToolsActive) {
+                setTimeout(handleDevTools, 500);
+            }
+            
+            return true;
+        }
+        
+        // 如果没有检测到开发者工具
+        devToolsActive = false;
+        return false;
+    }
+    
+    // 初始检测
+    handleDevTools();
+    
+    // 持续定期检测开发者工具状态
+    setInterval(handleDevTools, 2000);
+    
+    // 处理窗口大小变化事件（可能是由于开发者工具被打开）
+    window.addEventListener('resize', function() {
+        handleDevTools();
+    });
+    
+    // 集中处理所有键盘事件，确保只有一个处理器
+    document.addEventListener('keydown', function(e) {
+        // 处理F12键
+        if (e.keyCode === 123) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // 标记用户尝试打开开发者工具
+            handleDevTools();
+            
+            return false;
+        }
+        
+        // 处理Ctrl+Shift+I组合键
+        if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.key === 'I' || e.key === 'i')) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleDevTools();
+            return false;
+        }
+        
+        // 处理Ctrl+U组合键
+        if (e.ctrlKey && (e.keyCode === 85 || e.key === 'u' || e.key === 'U')) {
+            e.preventDefault();
+            e.stopPropagation();
+            alert("banned by the developer");
+            return false;
+        }
+    }, true);
+    
+    // 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    }, true);
+    
+    // 创建定期检查函数
+    function createPeriodicChecker() {
+        return setInterval(function() {
+            if (detectDevTools()) {
+                if (!warningShown) {
+                    warningShown = true;
+                    alert("banned by the developer");
+                    
+                    // 在警告框关闭后检查开发者工具是否仍打开
+                    setTimeout(function() {
+                        if (detectDevTools()) {
+                            window.location.reload();
+                        } else {
+                            warningShown = false;
+                        }
+                    }, 100);
+                } else if (devToolsActive) {
+                    // 如果已经显示过警告并且开发者工具仍在运行，强制刷新
+                    window.location.reload();
+                }
+            } else {
+                warningShown = false;
+                devToolsActive = false;
+            }
+        }, 1000);
+    }
+    
+    // 启动定期检查
+    const periodicChecker = createPeriodicChecker();
+})();
+
 // 使用立即执行函数来设置初始主题，避免闪烁
 (function() {
     // 检查本地存储中的主题设置
@@ -581,88 +717,188 @@ if (document.readyState === 'loading') {
 
 // 禁止F12、右键菜单和其他调试工具
 function disableDevTools() {
-    // 禁用F12键
+    // 禁用F12键和其他开发者工具快捷键
     document.addEventListener('keydown', function(event) {
         // F12键被按下
         if(event.keyCode === 123) {
             event.preventDefault();
+            window.location.href = window.location.href;
             return false;
         }
         
         // Ctrl+Shift+I 组合键
-        if(event.ctrlKey && event.shiftKey && event.keyCode === 73) {
+        if(event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 105)) {
             event.preventDefault();
+            window.location.href = window.location.href;
             return false;
         }
         
         // Ctrl+Shift+J 组合键
-        if(event.ctrlKey && event.shiftKey && event.keyCode === 74) {
+        if(event.ctrlKey && event.shiftKey && (event.keyCode === 74 || event.keyCode === 106)) {
             event.preventDefault();
+            window.location.href = window.location.href;
             return false;
         }
         
         // Ctrl+Shift+C 组合键
-        if(event.ctrlKey && event.shiftKey && event.keyCode === 67) {
+        if(event.ctrlKey && event.shiftKey && (event.keyCode === 67 || event.keyCode === 99)) {
             event.preventDefault();
+            window.location.href = window.location.href;
             return false;
         }
         
         // Ctrl+U 组合键 (查看源代码)
-        if(event.ctrlKey && event.keyCode === 85) {
+        if(event.ctrlKey && (event.keyCode === 85 || event.keyCode === 117)) {
             event.preventDefault();
+            window.location.href = window.location.href;
             return false;
         }
-    });
+    }, true);
     
     // 禁用右键菜单
     document.addEventListener('contextmenu', function(event) {
         event.preventDefault();
         return false;
+    }, true);
+    
+    // 重写控制台方法
+    (function() {
+        try {
+            // 保存原始console方法的引用
+            const originalConsole = {
+                log: console.log,
+                error: console.error,
+                warn: console.warn,
+                debug: console.debug,
+                info: console.info,
+                table: console.table,
+                clear: console.clear
+            };
+            
+            // 重写console方法
+            console.log = console.error = console.warn = console.debug = console.info = console.table = function() {
+                // 检测调用堆栈以确定是否是开发者工具调用
+                const stack = new Error().stack || '';
+                if (stack.indexOf('devtools') > -1 || stack.indexOf('console') > -1) {
+                    window.location.href = window.location.href;
+                }
+                // 对于合法的调用，保持原有功能
+                return originalConsole.log.apply(console, arguments);
+            };
+        } catch (e) {}
+    })();
+    
+    // 检测窗口大小变化（可能是由于开发者工具打开导致）
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    
+    window.addEventListener('resize', function() {
+        if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
+            // 可能是开发者工具打开导致的窗口大小变化
+            document.body.innerHTML = '';
+            window.location.href = window.location.href;
+        }
+        windowWidth = window.innerWidth;
+        windowHeight = window.innerHeight;
     });
     
-    // 禁用开发者工具的其他检测方法
+    // 使用更激进的debugger陷阱
+    function setupDebuggerTrap() {
+        const start = new Date().getTime();
+        debugger;
+        const end = new Date().getTime();
+        
+        // 如果debugger语句执行时间过长，可能是开发者工具在处理它
+        if (end - start > 100) {
+            window.location.href = window.location.href;
+        }
+    }
+    
+    // 使用定时器定期检查
     setInterval(function() {
-        const devTools = window.devtools;
-        if(devTools && devTools.open) {
-            window.location.reload();
+        setupDebuggerTrap();
+        
+        // 检测控制台是否打开
+        const isConsoleOpen = /./;
+        isConsoleOpen.toString = function() {
+            window.location.href = window.location.href;
+            return '';
+        };
+        console.log('%c', isConsoleOpen);
+        console.clear();
+        
+        // 通过元素大小检测开发者工具
+        if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
+            document.body.innerHTML = '';
+            window.location.href = window.location.href;
         }
     }, 1000);
     
-    // 检测开发者工具的打开
+    // 使用严格的eval调试检测
     (function() {
-        const devtools = {
-            open: false,
-            orientation: null
-        };
-        
-        // 检测是否为移动设备
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        
-        // 仅在非移动设备上检测
-        if (!isMobile) {
-            // 创建检测DOM元素
-            const element = new Image();
-            Object.defineProperty(element, 'id', {
-                get: function() {
-                    devtools.open = true;
-                    return '';
-                }
-            });
-            
-            // 定时检测开发者工具
-            setInterval(function() {
-                devtools.open = false;
-                console.log(element);
-                console.clear();
-                if (devtools.open) {
-                    window.location.reload();
-                }
-            }, 1000);
+        function detect() {
+            try {
+                if (typeof global !== "undefined") return true;
+                if (typeof process !== "undefined") return true;
+                if (typeof module !== "undefined") return true;
+                if (typeof require !== "undefined") return true;
+                if (window.outerHeight - window.innerHeight > 160) return true;
+                if (window.outerWidth - window.innerWidth > 160) return true;
+                if (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) return true;
+                
+                // 检测Firefox开发者工具
+                const firefoxDev = /firefox/i.test(navigator.userAgent) && /devtools/i.test(new Error().stack);
+                if (firefoxDev) return true;
+                
+                return false;
+            } catch (e) {
+                return false;
+            }
         }
         
-        // 防止调试
-        eval(function(p,a,c,k,e,d){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(3(){(3 a(){8{(3 2(2){7((\'\'+(2/2)).6!==1||2%5===0){(3(){}).9(\'4\')()}c{4}2(++2)})(0)}d(e){g(a,f)}})()})();',17,17,'||i|function|debugger|20|length|if|try|constructor|||else|catch||5000|setTimeout'.split('|'),0,{}));
+        if (detect()) {
+            document.body.innerHTML = '';
+            window.location.href = window.location.href;
+        }
     })();
+    
+    // 使用高级混淆的debugger调用
+    (function() {
+        try {
+            const encoded = "ZnVuY3Rpb24gY2hlY2soKXt0cnl7ZnVuY3Rpb24geChhKXtpZigoJycrYS9hKS5sZW5ndGghPT0xfHxhJTIwPT09MCl7KGZ1bmN0aW9uKCl7fSkuY29uc3RydWN0b3IoJ2RlYnVnZ2VyJykoKX1lbHNle2RlYnVnZ2VyfXgoKythKX14KDApfWNhdGNoKGUpe3NldFRpbWVvdXQoY2hlY2ssMTAwMCl9fWNoZWNrKCk7";
+            eval(atob(encoded));
+        } catch (e) {}
+    })();
+    
+    // 检测开发者工具通过firebug
+    if (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) {
+        document.body.innerHTML = '';
+        window.location.href = window.location.href;
+    }
+    
+    // 防止元素检查
+    document.addEventListener('DOMNodeInserted', function(e) {
+        if (e.target.tagName && e.target.tagName.toLowerCase() === 'div' && e.target.id === 'FirebugUI') {
+            document.body.innerHTML = '';
+            window.location.href = window.location.href;
+        }
+    }, true);
+    
+    // 使用Canvas指纹检测开发者工具
+    try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl');
+        if (gl) {
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            if (debugInfo) {
+                const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+                const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                if (vendor.indexOf('Developer') > -1 || renderer.indexOf('Developer') > -1) {
+                    window.location.href = window.location.href;
+                }
+            }
+        }
+    } catch (e) {}
 }
 
 // 引用模态对话框功能
