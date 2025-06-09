@@ -3472,7 +3472,7 @@ nav.scrolled {
     width: 55px;
     height: 55px;
     background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
-    border: 2px solid rgba(0, 255, 255, 0.3);
+    border: 2px solid rgba(6, 230, 118, 0.3);
     border-radius: 50%;
     color: var(--bg-primary);
     font-size: 1.3rem;
@@ -3498,7 +3498,7 @@ nav.scrolled {
 
 .back-to-top:hover {
     transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 15px 40px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 15px 40px rgba(6, 216, 100, 0.712);
     border-color: rgba(0, 255, 136, 0.6);
     background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
 }
