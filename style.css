@@ -4802,7 +4802,6 @@ nav.scrolled {
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: white;
         padding: 1rem;
         z-index: 100;
         align-items: flex-start; /* 添加左对齐 */
