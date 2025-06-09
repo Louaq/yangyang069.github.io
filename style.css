@@ -290,6 +290,22 @@ nav.scrolled {
     
 }
 
+/* 同样的样式应用于menu-toggle */
+.menu-toggle {
+    background: none;
+    border: none;
+    color: var(--neon-cyan);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 12px;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
 /* Tooltip for buttons */
 .search-btn::before,
 .theme-toggle::before{
@@ -365,6 +381,11 @@ nav.scrolled {
     background:
         radial-gradient(circle at 80% 20%, rgba(0, 204, 102, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+}
+
+/* Light Theme Navigation */
+[data-theme="light"] .menu-toggle {
+    color: var(--neon-blue);
 }
 
 /* Light Theme Cards */
@@ -2513,12 +2534,11 @@ nav.scrolled {
     }
 
     .menu-toggle {
-        display: block;
         width: 32px;
         height: 32px;
         background: none;
         border: none;
-        color: var(--text-primary);
+        color: var(--neon-cyan);
         font-size: 16px;
         cursor: pointer;
         border-radius: 4px;
@@ -3032,6 +3052,15 @@ nav.scrolled {
         width: 36px;
         height: 36px;
         font-size: 0.9rem;
+        color: var(--neon-cyan);
+    }
+
+    /* 亮色主题下的移动端按钮样式 */
+    [data-theme="light"] .search-btn,
+    [data-theme="light"] .rss-btn,
+    [data-theme="light"] .theme-toggle,
+    [data-theme="light"] .menu-toggle {
+        color: var(--neon-blue);
     }
 
     /* Search ultra-small */
