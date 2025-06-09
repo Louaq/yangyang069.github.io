@@ -3405,7 +3405,7 @@ nav.scrolled {
 .footer-content {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     flex-wrap: wrap;
     gap: 2rem;
 }
@@ -3439,6 +3439,7 @@ nav.scrolled {
 .footer-links {
     display: flex;
     gap: 1rem;
+    margin-bottom: 0;
 }
 
 .footer-links a {
@@ -5351,6 +5352,7 @@ nav.scrolled {
 .footer-quick-links {
     display: flex;
     gap: 2rem;
+    margin-bottom: 0;
 }
 
 .footer-quick-links a {
@@ -5398,6 +5400,7 @@ nav.scrolled {
         flex-direction: column;
         text-align: center;
         gap: 1.5rem;
+        align-items: center;
     }
     
     .footer-text {
@@ -5407,6 +5410,7 @@ nav.scrolled {
     .footer-quick-links {
         flex-direction: column;
         gap: 0.8rem;
+        margin-bottom: 1rem;
     }
 }
 

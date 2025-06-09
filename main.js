@@ -497,6 +497,27 @@ function initFooter() {
         const month = now.getMonth() + 1;
         lastUpdatedElement.textContent = `${year}年${month}月`;
     }
+    
+    // 处理邮件链接，防止被直接获取
+    const emailLinks = document.querySelectorAll('#email-link');
+    if (emailLinks.length > 0) {
+        // 分散存储邮件地址的各个部分
+        const part1 = 'yang';
+        const part2 = 'yang';
+        const part3 = 'mail';
+        const part4 = 'scuec';
+        const part5 = 'edu';
+        const part6 = 'cn';
+        
+        // 为所有邮件链接添加点击事件
+        emailLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const emailAddress = part1 + part2 + '@' + part3 + '.' + part4 + '.' + part5 + '.' + part6;
+                window.location.href = 'mailto:' + emailAddress;
+            });
+        });
+    }
 
     // 访问统计功能（可以连接到实际的统计服务）
     const visitorCountElement = document.getElementById('visitor-count');
@@ -546,6 +567,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 特别为easyScholar插件添加支持
     initEasyScholarSupport();
+    
+    // 禁止F12、右键菜单和其他调试工具
+    disableDevTools();
 });
 
 // 如果页面已经加载完成，立即初始化
@@ -553,6 +577,92 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initFooter);
 } else {
     initFooter();
+}
+
+// 禁止F12、右键菜单和其他调试工具
+function disableDevTools() {
+    // 禁用F12键
+    document.addEventListener('keydown', function(event) {
+        // F12键被按下
+        if(event.keyCode === 123) {
+            event.preventDefault();
+            return false;
+        }
+        
+        // Ctrl+Shift+I 组合键
+        if(event.ctrlKey && event.shiftKey && event.keyCode === 73) {
+            event.preventDefault();
+            return false;
+        }
+        
+        // Ctrl+Shift+J 组合键
+        if(event.ctrlKey && event.shiftKey && event.keyCode === 74) {
+            event.preventDefault();
+            return false;
+        }
+        
+        // Ctrl+Shift+C 组合键
+        if(event.ctrlKey && event.shiftKey && event.keyCode === 67) {
+            event.preventDefault();
+            return false;
+        }
+        
+        // Ctrl+U 组合键 (查看源代码)
+        if(event.ctrlKey && event.keyCode === 85) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    
+    // 禁用右键菜单
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+        return false;
+    });
+    
+    // 禁用开发者工具的其他检测方法
+    setInterval(function() {
+        const devTools = window.devtools;
+        if(devTools && devTools.open) {
+            window.location.reload();
+        }
+    }, 1000);
+    
+    // 检测开发者工具的打开
+    (function() {
+        const devtools = {
+            open: false,
+            orientation: null
+        };
+        
+        // 检测是否为移动设备
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        // 仅在非移动设备上检测
+        if (!isMobile) {
+            // 创建检测DOM元素
+            const element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function() {
+                    devtools.open = true;
+                    return '';
+                }
+            });
+            
+            // 定时检测开发者工具
+            setInterval(function() {
+                devtools.open = false;
+                console.log(element);
+                console.clear();
+                if (devtools.open) {
+                    window.location.reload();
+                }
+            }, 1000);
+        }
+        
+        // 防止调试
+        eval(function(p,a,c,k,e,d){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(3(){(3 a(){8{(3 2(2){7((\'\'+(2/2)).6!==1||2%5===0){(3(){}).9(\'4\')()}c{4}2(++2)})(0)}d(e){g(a,f)}})()})();',17,17,'||i|function|debugger|20|length|if|try|constructor|||else|catch||5000|setTimeout'.split('|'),0,{}));
+    })();
 }
 
 // 引用模态对话框功能
