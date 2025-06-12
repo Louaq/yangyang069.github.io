@@ -5,55 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YangYang(杨杨)-Homepage</title>
-    <!-- 阻止缓存和调试 -->
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <!-- 内联脚本预设主题，防止闪烁 -->
     <script>
         (function () {
             const savedTheme = localStorage.getItem('theme');
             document.documentElement.setAttribute('data-theme', savedTheme || 'light');
-        })();
-
-        // 高级防调试技术 - 在开发者工具打开后立即重定向
-        (function () {
-            let devtools = {
-                isOpen: false,
-                orientation: undefined
-            };
-
-            // 函数执行时间检测
-            const threshold = 160;
-            const checkDevTools = function () {
-                const start = performance.now();
-                debugger;
-                const end = performance.now();
-
-                // 如果debugger语句暂停时间过长，说明开发者工具在使用
-                if (end - start > threshold) {
-                    window.location.reload();
-                }
-            };
-
-            // 设置访问器属性检测开发者工具
-            const element = new Image();
-            Object.defineProperty(element, 'id', {
-                get: function () {
-                    devtools.isOpen = true;
-                    return '';
-                }
-            });
-
-            // 在检测到可能的调试活动时立即重定向
-            setInterval(function () {
-                devtools.isOpen = false;
-                console.log(element);
-                if (devtools.isOpen) {
-                    window.location.reload();
-                }
-                checkDevTools();
-            }, 1000);
         })();
     </script>
     <!-- Favicon -->
@@ -67,7 +22,7 @@
     <link rel="stylesheet" href="theme-transition.css">
 </head>
 
-<body oncontextmenu="return false;">
+<body>
     <nav>
         <a href="#" class="nav-name">YangYang</a>
 
@@ -524,24 +479,6 @@
     </footer>
 
     <script src="main.js"></script>
-
-    <!-- 只保留右键菜单禁用的简化保护 -->
-    <script>
-        // 禁用右键菜单作为备份措施
-        document.oncontextmenu = function (e) {
-            e.preventDefault();
-            return false;
-        };
-    </script>
-
-    <!-- 禁用JavaScript提示 -->
-    <noscript>
-        <div style="text-align:center;padding:50px;font-family:Arial,sans-serif;">
-            <h1>Please enable JavaScript</h1>
-            <p>This website requires JavaScript to work properly. Please enable JavaScript in your browser settings and
-                refresh the page.</p>
-        </div>
-    </noscript>
 </body>
 
 </html>
