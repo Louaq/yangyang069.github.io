@@ -264,7 +264,17 @@ function createBackToTopButton() {
     
     // 创建带有进度条的按钮结构
     backToTopButton.innerHTML = `
-        <svg class="progress-ring" viewBox="0 0 50 50">
+        <svg class="progress-ring" width="50" height="50" viewBox="0 0 50 50">
+            <defs>
+                <linearGradient id="progress-gradient-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:var(--neon-cyan)" />
+                    <stop offset="100%" style="stop-color:var(--neon-green)" />
+                </linearGradient>
+                <linearGradient id="progress-gradient-light" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:var(--neon-blue)" />
+                    <stop offset="100%" style="stop-color:var(--neon-green)" />
+                </linearGradient>
+            </defs>
             <circle class="progress-ring__circle-bg" cx="25" cy="25" r="20" />
             <circle class="progress-ring__circle" cx="25" cy="25" r="20" />
         </svg>
@@ -276,150 +286,6 @@ function createBackToTopButton() {
     `;
 
     document.body.appendChild(backToTopButton);
-
-    // 添加CSS样式
-    const styleSheet = document.createElement('style');
-    styleSheet.id = 'back-to-top-style';
-    styleSheet.textContent = `
-        .sleek-back-to-top {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 50px;
-            height: 50px;
-            background-color: var(--button-bg-color, rgba(0, 0, 0, 0.7));
-            border: none;
-            border-radius: 50%;
-            color: var(--button-icon-color, #ffffff);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px) scale(0.9);
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .sleek-back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-        
-        .sleek-back-to-top:hover {
-            background-color: var(--button-bg-hover-color, rgba(0, 0, 0, 0.9));
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-        }
-        
-        .sleek-back-to-top:active {
-            transform: translateY(0) scale(0.95);
-            background-color: var(--button-bg-active-color, rgba(0, 0, 0, 0.6));
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .sleek-back-to-top .arrow-icon {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-        }
-        
-        .sleek-back-to-top .arrow-icon svg {
-            fill: currentColor;
-            transition: transform 0.2s ease;
-        }
-        
-        .sleek-back-to-top:hover .arrow-icon svg {
-            transform: scale(1.1);
-        }
-        
-        .progress-ring {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-            z-index: 1;
-        }
-        
-        .progress-ring__circle-bg {
-            fill: transparent;
-            stroke: var(--button-border-color, rgba(255, 255, 255, 0.2));
-            stroke-width: 2;
-        }
-        
-        .progress-ring__circle {
-            fill: transparent;
-            stroke: var(--button-progress-color, var(--neon-cyan, #00ffff));
-            stroke-width: 2;
-            stroke-dasharray: 125.6;
-            stroke-dashoffset: 125.6;
-            transition: stroke-dashoffset 0.3s ease;
-        }
-
-        /* Theme variables for the button */
-        :root {
-            --button-bg-color-dark: rgba(30, 30, 30, 0.8);
-            --button-border-color-dark: rgba(80, 80, 80, 0.7);
-            --button-icon-color-dark: #ffffff;
-            --button-progress-color-dark: var(--neon-cyan, #00ffff);
-            --button-bg-hover-color-dark: rgba(50, 50, 50, 0.9);
-            --button-bg-active-color-dark: rgba(20, 20, 20, 0.7);
-
-            --button-bg-color-light: rgba(255, 255, 255, 0.9);
-            --button-border-color-light: rgba(200, 200, 200, 0.8);
-            --button-icon-color-light: #333333;
-            --button-progress-color-light: var(--neon-blue, #007bff);
-            --button-bg-hover-color-light: rgba(240, 240, 240, 1);
-            --button-bg-active-color-light: rgba(230, 230, 230, 0.9);
-        }
-
-        [data-theme="dark"] .sleek-back-to-top {
-            --button-bg-color: var(--button-bg-color-dark);
-            --button-border-color: var(--button-border-color-dark);
-            --button-icon-color: var(--button-icon-color-dark);
-            --button-progress-color: var(--button-progress-color-dark);
-            --button-bg-hover-color: var(--button-bg-hover-color-dark);
-            --button-bg-active-color: var(--button-bg-active-color-dark);
-        }
-
-        [data-theme="light"] .sleek-back-to-top {
-            --button-bg-color: var(--button-bg-color-light);
-            --button-border-color: var(--button-border-color-light);
-            --button-icon-color: var(--button-icon-color-light);
-            --button-progress-color: var(--button-progress-color-light);
-            --button-bg-hover-color: var(--button-bg-hover-color-light);
-            --button-bg-active-color: var(--button-bg-active-color-light);
-        }
-
-        @media (max-width: 768px) {
-            .sleek-back-to-top {
-                width: 45px;
-                height: 45px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .sleek-back-to-top .arrow-icon {
-                width: 20px;
-                height: 20px;
-            }
-            .sleek-back-to-top .arrow-icon svg {
-                width: 12px;
-                height: 12px;
-            }
-        }
-    `;
-    document.head.appendChild(styleSheet);
 
     // 点击事件
     backToTopButton.addEventListener('click', () => {
