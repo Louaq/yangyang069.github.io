@@ -307,44 +307,39 @@ nav.scrolled {
     background-clip: text;
 }
 
-[data-theme="light"] .search-btn,
+/* [data-theme="light"] .search-btn,
 [data-theme="light"] .rss-btn,
 [data-theme="light"] .theme-toggle {
     background: linear-gradient(135deg, var(--neon-blue), var(--neon-green));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
+} */
 
-.search-btn:hover,
-.theme-toggle:hover {
-    filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.4));
-}
 
 /* 同样的样式应用于menu-toggle */
 .menu-toggle {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 12px;
-    transition: var(--transition-normal);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
     background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
 }
 
 [data-theme="light"] .menu-toggle {
     background: linear-gradient(135deg, var(--neon-blue), var(--neon-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+}
+
+[data-theme="dark"] .menu-toggle {
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
 }
 
 /* Tooltip for buttons */
@@ -366,14 +361,6 @@ nav.scrolled {
     transition: var(--transition-normal);
     border: 1px solid rgba(0, 255, 255, 0.3);
     z-index: 1001;
-}
-
-.search-btn:hover::before,
-.theme-toggle:hover::before,
-.rss-btn:hover::before {
-    opacity: 1;
-    visibility: visible;
-    
 }
 
 
@@ -424,10 +411,6 @@ nav.scrolled {
         radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
 }
 
-/* Light Theme Navigation */
-[data-theme="light"] .menu-toggle {
-    color: var(--neon-blue);
-}
 
 /* Light Theme Cards */
 [data-theme="light"] .tech-category,
@@ -2579,7 +2562,7 @@ nav.scrolled {
         height: 32px;
         background: none;
         border: none;
-        color: var(--neon-cyan);
+
         font-size: 16px;
         cursor: pointer;
         border-radius: 4px;
@@ -3093,15 +3076,13 @@ nav.scrolled {
         width: 36px;
         height: 36px;
         font-size: 0.9rem;
-        color: var(--neon-cyan);
     }
 
     /* 亮色主题下的移动端按钮样式 */
-    [data-theme="light"] .search-btn,
     [data-theme="light"] .rss-btn,
     [data-theme="light"] .theme-toggle,
     [data-theme="light"] .menu-toggle {
-        color: var(--neon-blue);
+        color: var(--neon-cyan) !important;
     }
 
     /* Search ultra-small */
@@ -5606,4 +5587,12 @@ nav.scrolled {
 [data-theme="dark"] .sleek-back-to-top:hover {
     background: #2d415a;
     border: 1.5px solid #5a7ca6;
+}
+
+@media (max-width: 768px) {
+  .about-me-section .section-header,
+  .about-me-section h2 {
+    text-align: center;
+    width: 100%;
+  }
 }
