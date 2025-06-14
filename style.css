@@ -319,18 +319,27 @@ nav.scrolled {
 
 /* 同样的样式应用于menu-toggle */
 .menu-toggle {
-    color: inherit;
-    background: none;
-    -webkit-background-clip: initial !important;
-    -webkit-text-fill-color: initial !important;
-    background-clip: initial !important;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
 }
+
+[data-theme="light"] .menu-toggle {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-green));
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+}
+
 [data-theme="dark"] .menu-toggle {
-    color: var(--neon-cyan) !important;
-    background: none !important;
-    -webkit-background-clip: initial !important;
-    -webkit-text-fill-color: var(--neon-cyan) !important;
-    background-clip: initial !important;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
 }
 
 /* Tooltip for buttons */
