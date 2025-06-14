@@ -5575,3 +5575,35 @@ nav.scrolled {
         height: 12px;
     }
 }
+
+/* 返回顶部按钮美化 */
+.sleek-back-to-top {
+    background: #e3eaf3; /* 低饱和度蓝灰色，学术风格 */
+    color: #222;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1.5px solid #b5c6d6;
+    transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+}
+.sleek-back-to-top:hover {
+    background: #c9d6e3;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+    border: 1.5px solid #7fa1c4;
+}
+[data-theme="light"] .sleek-back-to-top {
+    background: #e3eaf3;
+    color: #222;
+    border: 1.5px solid #b5c6d6;
+}
+[data-theme="light"] .sleek-back-to-top:hover {
+    background: #c9d6e3;
+    border: 1.5px solid #7fa1c4;
+}
+[data-theme="dark"] .sleek-back-to-top {
+    background: #233040;
+    color: #f3f6fa;
+    border: 1.5px solid #3e4e5e;
+}
+[data-theme="dark"] .sleek-back-to-top:hover {
+    background: #2d415a;
+    border: 1.5px solid #5a7ca6;
+}
