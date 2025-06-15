@@ -1577,7 +1577,19 @@ nav.scrolled {
     }
 
     .focus-grid {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        justify-items: center;
+        text-align: center;
+    }
+    
+    .focus-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
     }
 
     .about-stats {
@@ -1592,6 +1604,19 @@ nav.scrolled {
 
     .stat-number {
         font-size: 2rem;
+    }
+    
+    /* 移动设备上的about-text内容居中对齐 */
+    .about-text {
+        text-align: center;
+    }
+    
+    .about-text h2 {
+        text-align: center;
+    }
+    
+    .research-focus h3 {
+        text-align: center;
     }
 }
 
