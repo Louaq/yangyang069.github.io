@@ -3057,7 +3057,7 @@ nav.scrolled {
         padding: 1.2rem;
     }
 
-    .project-links {
+    .project-links last-updated {
         flex-direction: column;
         gap: 0.4rem;
     }
@@ -5398,8 +5398,8 @@ nav.scrolled {
 
 .footer-quick-links {
     display: flex;
-    gap: 2rem;
-    margin-bottom: 0;
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
 .footer-quick-links a {
@@ -5620,4 +5620,19 @@ nav.scrolled {
     text-align: center;
     width: 100%;
   }
+}
+
+.footer-text p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.last-updated {
+    margin: 0.3rem 0 0.8rem 0 !important;
+}
+
+.footer-quick-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
 }
