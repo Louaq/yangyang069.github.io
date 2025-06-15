@@ -482,10 +482,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // 获取git最后提交时间
 async function getLastCommitTime() {
     try {
-        const response = await fetch('https://github.com/Louaq/yangyang069.github.io/commits/main/');
+        // 使用更可靠的API端点
+        const response = await fetch('https://github.com/Louaq/yangyang069.github.io/commits/main/?per_page=1');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
-        if (data && data.commit && data.commit.author && data.commit.author.date) {
-            const date = new Date(data.commit.author.date);
+        if (data && data[0] && data[0].commit && data[0].commit.author && data[0].commit.author.date) {
+            const date = new Date(data[0].commit.author.date);
             return date.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -494,6 +498,13 @@ async function getLastCommitTime() {
         }
     } catch (error) {
         console.error('Error fetching last commit time:', error);
+        // 如果API调用失败，使用当前时间作为后备
+        const now = new Date();
+        return now.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     }
     return 'Unknown';
 }
@@ -502,8 +513,13 @@ async function getLastCommitTime() {
 async function updateLastCommitTime() {
     const lastUpdatedTime = document.getElementById('last-updated-time');
     if (lastUpdatedTime) {
-        const time = await getLastCommitTime();
-        lastUpdatedTime.textContent = time;
+        try {
+            const time = await getLastCommitTime();
+            lastUpdatedTime.textContent = time;
+        } catch (error) {
+            console.error('Error updating last commit time:', error);
+            lastUpdatedTime.textContent = 'Unknown';
+        }
     }
 }
 
