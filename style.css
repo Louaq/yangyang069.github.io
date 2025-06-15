@@ -3519,7 +3519,7 @@ nav.scrolled {
     width: 55px;
     height: 55px;
     background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
-    border: 2px solid rgba(6, 230, 118, 0.3);
+    border: 1px solid rgba(6, 230, 118, 0.3);
     border-radius: 50%;
     color: var(--bg-primary);
     font-size: 1.3rem;
@@ -3538,7 +3538,7 @@ nav.scrolled {
 }
 
 .back-to-top.visible {
-    opacity: 1;
+    opacity: 0.5;
     visibility: visible;
     animation: slideInUp 0.5s ease-out, pulse 2s infinite 0.5s;
 }
@@ -5584,34 +5584,34 @@ nav.scrolled {
 
 /* 返回顶部按钮美化 */
 .sleek-back-to-top {
-    background: #e3eaf3; /* 低饱和度蓝灰色，学术风格 */
-    color: #222;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border: 1.5px solid #b5c6d6;
+    background: #f5f7fa; /* 更浅的背景色 */
+    color: #2c3e50;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1.5px solid #e1e8ed;
     transition: background 0.2s, box-shadow 0.2s, border 0.2s;
 }
 .sleek-back-to-top:hover {
-    background: #c9d6e3;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-    border: 1.5px solid #7fa1c4;
+    background: #e8edf2;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    border: 1.5px solid #c5d1db;
 }
 [data-theme="light"] .sleek-back-to-top {
-    background: #e3eaf3;
-    color: #222;
-    border: 1.5px solid #b5c6d6;
+    background: #f5f7fa;
+    color: #2c3e50;
+    border: 1.5px solid #e1e8ed;
 }
 [data-theme="light"] .sleek-back-to-top:hover {
-    background: #c9d6e3;
-    border: 1.5px solid #7fa1c4;
+    background: #e8edf2;
+    border: 1.5px solid #c5d1db;
 }
 [data-theme="dark"] .sleek-back-to-top {
-    background: #233040;
-    color: #f3f6fa;
-    border: 1.5px solid #3e4e5e;
+    background: #2c3e50;
+    color: #f5f7fa;
+    border: 1.5px solid #34495e;
 }
 [data-theme="dark"] .sleek-back-to-top:hover {
-    background: #2d415a;
-    border: 1.5px solid #5a7ca6;
+    background: #34495e;
+    border: 1.5px solid #4a6278;
 }
 
 @media (max-width: 768px) {
