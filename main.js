@@ -300,6 +300,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         document.body.classList.add('loaded');
     }, 100);
+
+    updateLastCommitTime();
 });
 
 // 页脚动态功能
@@ -476,4 +478,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// 获取git最后提交时间
+async function getLastCommitTime() {
+    try {
+        const response = await fetch('https://github.com/Louaq/yangyang069.github.io/commits/main/');
+        const data = await response.json();
+        if (data && data.commit && data.commit.author && data.commit.author.date) {
+            const date = new Date(data.commit.author.date);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching last commit time:', error);
+    }
+    return 'Unknown';
+}
+
+// 更新最后提交时间
+async function updateLastCommitTime() {
+    const lastUpdatedTime = document.getElementById('last-updated-time');
+    if (lastUpdatedTime) {
+        const time = await getLastCommitTime();
+        lastUpdatedTime.textContent = time;
+    }
+}
 
